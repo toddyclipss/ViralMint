@@ -24,17 +24,17 @@ import MovieFilterIcon from "@mui/icons-material/MovieFilterOutlined"
 import BuildIcon from "@mui/icons-material/BuildOutlined"
 import SettingsIcon from "@mui/icons-material/SettingsOutlined"
 import TravelExploreIcon from "@mui/icons-material/TravelExploreOutlined"
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline"
+import ChatPanel from "./chat/ChatPanel"
 
 const DRAWER_WIDTH = 240
 const COLLAPSED_WIDTH = 64
 
 const navItems = [
-  { to: "/",          icon: <ChatIcon />,             label: "Chat" },
   { to: "/scout",     icon: <TravelExploreIcon />,    label: "Scout" },
   { to: "/channels",  icon: <SensorsIcon />,          label: "My Channels" },
   { to: "/clips",     icon: <ContentCutIcon />,       label: "Clip Studio" },
   { to: "/videos",    icon: <VideoLibraryIcon />,     label: "Library" },
-  { to: "/stock",     icon: <PhotoLibraryIcon />,     label: "Stock Video" },
   { to: "/motion",    icon: <MovieFilterIcon />,      label: "Motion Graphics" },
   { to: "/tools",     icon: <BuildIcon />,            label: "Tools" },
   { to: "/messaging", icon: <PhoneIphoneIcon />,      label: "Messaging" },
@@ -53,7 +53,8 @@ export default function Layout() {
   const theme = useTheme()
   const isNarrow = useMediaQuery(theme.breakpoints.down("md"))
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [collapsed, setCollapsed] = useState(false)
+  const [collapsed, setCollapsed] = useState(true)
+  const isSettings = location.pathname.startsWith("/settings")
   const activeJobs = useAppStore(s => s.activeJobs)
   const runningJobCount = Object.values(activeJobs).filter(j => j.status === "running").length
   // The Activity panel is mounted HERE, not on a page: jobs start from the
@@ -296,10 +297,12 @@ export default function Layout() {
         component="main"
         sx={{
           flex: 1,
-          overflow: "auto",
+          height: "100vh",
           bgcolor: "background.default",
           display: "flex",
           flexDirection: "column",
+          minWidth: 0,
+          overflow: "hidden",
         }}
       >
         {/* Mobile top bar with hamburger */}
@@ -326,8 +329,23 @@ export default function Layout() {
             </Typography>
           </Box>
         )}
-        <Box sx={{ flex: 1, overflow: "auto" }}>
-          <Outlet />
+
+        {/* Content area: ChatPanel on left (~30%) for all pages except Settings, Outlet takes remaining space */}
+        <Box sx={{ flex: 1, display: "flex", minHeight: 0, overflow: "hidden" }}>
+          {!isSettings && <ChatPanel />}
+
+          <Box
+            component="section"
+            sx={{
+              flex: 1,
+              height: "100%",
+              overflow: "auto",
+              minWidth: 0,
+              bgcolor: "background.default",
+            }}
+          >
+            <Outlet />
+          </Box>
         </Box>
       </Box>
 

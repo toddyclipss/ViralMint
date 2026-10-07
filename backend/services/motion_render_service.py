@@ -18,6 +18,7 @@ Two entry points:
 import asyncio
 import json
 import logging
+import platform
 import re
 import shutil
 import sys
@@ -295,15 +296,37 @@ class MotionRenderService:
         ffprobe = shutil.which("ffprobe")
         if not ffprobe:
             return  # can't validate; don't block
-        proc = await asyncio.create_subprocess_exec(
-            ffprobe, "-v", "error",
-            "-select_streams", "v:0",
-            "-show_entries", "stream=codec_name,width,height",
-            "-of", "csv=p=0", str(path),
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.STDOUT,
-        )
-        out, _ = await proc.communicate()
-        text = out.decode("utf-8", errors="replace").strip()
-        if proc.returncode != 0 or "h264" not in text.lower():
+        if platform.system() == "Windows":
+            import subprocess
+            try:
+                out = await asyncio.to_thread(
+                    subprocess.check_output,
+                    [
+                        ffprobe, "-v", "error",
+                        "-select_streams", "v:0",
+                        "-show_entries", "stream=codec_name,width,height",
+                        "-of", "csv=p=0", str(path)
+                    ],
+                    stderr=subprocess.STDOUT
+                )
+                text = out.decode("utf-8", errors="replace").strip()
+            except subprocess.CalledProcessError as e:
+                text = e.output.decode("utf-8", errors="replace").strip()
+                proc_returncode = e.returncode
+            else:
+                proc_returncode = 0
+        else:
+            proc = await asyncio.create_subprocess_exec(
+                ffprobe, "-v", "error",
+                "-select_streams", "v:0",
+                "-show_entries", "stream=codec_name,width,height",
+                "-of", "csv=p=0", str(path),
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.STDOUT,
+            )
+            out, _ = await proc.communicate()
+            text = out.decode("utf-8", errors="replace").strip()
+            proc_returncode = proc.returncode
+
+        if proc_returncode != 0 or "h264" not in text.lower():
             raise MotionRenderError(f"Output failed ffprobe validation: {text[:120]}")

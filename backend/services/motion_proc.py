@@ -33,12 +33,14 @@ async def _kill_tree(proc: asyncio.subprocess.Process) -> None:
     """
     if platform.system() == "Windows":
         try:
-            killer = await asyncio.create_subprocess_exec(
-                "taskkill", "/PID", str(proc.pid), "/T", "/F",
-                stdout=asyncio.subprocess.DEVNULL,
-                stderr=asyncio.subprocess.DEVNULL,
+            import subprocess
+            await asyncio.to_thread(
+                subprocess.run,
+                ["taskkill", "/PID", str(proc.pid), "/T", "/F"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                timeout=10.0
             )
-            await asyncio.wait_for(killer.wait(), timeout=10.0)
         except Exception:
             pass
     try:
@@ -82,13 +84,41 @@ async def run_capped(
     catch a hang would kill healthy work, and a cap loose enough for the long
     job lets a hang sit there instead. Progress output resets the clock.
     """
-    proc = await asyncio.create_subprocess_exec(
-        *cmd,
-        cwd=cwd,
-        env=env,
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.STDOUT,
-    )
+    try:
+        proc = await asyncio.create_subprocess_exec(
+            *cmd,
+            cwd=cwd,
+            env=env,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.STDOUT,
+        )
+    except NotImplementedError:
+        import subprocess
+        proc_sync = subprocess.Popen(
+            cmd,
+            cwd=cwd,
+            env=env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            stdin=subprocess.DEVNULL,
+        )
+        class _ProcAdapter:
+            def __init__(self, p):
+                self._p = p
+                self.pid = p.pid
+                self.returncode = None
+                self.stdout = self
+            async def readline(self):
+                return await asyncio.to_thread(self._p.stdout.readline)
+            def kill(self):
+                try:
+                    self._p.kill()
+                except OSError:
+                    pass
+            async def wait(self):
+                self.returncode = await asyncio.to_thread(self._p.wait)
+                return self.returncode
+        proc = _ProcAdapter(proc_sync)
     assert proc.stdout is not None
     tail: list[str] = []
     start = time.monotonic()

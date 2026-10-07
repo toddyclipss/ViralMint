@@ -278,9 +278,28 @@ class StudioService:
             await cls._kill_all()
             cmd = preview_argv(HyperFramesService.node_bin(), HyperFramesService.cli_js(),
                                _project_dir(), STUDIO_PORT)
-            cls._proc = await asyncio.create_subprocess_exec(
-                *cmd, stdout=asyncio.subprocess.DEVNULL, stderr=asyncio.subprocess.DEVNULL,
-                env=base_env())
+            import platform
+            if platform.system() == "Windows":
+                import subprocess
+                p = subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, env=base_env())
+                class _ProcAdapter:
+                    def __init__(self, p):
+                        self._p = p
+                    @property
+                    def returncode(self):
+                        return self._p.poll()
+                    def kill(self):
+                        try:
+                            self._p.kill()
+                        except OSError:
+                            pass
+                    async def wait(self):
+                        return await asyncio.to_thread(self._p.wait)
+                cls._proc = _ProcAdapter(p)
+            else:
+                cls._proc = await asyncio.create_subprocess_exec(
+                    *cmd, stdout=asyncio.subprocess.DEVNULL, stderr=asyncio.subprocess.DEVNULL,
+                    env=base_env())
             for _ in range(40):
                 if await cls._responds():
                     logger.info("Motion Studio: preview up on :%d (%s)", STUDIO_PORT, mode)
@@ -394,11 +413,18 @@ class StudioService:
         cls._proc = None
         try:
             kill = preview_kill_argv(HyperFramesService.node_bin(), HyperFramesService.cli_js())
-            p = await asyncio.create_subprocess_exec(
-                *kill,
-                stdout=asyncio.subprocess.DEVNULL, stderr=asyncio.subprocess.DEVNULL,
-                env=base_env())
-            await asyncio.wait_for(p.wait(), timeout=10)
+            import platform
+            if platform.system() == "Windows":
+                import subprocess
+                await asyncio.to_thread(
+                    subprocess.run, kill, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, env=base_env(), timeout=10.0
+                )
+            else:
+                p = await asyncio.create_subprocess_exec(
+                    *kill,
+                    stdout=asyncio.subprocess.DEVNULL, stderr=asyncio.subprocess.DEVNULL,
+                    env=base_env())
+                await asyncio.wait_for(p.wait(), timeout=10)
         except Exception:
             pass
 
@@ -489,19 +515,29 @@ class StudioService:
                                             dirs_exist_ok=True)
             cmd = check_argv(HyperFramesService.node_bin(),
                              HyperFramesService.cli_js(), tmp)
-            proc = await asyncio.create_subprocess_exec(
-                *cmd, cwd=str(settings.MOTION_DIR), env=base_env(),
-                stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.DEVNULL)
-            try:
-                out, _ = await asyncio.wait_for(proc.communicate(),
-                                                timeout=CHECK_TIMEOUT)
-            except asyncio.TimeoutError:
-                proc.kill()
-                try:                       # reap so we don't leak a zombie/transport
-                    await proc.wait()
-                except Exception:
-                    pass
-                return []
+            import platform
+            if platform.system() == "Windows":
+                import subprocess
+                try:
+                    out = await asyncio.to_thread(
+                        subprocess.check_output, cmd, cwd=str(settings.MOTION_DIR), env=base_env(), stderr=subprocess.DEVNULL, timeout=CHECK_TIMEOUT
+                    )
+                except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
+                    return []
+            else:
+                proc = await asyncio.create_subprocess_exec(
+                    *cmd, cwd=str(settings.MOTION_DIR), env=base_env(),
+                    stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.DEVNULL)
+                try:
+                    out, _ = await asyncio.wait_for(proc.communicate(),
+                                                    timeout=CHECK_TIMEOUT)
+                except asyncio.TimeoutError:
+                    proc.kill()
+                    try:                       # reap so we don't leak a zombie/transport
+                        await proc.wait()
+                    except Exception:
+                        pass
+                    return []
             data = _json.loads(out.decode("utf-8", errors="replace"))
             # `check` reports per-section; flatten the BLOCKING ones. Contrast is
             # deliberately excluded: WCAG AA on a deliberately moody composition

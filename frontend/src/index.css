@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+:root {
+  --foreground: #1e1c1a;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --surface-muted: #f4f4f5;
+}
+
+.dark {
+  --foreground: #f4f4f5;
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
+  --surface-muted: #27272a;
+}

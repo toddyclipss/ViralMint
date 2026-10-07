@@ -22,6 +22,24 @@ ROOT = Path(__file__).parent
 os.chdir(ROOT)
 sys.path.insert(0, str(ROOT))
 
+if hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+if hasattr(sys.stderr, "reconfigure"):
+    try:
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
+# Ensure user and environment script dirs are in PATH for CLI tools like yt-dlp
+user_scripts = Path.home() / "AppData" / "Roaming" / "Python" / f"Python{sys.version_info.major}{sys.version_info.minor}" / "Scripts"
+base_scripts = Path(sys.executable).parent / "Scripts"
+for sdir in [user_scripts, base_scripts]:
+    if sdir.exists() and str(sdir) not in os.environ.get("PATH", ""):
+        os.environ["PATH"] = f"{sdir};{os.environ.get('PATH', '')}"
+
 # ─── Startup checks ───────────────────────────────────────────────────────────
 
 def check_python_version():

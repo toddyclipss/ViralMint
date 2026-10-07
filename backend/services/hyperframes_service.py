@@ -230,7 +230,7 @@ class HyperFramesService:
             "installing": cls._installing,
             "progress_pct": cls._install_progress_pct,
             "current_step": cls._install_step,
-            "error": cls._install_error,
+            "error": None if installed else cls._install_error,
             "platform_supported": supported,
             "motion_path": str(path),
             "disk_size_mb": cls.get_disk_size_mb() if installed else 0,
@@ -492,7 +492,9 @@ class HyperFramesService:
                 on_line=lambda line: logger.debug("npm install: %s", line),
             )
         except Exception as e:
-            cls._install_error = f"Cannot launch npm: {str(e)[:160]}"
+            logger.exception("Motion Graphics: failed to launch npm")
+            err_msg = str(e).strip() or type(e).__name__
+            cls._install_error = f"Cannot launch npm: {err_msg[:160]}"
             return
 
         if timed_out:

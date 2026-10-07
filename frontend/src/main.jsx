@@ -14,6 +14,7 @@ import "@fontsource/inter/400.css"
 import "@fontsource/inter/500.css"
 import "@fontsource/inter/600.css"
 import "@fontsource/inter/700.css"
+import "./index.css"
 
 // Before the first render: browser page-translation re-parents the text nodes
 // React tracks, which otherwise crashes the app into the ErrorBoundary.

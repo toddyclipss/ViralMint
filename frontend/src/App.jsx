@@ -6,12 +6,10 @@ import Layout from "./components/Layout"
 import useAppStore from "./store/appStore"
 import { pluginRoutes } from "./plugins"
 
-// Route-level code splitting — only Chat is eagerly loaded (home page)
-import Chat from "./pages/Chat"
+// Route-level code splitting
+const Scout = lazy(() => import("./pages/Scout"))
 const Settings = lazy(() => import("./pages/Settings"))
 const Library = lazy(() => import("./pages/Library"))
-const Scout = lazy(() => import("./pages/Scout"))
-const StockVideo = lazy(() => import("./pages/StockVideo"))
 const Channels = lazy(() => import("./pages/Channels"))
 const Messaging = lazy(() => import("./pages/Messaging"))
 const ClipStudio = lazy(() => import("./pages/ClipStudio"))
@@ -89,8 +87,9 @@ export default function App() {
         <Suspense fallback={<LazyFallback />}>
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route index element={<Chat />} />
-              <Route path="dashboard" element={<Navigate to="/videos" />} />
+              <Route index element={<Navigate to="/scout" replace />} />
+              <Route path="chat" element={<Navigate to="/scout" replace />} />
+              <Route path="dashboard" element={<Navigate to="/videos" replace />} />
               {/* `/videos` is the Library. The path is legacy and stays: it is
                   bookmarked, and every ?tab= link the old page published still
                   arrives here and is translated into the new filters. */}
@@ -98,10 +97,10 @@ export default function App() {
               {/* Scout leads are not files you own, so they are not the
                   Library. `/videos?tab=scout` redirects here. */}
               <Route path="scout" element={<Scout />} />
-              <Route path="stock" element={<StockVideo />} />
-              <Route path="ai-video" element={<Navigate to="/stock" />} />
-              <Route path="avatar" element={<Navigate to="/stock" />} />
-              <Route path="create" element={<Navigate to="/stock" />} />
+              <Route path="stock" element={<Navigate to="/scout" replace />} />
+              <Route path="ai-video" element={<Navigate to="/scout" replace />} />
+              <Route path="avatar" element={<Navigate to="/scout" replace />} />
+              <Route path="create" element={<Navigate to="/scout" replace />} />
               <Route path="cron" element={<Navigate to="/" />} />
               <Route path="clips" element={<ClipStudio />} />
               <Route path="motion" element={<MotionGraphics />} />

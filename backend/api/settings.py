@@ -334,9 +334,17 @@ async def get_health():
     # yt-dlp
     try:
         r = subprocess.run(["yt-dlp", "--version"], capture_output=True, text=True, timeout=5)
-        health["ytdlp"] = {"status": "ok", "version": r.stdout.strip()}
+        if r.returncode == 0 and r.stdout.strip():
+            health["ytdlp"] = {"status": "ok", "version": r.stdout.strip()}
+        else:
+            raise FileNotFoundError()
     except Exception:
-        health["ytdlp"] = {"status": "not_found"}
+        try:
+            import yt_dlp
+            v = getattr(yt_dlp, "__version__", None) or getattr(yt_dlp.version, "__version__", None)
+            health["ytdlp"] = {"status": "ok", "version": str(v or "installed")}
+        except Exception:
+            health["ytdlp"] = {"status": "not_found"}
 
     # AI provider configured (BYOK)
     has_ai_key = bool(

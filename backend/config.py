@@ -7,7 +7,16 @@ from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Field
 
+import sys
+
 logger = logging.getLogger(__name__)
+
+# Ensure user and base Python script dirs are on PATH (e.g. yt-dlp)
+_user_scripts = Path.home() / "AppData" / "Roaming" / "Python" / f"Python{sys.version_info.major}{sys.version_info.minor}" / "Scripts"
+_base_scripts = Path(sys.executable).parent / "Scripts"
+for _sdir in [_user_scripts, _base_scripts]:
+    if _sdir.exists() and str(_sdir) not in os.environ.get("PATH", ""):
+        os.environ["PATH"] = f"{_sdir};{os.environ.get('PATH', '')}"
 
 
 def _resolve_data_dir() -> Path:
