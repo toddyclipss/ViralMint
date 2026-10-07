@@ -43,10 +43,18 @@ frontend/dist/
 htmlcov/
 .coverage
 
+# Motion graphics runtime & temporary downloads
+motion/.installed
+motion/fonts/
+motion/node/
+motion/studio/
+motion/tmp/
+
 # IDE / tooling
 .vscode/
 .idea/
 .claude/
+.playwright-mcp/
 *.swp
 *.swo
 .DS_Store
