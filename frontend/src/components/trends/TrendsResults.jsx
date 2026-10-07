@@ -14,7 +14,7 @@ import CardGrid from "./CardGrid"
 import DataTable from "./DataTable"
 import VideoEmbed from "./VideoEmbed"
 
-export default function ScoutResults({ results, onSelect, onRefresh }) {
+export default function TrendsResults({ results, onSelect, onRefresh }) {
   const [view, setView] = useState("cards")
   const [selectedResult, setSelectedResult] = useState(null)
   const [selectedIds, setSelectedIds] = useState(new Set())
@@ -43,7 +43,6 @@ export default function ScoutResults({ results, onSelect, onRefresh }) {
   }
 
   const handleDownloadOne = async (id) => {
-    // Check if this is a news article — use save endpoint instead of download
     const result = results?.find(r => r.id === id)
     if (result?.platform === "news") {
       try {
@@ -55,7 +54,8 @@ export default function ScoutResults({ results, onSelect, onRefresh }) {
       return
     }
     try {
-      await http.post("/api/scout/download", { scout_result_ids: [id] })
+      await http.post("/api/trends/download", { trend_result_ids: [id], scout_result_ids: [id] })
+        .catch(() => http.post("/api/scout/download", { scout_result_ids: [id] }))
       showSnackbar("Downloading & analyzing video...", "success")
     } catch (err) {
       showSnackbar(err.response?.data?.detail || err.message, "error")
@@ -64,7 +64,7 @@ export default function ScoutResults({ results, onSelect, onRefresh }) {
 
   const handleDeleteOne = async (id) => {
     try {
-      await http.delete(`/api/scout/results/${id}`)
+      await http.delete(`/api/trends/results/${id}`).catch(() => http.delete(`/api/scout/results/${id}`))
       showSnackbar("Deleted", "success")
       selectedIds.delete(id)
       setSelectedIds(new Set(selectedIds))
@@ -80,7 +80,9 @@ export default function ScoutResults({ results, onSelect, onRefresh }) {
     setDeleting(true)
     try {
       const ids = [...selectedIds]
-      await Promise.all(ids.map((id) => http.delete(`/api/scout/results/${id}`)))
+      await Promise.all(ids.map((id) =>
+        http.delete(`/api/trends/results/${id}`).catch(() => http.delete(`/api/scout/results/${id}`))
+      ))
       showSnackbar(`Deleted ${ids.length} result${ids.length > 1 ? "s" : ""}`, "success")
       setSelectedIds(new Set())
       if (selectedResult && ids.includes(selectedResult.id)) setSelectedResult(null)
@@ -133,7 +135,7 @@ export default function ScoutResults({ results, onSelect, onRefresh }) {
       {/* Delete confirmation dialog */}
       <Dialog open={confirmOpen} onClose={() => setConfirmOpen(false)} maxWidth="xs" fullWidth>
         <DialogTitle>Delete {selectedIds.size} result{selectedIds.size > 1 ? "s" : ""}?</DialogTitle>
-        <DialogContent><Typography>This will permanently remove the selected scout results.</Typography></DialogContent>
+        <DialogContent><Typography>This will permanently remove the selected trends.</Typography></DialogContent>
         <DialogActions>
           <Button onClick={() => setConfirmOpen(false)}>Cancel</Button>
           <Button color="error" variant="contained" disabled={deleting} onClick={() => { setConfirmOpen(false); handleBatchDelete() }}>
@@ -142,10 +144,7 @@ export default function ScoutResults({ results, onSelect, onRefresh }) {
         </DialogActions>
       </Dialog>
 
-      {/* Detail panel — a right-hand drawer. It used to render BELOW the whole
-          results grid, so clicking a card in a long list opened something
-          thousands of pixels down the page and the click appeared to do
-          nothing. */}
+      {/* Detail panel */}
       <Drawer
         anchor="right"
         open={!!selectedResult}
@@ -153,7 +152,7 @@ export default function ScoutResults({ results, onSelect, onRefresh }) {
         slotProps={{ paper: { sx: { width: { xs: "100%", sm: 560 }, maxWidth: "100%", p: 2 } } }}
       >
       {selectedResult && (
-        <Box data-testid="scout-detail">
+        <Box data-testid="trend-detail">
           <Stack direction="row" justifyContent="space-between" alignItems="start">
             <Box sx={{ flex: 1, minWidth: 0 }}>
               <Typography variant="h6" sx={{ wordBreak: "break-word" }}>{selectedResult.title}</Typography>
@@ -167,7 +166,7 @@ export default function ScoutResults({ results, onSelect, onRefresh }) {
                 </Stack>
               ) : (
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  {selectedResult.author} &middot; {selectedResult.platform} &middot; <VisibilityIcon sx={{ fontSize: 14, verticalAlign: "middle", mr: 0.3 }} />{selectedResult.views?.toLocaleString()} &middot; Score: {selectedResult.virality_score}
+                  {selectedResult.author} · {selectedResult.platform} · <VisibilityIcon sx={{ fontSize: 14, verticalAlign: "middle", mr: 0.3 }} />{selectedResult.views?.toLocaleString()} · Score: {selectedResult.virality_score}
                 </Typography>
               )}
             </Box>

@@ -13,7 +13,6 @@ function extractYouTubeId(url) {
     const u = new URL(url)
     if (u.searchParams.get("v")) return u.searchParams.get("v")
     const parts = u.pathname.split("/").filter(Boolean)
-    // youtu.be/<id>, /shorts/<id>, /embed/<id>, /live/<id>
     return parts.length ? parts[parts.length - 1] : null
   } catch { return null }
 }
@@ -26,13 +25,6 @@ export function isVertical(platform, videoUrl) {
   return platform === "youtube" && /\/shorts\//.test(videoUrl || "")
 }
 
-/**
- * Candidate pictures, best first. YouTube: the 1280×720 frame (exact 16:9),
- * then the 480×360 one that exists for every upload (its 4:3 letterbox bars
- * sit exactly where a 16:9 `cover` crop removes them). Anything else: the
- * thumbnail the scout stored — TikTok signs those URLs and they expire, so the
- * caller must be ready for every candidate to fail.
- */
 export function previewCandidates({ platform, videoUrl, videoId, thumbnailUrl }) {
   if (platform === "youtube") {
     const id = extractYouTubeId(videoUrl) || videoId
@@ -41,16 +33,6 @@ export function previewCandidates({ platform, videoUrl, videoId, thumbnailUrl })
   return thumbnailUrl ? [thumbnailUrl] : []
 }
 
-/**
- * The scout detail drawer's picture of a result.
- *
- * It used to be a fixed 200 px strip with `object-fit: cover` — in a 560 px
- * drawer that is a 2.6:1 window on a 16:9 frame, cutting a third of the
- * picture off (and far more of a vertical video), and TikTok got a black
- * "TikTok Video" box with no picture at all. The frame now takes the VIDEO's
- * shape: 16:9 at full width, or 9:16 centred and capped in height, so
- * nothing is cropped.
- */
 export default function VideoEmbed({ platform, videoId, videoUrl, thumbnailUrl }) {
   const candidates = previewCandidates({ platform, videoUrl, videoId, thumbnailUrl })
   const [idx, setIdx] = useState(0)
@@ -67,7 +49,7 @@ export default function VideoEmbed({ platform, videoId, videoUrl, thumbnailUrl }
 
   return (
     <Box
-      data-testid="scout-preview"
+      data-testid="trend-preview"
       data-orientation={vertical ? "portrait" : "landscape"}
       role={openUrl ? "link" : undefined}
       tabIndex={openUrl ? 0 : undefined}
@@ -76,10 +58,6 @@ export default function VideoEmbed({ platform, videoId, videoUrl, thumbnailUrl }
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open() } }}
       sx={{
         position: "relative",
-        // Landscape: full drawer width at 16:9. Portrait: 9:16 centred,
-        // capped so a phone-shaped frame never pushes the details off-screen.
-        // No picture at all (an expired TikTok signature, say): a compact
-        // strip, not an empty phone-sized frame.
         ...(!src
           ? { width: "100%", height: 140 }
           : vertical
@@ -101,13 +79,8 @@ export default function VideoEmbed({ platform, videoId, videoUrl, thumbnailUrl }
           referrerPolicy="no-referrer"
           decoding="async"
           onError={next}
-          // i.ytimg answers a missing maxres frame with a 120×90 grey
-          // placeholder (sometimes as a 200), so "loaded" is not "found".
           onLoad={(e) => { if (platform === "youtube" && e.currentTarget.naturalWidth <= 120) next() }}
           sx={{ width: "100%", height: "100%", display: "block",
-                // YouTube frames are exactly the box's shape (the hq frame's
-                // bars are cropped away by design); other hosts' thumbnails
-                // have unknown proportions, so show all of them.
                 objectFit: platform === "youtube" ? "cover" : "contain" }}
         />
       ) : (

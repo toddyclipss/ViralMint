@@ -1,17 +1,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Copyright (c) 2025-2026 ViralMint Contributors
 /**
- * Scout — trending videos the scout found, on their own page.
+ * Trends — trending videos found by the trend analyzer, on their own page.
  *
- * These used to be the Library's first tab, which is where the old taxonomy went
- * wrong at the top: a scout result is a LEAD, not a file you own. It has no
+ * A trend result is a LEAD, not a file you own. It has no
  * bytes on disk, nothing to play, nothing to edit — and it grows fast enough to
  * dwarf the library it was filed inside.
  *
- * So Library now means "files I have" and this page means "things I could
- * make". The body is the same [ScoutTab](frontend/src/components/videos/ScoutTab.jsx)
- * the Library rendered, moved rather than rewritten; `/videos?tab=scout`
- * redirects here.
+ * Library means "files I have" and this page means "things I could
+ * make".
  */
 import { useCallback, useEffect, useState } from "react"
 import { Box, Stack, Button, Tooltip, Skeleton } from "@mui/material"
@@ -21,14 +18,14 @@ import ChatBubbleOutlineRoundedIcon from "@mui/icons-material/ChatBubbleOutlineR
 import { useNavigate } from "react-router-dom"
 import http from "../api/http"
 import PageHero from "../components/PageHero"
-import ScoutTab from "../components/videos/ScoutTab"
+import TrendsTab from "../components/videos/TrendsTab"
 import useDocumentTitle from "../hooks/useDocumentTitle"
 import useAppStore from "../store/appStore"
 
 const DEFAULT_ROWS = 50
 
-export default function Scout() {
-  useDocumentTitle("Scout")
+export default function Trends() {
+  useDocumentTitle("Trends")
   const navigate = useNavigate()
   const showSnackbar = useAppStore((s) => s.showSnackbar)
   const jobs = useAppStore((s) => s.jobs)   // polled once, app-wide, in Layout
@@ -43,11 +40,12 @@ export default function Scout() {
     try {
       const params = new URLSearchParams({ limit, offset })
       if (jobId) params.set("job_id", jobId)
-      const { data } = await http.get(`/api/scout/results?${params}`)
+      // Call trends API (with scout fallback handled on backend)
+      const { data } = await http.get(`/api/trends/results?${params}`).catch(() => http.get(`/api/scout/results?${params}`))
       setResults(data.results || [])
       setTotal(data.total || 0)
     } catch {
-      showSnackbar("Could not load scout results", "error")
+      showSnackbar("Could not load trends", "error")
     } finally {
       setLoading(false)
     }
@@ -59,7 +57,7 @@ export default function Scout() {
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <PageHero
         icon={<TravelExploreIcon sx={{ fontSize: 22 }} />}
-        title="Scout"
+        title="Trends"
         subtitle="Trending videos worth borrowing from — leads, not files"
         accentColor="#0097a7"
         actions={
@@ -74,7 +72,7 @@ export default function Scout() {
             <Button size="small" variant="contained"
               startIcon={<ChatBubbleOutlineRoundedIcon sx={{ fontSize: 17 }} />}
               onClick={() => navigate("/")}>
-              Scout a niche
+              Explore trends
             </Button>
           </Stack>
         }
@@ -87,10 +85,10 @@ export default function Scout() {
             ))}
           </Stack>
         ) : (
-          <ScoutTab
+          <TrendsTab
             jobs={jobs}
-            scoutResults={results}
-            scoutTotal={total}
+            results={results}
+            total={total}
             page={page}
             rowsPerPage={rowsPerPage}
             onFetchResults={(jobId, offset, limit) => {

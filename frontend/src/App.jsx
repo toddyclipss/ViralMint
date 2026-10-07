@@ -7,7 +7,7 @@ import useAppStore from "./store/appStore"
 import { pluginRoutes } from "./plugins"
 
 // Route-level code splitting
-const Scout = lazy(() => import("./pages/Scout"))
+const Trends = lazy(() => import("./pages/Trends"))
 const Settings = lazy(() => import("./pages/Settings"))
 const Library = lazy(() => import("./pages/Library"))
 const Channels = lazy(() => import("./pages/Channels"))
@@ -87,20 +87,22 @@ export default function App() {
         <Suspense fallback={<LazyFallback />}>
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route index element={<Navigate to="/scout" replace />} />
-              <Route path="chat" element={<Navigate to="/scout" replace />} />
+              <Route index element={<Navigate to="/trends" replace />} />
+              <Route path="chat" element={<Navigate to="/trends" replace />} />
               <Route path="dashboard" element={<Navigate to="/videos" replace />} />
               {/* `/videos` is the Library. The path is legacy and stays: it is
                   bookmarked, and every ?tab= link the old page published still
                   arrives here and is translated into the new filters. */}
               <Route path="videos" element={<Library />} />
-              {/* Scout leads are not files you own, so they are not the
-                  Library. `/videos?tab=scout` redirects here. */}
-              <Route path="scout" element={<Scout />} />
-              <Route path="stock" element={<Navigate to="/scout" replace />} />
-              <Route path="ai-video" element={<Navigate to="/scout" replace />} />
-              <Route path="avatar" element={<Navigate to="/scout" replace />} />
-              <Route path="create" element={<Navigate to="/scout" replace />} />
+              {/* Trends leads are not files you own, so they are not the
+                  Library. */}
+              <Route path="trends" element={<Trends />} />
+              <Route path="trend" element={<Trends />} />
+              <Route path="scout" element={<Navigate to="/trends" replace />} />
+              <Route path="stock" element={<Navigate to="/trends" replace />} />
+              <Route path="ai-video" element={<Navigate to="/trends" replace />} />
+              <Route path="avatar" element={<Navigate to="/trends" replace />} />
+              <Route path="create" element={<Navigate to="/trends" replace />} />
               <Route path="cron" element={<Navigate to="/" />} />
               <Route path="clips" element={<ClipStudio />} />
               <Route path="motion" element={<MotionGraphics />} />

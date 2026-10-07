@@ -24,7 +24,7 @@ function ViralityChip({ score }) {
   return <Chip label={score.toFixed(1)} size="small" color={color} sx={{ fontWeight: 700, fontSize: "0.7rem", height: 22 }} />
 }
 
-export default function ScoutResultsCard({ results, platform, jobId }) {
+export default function TrendsResultsCard({ results, platform, jobId }) {
   const [scrollIdx, setScrollIdx] = useState(0)
   const [selectedIds, setSelectedIds] = useState(new Set())
   const [downloading, setDownloading] = useState(false)
@@ -54,7 +54,10 @@ export default function ScoutResultsCard({ results, platform, jobId }) {
     if (selectedIds.size === 0) return
     setDownloading(true)
     try {
-      const { data } = await http.post("/api/scout/download", { scout_result_ids: [...selectedIds] })
+      const { data } = await http.post("/api/trends/download", {
+        trend_result_ids: [...selectedIds],
+        scout_result_ids: [...selectedIds],
+      }).catch(() => http.post("/api/scout/download", { scout_result_ids: [...selectedIds] }))
       showSnackbar(`Downloading ${data.count} videos...`, "success")
       setSelectedIds(new Set())
     } catch (err) {
@@ -77,7 +80,7 @@ export default function ScoutResultsCard({ results, platform, jobId }) {
       {/* Header */}
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1.5 }}>
         <Stack direction="row" spacing={1} alignItems="center">
-          <Chip label={platform?.toUpperCase() || "SCOUT"} size="small" variant="outlined" sx={{ fontSize: "0.7rem" }} />
+          <Chip label={platform?.toUpperCase() || "TRENDS"} size="small" variant="outlined" sx={{ fontSize: "0.7rem" }} />
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
             {results.length} result{results.length !== 1 ? "s" : ""} found
           </Typography>
@@ -167,7 +170,7 @@ export default function ScoutResultsCard({ results, platform, jobId }) {
                     </Typography>
                     <Typography variant="caption" sx={{ color: "text.secondary", fontSize: "0.65rem" }}>
                       <VisibilityIcon sx={{ fontSize: 11, verticalAlign: "middle", mr: 0.3 }} />{formatViews(r.views)}
-                      {r.upload_date && ` \u00B7 Uploaded: ${new Date(r.upload_date).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" })}`}
+                      {r.upload_date && ` · Uploaded: ${new Date(r.upload_date).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" })}`}
                     </Typography>
                   </CardContent>
                 </Card>

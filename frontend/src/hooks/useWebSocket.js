@@ -204,8 +204,8 @@ export default function useWebSocket() {
               : "News research complete — no articles scored high enough. Try a different or more specific query."
           } else {
             text = newCount !== undefined && newCount < total
-              ? `Scout complete — found **${total}** videos (${newCount} new, ${total - newCount} previously scouted).`
-              : `Scout complete — found **${total}** trending videos.`
+              ? `Trends search complete — found **${total}** videos (${newCount} new, ${total - newCount} previously found).`
+              : `Trends search complete — found **${total}** trending videos.`
           }
           addMessage({ role: "system", content: text })
         } else if (result.video) {

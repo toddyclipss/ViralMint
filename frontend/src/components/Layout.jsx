@@ -31,7 +31,7 @@ const DRAWER_WIDTH = 240
 const COLLAPSED_WIDTH = 64
 
 const navItems = [
-  { to: "/scout",     icon: <TravelExploreIcon />,    label: "Scout" },
+  { to: "/trends",    icon: <TravelExploreIcon />,    label: "Trends" },
   { to: "/channels",  icon: <SensorsIcon />,          label: "My Channels" },
   { to: "/clips",     icon: <ContentCutIcon />,       label: "Clip Studio" },
   { to: "/videos",    icon: <VideoLibraryIcon />,     label: "Library" },

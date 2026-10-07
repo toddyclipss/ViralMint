@@ -21,7 +21,7 @@ function VPHChip({ vph }) {
   if (!vph || vph < 100) return null
   const label = vph >= 5000 ? "TRENDING NOW" : vph >= 1000 ? "Rising" : "Active"
   const color = vph >= 5000 ? "error" : vph >= 1000 ? "warning" : "default"
-  return <Chip label={`${label} \u00B7 ${formatViews(vph)}/hr`} size="small" color={color} variant="outlined" sx={{ fontSize: "0.65rem", height: 22 }} />
+  return <Chip label={`${label} · ${formatViews(vph)}/hr`} size="small" color={color} variant="outlined" sx={{ fontSize: "0.65rem", height: 22 }} />
 }
 
 function OutlierChip({ score }) {
@@ -52,12 +52,8 @@ const PAGE_SIZE = 50
 export default function CardGrid({ results, onSelect, onDownload, onDelete, selectedIds, onToggle }) {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const [loadingId, setLoadingId] = useState(null)
-  // Thumbnails whose host refused the image. Scout results carry the
-  // platform's own CDN url, and TikTok's are SIGNED — they expire by design,
-  // so a scout you ran yesterday renders a card with the browser's
-  // broken-image glyph and the play button floating over nothing. Nothing can
-  // un-expire the url; the card just has to stop claiming it has a picture.
   const [brokenThumbs, setBrokenThumbs] = useState(() => new Set())
+
   const markThumbBroken = useCallback((id) => {
     setBrokenThumbs((prev) => (prev.has(id) ? prev : new Set(prev).add(id)))
   }, [])
@@ -83,7 +79,6 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
         const isNews = r.platform === "news"
         const watchUrl = isNews ? null : getWatchUrl(r)
 
-        // Parse news description JSON for snippet/source
         let newsDesc = null
         if (isNews && r.description) {
           try { newsDesc = typeof r.description === "string" ? JSON.parse(r.description) : r.description } catch { /* ignore */ }
@@ -122,7 +117,6 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
             )}
 
             {isNews ? (
-              /* ── News article header area ── */
               <Box sx={{
                 position: "relative", width: "100%", height: 160,
                 bgcolor: (t) => t.palette.mode === "dark" ? "rgba(255,152,0,0.08)" : "rgba(255,152,0,0.05)",
@@ -131,10 +125,6 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
               }}>
                 {r.thumbnail_url && !brokenThumbs.has(r.id) ? (
                   <>
-                    {/* Decorative wash behind the headline. A refused image
-                        still paints the browser's broken glyph, so it takes
-                        the same guard as the video thumbnail — faint, but a
-                        smudge nobody can explain. */}
                     <CardMedia component="img" height={160} image={r.thumbnail_url} alt=""
                       onError={() => markThumbBroken(r.id)}
                       sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.15 }} />
@@ -173,15 +163,11 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
                 )}
               </Box>
             ) : (
-              /* ── Video thumbnail area ── */
               <Box sx={{ position: "relative", width: "100%", height: 160, "&:hover .play-icon": { transform: "scale(1.15)", opacity: 1 } }}>
                 {r.thumbnail_url && !brokenThumbs.has(r.id) ? (
                   <CardMedia component="img" height={160} image={r.thumbnail_url} alt={r.title}
                     onError={() => markThumbBroken(r.id)} />
                 ) : (
-                  // A quiet plate, not an empty box: the play button and the
-                  // metadata below still sit on this area, and they read as
-                  // broken layout without something behind them.
                   <Box sx={{
                     width: "100%", height: 160,
                     display: "flex", alignItems: "center", justifyContent: "center",
@@ -233,17 +219,15 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
               </Typography>
 
               {isNews ? (
-                /* News meta line */
                 <Typography variant="caption" sx={{ color: "text.secondary", display: "block", mb: 1 }}>
                   {r.author || newsDesc?.source || ""}
                   {r.upload_date && ` · ${new Date(r.upload_date).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" })}`}
                   {newsDesc?.engagement > 0 && ` · ${formatViews(newsDesc.engagement)} engagement`}
                 </Typography>
               ) : (
-                /* Video meta line */
                 <Typography variant="caption" sx={{ color: "text.secondary", display: "block", mb: 1 }}>
-                  {r.author} &middot; <VisibilityIcon sx={{ fontSize: 12, verticalAlign: "middle", mr: 0.3 }} />{formatViews(r.views)} &middot; <ThumbUpIcon sx={{ fontSize: 12, verticalAlign: "middle", mr: 0.3 }} />{formatViews(r.likes || 0)}
-                  {r.upload_date && ` \u00B7 ${new Date(r.upload_date).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" })}`}
+                  {r.author} · <VisibilityIcon sx={{ fontSize: 12, verticalAlign: "middle", mr: 0.3 }} />{formatViews(r.views)} · <ThumbUpIcon sx={{ fontSize: 12, verticalAlign: "middle", mr: 0.3 }} />{formatViews(r.likes || 0)}
+                  {r.upload_date && ` · ${new Date(r.upload_date).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" })}`}
                 </Typography>
               )}
 

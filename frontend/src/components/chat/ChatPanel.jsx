@@ -13,7 +13,7 @@ import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 import ChatMessage from "./ChatMessage"
 import LiquidMultimodalInput from "./LiquidMultimodalInput"
-import ScoutResultsCard from "./ScoutResultsCard"
+import TrendsResultsCard from "./TrendsResultsCard"
 import JobProgressCard from "./JobProgressCard"
 import VideoPreviewCard from "./VideoPreviewCard"
 import InsightsCard from "./InsightsCard"
@@ -39,8 +39,10 @@ function timeAgo(dateString) {
 function RichMessage({ msg }) {
   const wrapper = { width: "100%", px: 0.5, py: 0.5 }
   switch (msg.type) {
+    case "trend_results":
+    case "trends_results":
     case "scout_results":
-      return <Box sx={wrapper}><ScoutResultsCard results={msg.data.results} platform={msg.data.platform} jobId={msg.data.jobId} /></Box>
+      return <Box sx={wrapper}><TrendsResultsCard results={msg.data.results} platform={msg.data.platform} jobId={msg.data.jobId} /></Box>
     case "job_progress":
       return <Box sx={wrapper}><JobProgressCard jobId={msg.data.jobId} jobType={msg.data.jobType} message={msg.data.message} /></Box>
     case "video_preview":

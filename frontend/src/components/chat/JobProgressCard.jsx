@@ -2,11 +2,11 @@ import { Box, Typography, LinearProgress, Stack } from "@mui/material"
 import useAppStore from "../../store/appStore"
 
 const JOB_COLORS = {
-  scout: "primary", download: "info", generate: "warning", upload: "success",
+  trend: "primary", trends: "primary", scout: "primary", download: "info", generate: "warning", upload: "success",
 }
 
 const JOB_LABELS = {
-  scout: "Scouting", download: "Downloading", generate: "Generating", upload: "Uploading",
+  trend: "Finding Trends", trends: "Finding Trends", scout: "Finding Trends", download: "Downloading", generate: "Generating", upload: "Uploading",
 }
 
 // "tool:merge_clips" → "Merge clips". The raw job type read as a debug string

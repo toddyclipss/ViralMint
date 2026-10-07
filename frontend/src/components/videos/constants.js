@@ -4,7 +4,7 @@ export const STATUS_COLOR = {
   draft: "default", ready: "success", uploading: "warning", uploaded: "info", failed: "error",
 }
 
-export const JOB_TYPE_LABEL = { scout: "Scout", download: "Download", generate: "Generate", upload: "Upload", analyze: "Analyze" }
+export const JOB_TYPE_LABEL = { trend: "Trends", scout: "Trends", download: "Download", generate: "Generate", upload: "Upload", analyze: "Analyze" }
 export const JOB_STATUS_COLOR = { running: "info", pending: "default", success: "success", failed: "error", cancelled: "warning" }
 
 export const WHISPER_QUALITIES = [

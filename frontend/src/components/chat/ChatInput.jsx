@@ -48,7 +48,8 @@ export default function ChatInput({ onSend, disabled }) {
     let cancelled = false
     const fetchSuggestions = async () => {
       try {
-        const { data } = await http.get("/api/scout/suggest", { params: { q: debouncedQuery } })
+        const { data } = await http.get("/api/trends/suggest", { params: { q: debouncedQuery } })
+          .catch(() => http.get("/api/scout/suggest", { params: { q: debouncedQuery } }))
         if (!cancelled && data.suggestions?.length > 0) {
           setSuggestions(data.suggestions.slice(0, 6))
           setShowSuggestions(true)
@@ -80,11 +81,11 @@ export default function ChatInput({ onSend, disabled }) {
   const handleSelectSuggestion = (suggestion) => {
     // Replace the query part in the text with the suggestion
     const trimmed = text.trim()
-    const scoutMatch = trimmed.match(/^(.*?(?:scout|search|find|explore|discover)\s+(?:for\s+|about\s+)?)/i)
+    const scoutMatch = trimmed.match(/^(.*?(?:trend|trends|scout|search|find|explore|discover)\s+(?:for\s+|about\s+)?)/i)
     if (scoutMatch) {
       setText(scoutMatch[1] + suggestion)
     } else {
-      setText(`Scout ${suggestion}`)
+      setText(`Find trends for ${suggestion}`)
     }
     setShowSuggestions(false)
     setSuggestions([])

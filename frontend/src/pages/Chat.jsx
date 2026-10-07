@@ -26,7 +26,7 @@ import ChatMessage from "../components/chat/ChatMessage"
 import QuickReplyChips from "../components/chat/QuickReplyChips"
 import ChatInput from "../components/chat/ChatInput"
 import SetupWizard from "../components/wizard/SetupWizard"
-import ScoutResultsCard from "../components/chat/ScoutResultsCard"
+import TrendsResultsCard from "../components/chat/TrendsResultsCard"
 import JobProgressCard from "../components/chat/JobProgressCard"
 import VideoPreviewCard from "../components/chat/VideoPreviewCard"
 import InsightsCard from "../components/chat/InsightsCard"
@@ -52,8 +52,10 @@ function timeAgo(dateString) {
 function RichMessage({ msg }) {
   const wrapper = { maxWidth: 900, mx: "auto", width: "100%", px: 1, py: 1 }
   switch (msg.type) {
+    case "trend_results":
+    case "trends_results":
     case "scout_results":
-      return <Box sx={wrapper}><ScoutResultsCard results={msg.data.results} platform={msg.data.platform} jobId={msg.data.jobId} /></Box>
+      return <Box sx={wrapper}><TrendsResultsCard results={msg.data.results} platform={msg.data.platform} jobId={msg.data.jobId} /></Box>
     case "job_progress":
       return <Box sx={wrapper}><JobProgressCard jobId={msg.data.jobId} jobType={msg.data.jobType} message={msg.data.message} /></Box>
     case "video_preview":
