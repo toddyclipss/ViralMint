@@ -41,7 +41,6 @@ function RichMessage({ msg }) {
   switch (msg.type) {
     case "trend_results":
     case "trends_results":
-    case "scout_results":
       return <Box sx={wrapper}><TrendsResultsCard results={msg.data.results} platform={msg.data.platform} jobId={msg.data.jobId} /></Box>
     case "job_progress":
       return <Box sx={wrapper}><JobProgressCard jobId={msg.data.jobId} jobType={msg.data.jobType} message={msg.data.message} /></Box>

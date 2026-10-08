@@ -23,12 +23,12 @@ export default function ChatInput({ onSend, disabled }) {
   const suggestionsRef = useRef(null)
 
   // Extract a potential niche query from the input
-  // Trigger suggestions when user types "scout <query>" or just a niche keyword
+  // Trigger suggestions when user types "trends <query>" or just a niche keyword
   const extractQuery = useCallback((input) => {
     const trimmed = input.trim().toLowerCase()
-    // Match patterns like "scout personal finance", "search for cooking", etc.
-    const scoutMatch = trimmed.match(/(?:scout|search|find|explore|discover)\s+(?:for\s+|about\s+)?(.{2,})/i)
-    if (scoutMatch) return scoutMatch[1]
+    // Match patterns like "trends personal finance", "search for cooking", etc.
+    const trendMatch = trimmed.match(/(?:trend|trends|search|find|explore|discover)\s+(?:for\s+|about\s+)?(.{2,})/i)
+    if (trendMatch) return trendMatch[1]
     // If input is 3+ words without a command prefix, it might be a niche
     // Don't suggest for general chat messages
     return null
@@ -49,7 +49,6 @@ export default function ChatInput({ onSend, disabled }) {
     const fetchSuggestions = async () => {
       try {
         const { data } = await http.get("/api/trends/suggest", { params: { q: debouncedQuery } })
-          .catch(() => http.get("/api/scout/suggest", { params: { q: debouncedQuery } }))
         if (!cancelled && data.suggestions?.length > 0) {
           setSuggestions(data.suggestions.slice(0, 6))
           setShowSuggestions(true)
@@ -81,9 +80,9 @@ export default function ChatInput({ onSend, disabled }) {
   const handleSelectSuggestion = (suggestion) => {
     // Replace the query part in the text with the suggestion
     const trimmed = text.trim()
-    const scoutMatch = trimmed.match(/^(.*?(?:trend|trends|scout|search|find|explore|discover)\s+(?:for\s+|about\s+)?)/i)
-    if (scoutMatch) {
-      setText(scoutMatch[1] + suggestion)
+    const trendMatch = trimmed.match(/^(.*?(?:trend|trends|search|find|explore|discover)\s+(?:for\s+|about\s+)?)/i)
+    if (trendMatch) {
+      setText(trendMatch[1] + suggestion)
     } else {
       setText(`Find trends for ${suggestion}`)
     }

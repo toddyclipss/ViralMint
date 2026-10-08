@@ -13,8 +13,13 @@ import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd"
 import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded"
 
 function ViralityChip({ score }) {
-  const color = score >= 70 ? "success" : score >= 40 ? "warning" : "error"
-  return <Chip label={score.toFixed(1)} size="small" color={color} sx={{ fontWeight: 700, fontSize: "0.75rem" }} />
+  const num = typeof score === "number" ? score : parseFloat(score) || 0
+  const color = num >= 70 ? "success" : num >= 40 ? "warning" : "error"
+  return (
+    <Tooltip title={`Virality Score: ${num.toFixed(1)} / 100`} arrow>
+      <Chip label={`Score ${num.toFixed(1)}`} size="small" color={color} sx={{ fontWeight: 700, fontSize: "0.7rem", height: 22 }} />
+    </Tooltip>
+  )
 }
 
 function VPHChip({ vph }) {
@@ -118,14 +123,14 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
 
             {isNews ? (
               <Box sx={{
-                position: "relative", width: "100%", height: 160,
+                position: "relative", width: "100%", aspectRatio: "16 / 9",
                 bgcolor: (t) => t.palette.mode === "dark" ? "rgba(255,152,0,0.08)" : "rgba(255,152,0,0.05)",
                 display: "flex", flexDirection: "column", justifyContent: "center", px: 2,
                 overflow: "hidden",
               }}>
                 {r.thumbnail_url && !brokenThumbs.has(r.id) ? (
                   <>
-                    <CardMedia component="img" height={160} image={r.thumbnail_url} alt=""
+                    <CardMedia component="img" image={r.thumbnail_url} alt=""
                       onError={() => markThumbBroken(r.id)}
                       sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.15 }} />
                     <Box sx={{ position: "relative", zIndex: 1 }}>
@@ -163,14 +168,34 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
                 )}
               </Box>
             ) : (
-              <Box sx={{ position: "relative", width: "100%", height: 160, "&:hover .play-icon": { transform: "scale(1.15)", opacity: 1 } }}>
+              <Box sx={{
+                position: "relative",
+                width: "100%",
+                aspectRatio: "16 / 9",
+                overflow: "hidden",
+                bgcolor: "#000",
+                "&:hover .play-icon": { transform: "scale(1.15)", opacity: 1 },
+              }}>
                 {r.thumbnail_url && !brokenThumbs.has(r.id) ? (
-                  <CardMedia component="img" height={160} image={r.thumbnail_url} alt={r.title}
-                    onError={() => markThumbBroken(r.id)} />
+                  <CardMedia
+                    component="img"
+                    image={r.thumbnail_url}
+                    alt={r.title}
+                    onError={() => markThumbBroken(r.id)}
+                    sx={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      display: "block",
+                    }}
+                  />
                 ) : (
                   <Box sx={{
-                    width: "100%", height: 160,
-                    display: "flex", alignItems: "center", justifyContent: "center",
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                     bgcolor: "action.hover",
                   }}>
                     <VideocamOffOutlinedIcon sx={{ fontSize: 30, color: "text.disabled" }} />
@@ -211,10 +236,11 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
                 <ViralityChip score={r.virality_score} />
               </Box>
               <Typography variant="body2" sx={{
-                fontWeight: 500, mb: 0.5,
+                fontWeight: 600, mb: 0.5,
+                lineHeight: 1.35,
                 overflow: "hidden", textOverflow: "ellipsis",
                 display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
-              }}>
+              }} title={r.title}>
                 {r.title}
               </Typography>
 

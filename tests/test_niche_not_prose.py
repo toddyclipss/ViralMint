@@ -66,7 +66,7 @@ class TestWriter:
 
     def test_falls_back_to_the_scout_query(self):
         from backend.database import AsyncSessionLocal
-        from backend.models.scout_result import ScoutResult
+        from backend.models.trends_result import TrendsResult as ScoutResult
         from sqlalchemy import delete
 
         # Idempotent seed: the dev DB is shared across runs, so a plain insert

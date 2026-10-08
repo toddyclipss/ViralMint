@@ -13,7 +13,7 @@ from sqlalchemy import select
 from backend.agents.job_helper import create_job
 from backend.config import settings
 from backend.database import AsyncSessionLocal
-from backend.models.scout_result import ScoutResult
+from backend.models.trends_result import TrendsResult as ScoutResult
 from backend.models.downloaded_video import DownloadedVideo
 
 logger = logging.getLogger(__name__)

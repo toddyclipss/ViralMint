@@ -9,7 +9,7 @@ from pathlib import Path
 from sqlalchemy import select
 
 from backend.database import AsyncSessionLocal
-from backend.models.scout_result import ScoutResult
+from backend.models.trends_result import TrendsResult as ScoutResult
 from backend.models.downloaded_video import DownloadedVideo
 from backend.services.ytdlp_service import download_video
 from backend.core.ws_manager import ws_manager

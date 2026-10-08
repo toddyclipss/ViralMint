@@ -40,8 +40,7 @@ export default function Trends() {
     try {
       const params = new URLSearchParams({ limit, offset })
       if (jobId) params.set("job_id", jobId)
-      // Call trends API (with scout fallback handled on backend)
-      const { data } = await http.get(`/api/trends/results?${params}`).catch(() => http.get(`/api/scout/results?${params}`))
+      const { data } = await http.get(`/api/trends/results?${params}`)
       setResults(data.results || [])
       setTotal(data.total || 0)
     } catch {

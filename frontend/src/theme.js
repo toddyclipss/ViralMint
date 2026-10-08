@@ -195,7 +195,7 @@ export default function createAppTheme(mode) {
           root: { fontWeight: 500, borderRadius: 8 },
           // A filled status chip is white text on the palette colour, and
           // `success.main` (#16a34a) gives white only 3.30:1 — under the 4.5:1
-          // floor for text this small. Measured on /scout, where a whole grid
+          // floor for text this small. Measured on /trends, where a whole grid
           // of "Downloaded" chips sits on one screen, and it reads the same in
           // both themes because the palette entry has no per-mode variant.
           //

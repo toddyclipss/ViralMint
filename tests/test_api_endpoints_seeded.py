@@ -45,7 +45,7 @@ async def _seed() -> dict:
     from backend.models.job import Job
     from backend.models.generated_video import GeneratedVideo
     from backend.models.downloaded_video import DownloadedVideo
-    from backend.models.scout_result import ScoutResult
+    from backend.models.trends_result import TrendsResult as ScoutResult
     from backend.models.chat_session import ChatSession, ChatMessage
     from backend.models.dynamic_template import DynamicTemplate
     from backend.models.connected_channel import ConnectedChannel
@@ -206,16 +206,16 @@ def test_delete_downloaded(client, ids):
     assert _ok(r)
 
 
-# ── scout.py (results) ───────────────────────────────────────────────────────
+# ── trends.py (results) ──────────────────────────────────────────────────────
 
-def test_get_scout_result(client, ids):
-    r = client.get(f"/api/scout/results/{ids['sr_get']}")
+def test_get_trends_result(client, ids):
+    r = client.get(f"/api/trends/results/{ids['sr_get']}")
     assert r.status_code == 200
     assert r.json()["id"] == ids["sr_get"]
 
 
-def test_delete_scout_result(client, ids):
-    r = client.delete(f"/api/scout/results/{ids['sr_del']}")
+def test_delete_trends_result(client, ids):
+    r = client.delete(f"/api/trends/results/{ids['sr_del']}")
     assert _ok(r)
 
 

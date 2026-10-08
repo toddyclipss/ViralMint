@@ -20,7 +20,7 @@ const SERVICES = [
   {
     id: "youtube",
     label: "YouTube Data API",
-    description: "Powers YouTube scouting, channel reader, and comment analysis",
+    description: "Powers YouTube trends discovery, channel reader, and comment analysis",
     icon: <YouTubeIcon sx={{ color: "#FF0000", fontSize: 28 }} />,
     settingsKey: "youtube_api_key",      // POST /api/settings field
     setFlag: "youtube_api_key_set",       // GET response flag (masked)

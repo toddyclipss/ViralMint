@@ -147,7 +147,7 @@ async def test_scout_rows_something_points_at_are_kept():
     """A download reads back through its scout row for the source URL, so age
     is not enough to decide a lead is disposable."""
     from backend.models.downloaded_video import DownloadedVideo
-    from backend.models.scout_result import ScoutResult
+    from backend.models.trends_result import TrendsResult as ScoutResult
     from backend.services import job_retention
 
     db = await _session()
@@ -167,7 +167,7 @@ async def test_scout_rows_something_points_at_are_kept():
         assert await db.get(ScoutResult, f"{PREFIX}s2") is None
     finally:
         from backend.models.downloaded_video import DownloadedVideo as DV
-        from backend.models.scout_result import ScoutResult as SR
+        from backend.models.trends_result import TrendsResult as SR
         for Model in (DV, SR):
             rows = (await db.execute(select(Model).where(Model.id.startswith(PREFIX)))).scalars().all()
             for r in rows:

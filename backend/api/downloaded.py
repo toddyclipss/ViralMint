@@ -17,7 +17,7 @@ from sqlalchemy import select
 from backend.config import settings
 from backend.database import AsyncSessionLocal
 from backend.models.downloaded_video import DownloadedVideo
-from backend.models.scout_result import ScoutResult
+from backend.models.trends_result import TrendsResult as ScoutResult
 from backend.core.exceptions import safe_json_loads as _safe_json
 
 logger = logging.getLogger(__name__)

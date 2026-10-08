@@ -105,7 +105,7 @@ class TestSimpleRunnerFailureRouting:
     async def test_run_scout_success_does_not_mark_failed(self, job_status_spy):
         agent = MagicMock()
         agent.run = AsyncMock()
-        with patch("backend.agents.scout.ScoutAgent", return_value=agent):
+        with patch("backend.agents.trends.TrendsAgent", return_value=agent):
             await tr.run_scout("job1", "ai tools", ["youtube"])
         agent.run.assert_awaited_once()
         assert "failed" not in _statuses(job_status_spy)
@@ -113,7 +113,7 @@ class TestSimpleRunnerFailureRouting:
     async def test_run_scout_failure_routes_to_failed(self, job_status_spy):
         agent = MagicMock()
         agent.run = AsyncMock(side_effect=RuntimeError("scout boom"))
-        with patch("backend.agents.scout.ScoutAgent", return_value=agent):
+        with patch("backend.agents.trends.TrendsAgent", return_value=agent):
             await tr.run_scout("job1", "ai tools", ["youtube"])
         job_status_spy.assert_awaited_once()
         assert job_status_spy.call_args.args[1] == "failed"
@@ -161,7 +161,7 @@ class TestSimpleRunnerFailureRouting:
     async def test_run_news_scout_failure_routes_to_failed(self, job_status_spy):
         agent = MagicMock()
         agent.run = AsyncMock(side_effect=RuntimeError("news boom"))
-        with patch("backend.agents.news_scout.NewsScoutAgent", return_value=agent):
+        with patch("backend.agents.news_trends.NewsTrendsAgent", return_value=agent):
             await tr.run_news_scout("job1", "ai")
         assert _statuses(job_status_spy) == ["failed"]
 

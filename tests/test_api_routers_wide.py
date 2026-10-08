@@ -43,7 +43,7 @@ def seeded():
         from backend.models.connected_channel import ConnectedChannel
         from backend.models.downloaded_video import DownloadedVideo
         from backend.models.generated_video import GeneratedVideo
-        from backend.models.scout_result import ScoutResult
+        from backend.models.trends_result import TrendsResult as ScoutResult
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
         ids = {}
@@ -345,46 +345,46 @@ class TestMessaging:
 
 
 # ══════════════════════════════════════════════════════════════════════
-# /api/scout
+# /api/trends
 # ══════════════════════════════════════════════════════════════════════
 
-class TestScout:
-    def test_starting_a_scout_needs_a_niche(self, client):
-        assert client.post("/api/scout/start", json={}).status_code in (400, 422)
+class TestTrends:
+    def test_starting_trends_needs_a_niche(self, client):
+        assert client.post("/api/trends/start", json={}).status_code in (400, 422)
 
-    def test_a_scout_can_be_started(self, client):
-        r = client.post("/api/scout/start",
+    def test_trends_can_be_started(self, client):
+        r = client.post("/api/trends/start",
                         json={"niche": "cooking", "platforms": ["youtube"]})
         assert r.status_code == 200, r.text
         assert "job_id" in r.json()
 
     def test_results_are_listable(self, client):
-        assert client.get("/api/scout/results").status_code == 200
+        assert client.get("/api/trends/results").status_code == 200
 
     def test_results_filter_by_platform(self, client):
-        assert client.get("/api/scout/results",
+        assert client.get("/api/trends/results",
                           params={"platform": "youtube"}).status_code == 200
 
     def test_a_single_result_can_be_fetched(self, client, seeded):
-        r = client.get(f"/api/scout/results/{seeded['scout']}")
+        r = client.get(f"/api/trends/results/{seeded['scout']}")
         assert r.status_code == 200 and r.json()["title"] == "Scouted"
 
     def test_an_unknown_result_is_a_404(self, client):
-        assert client.get("/api/scout/results/nope").status_code == 404
+        assert client.get("/api/trends/results/nope").status_code == 404
 
     def test_downloading_needs_ids(self, client):
-        assert client.post("/api/scout/download", json={}).status_code in (400, 422)
+        assert client.post("/api/trends/download", json={}).status_code in (400, 422)
 
     def test_downloading_starts_a_job(self, client, seeded):
-        r = client.post("/api/scout/download",
-                        json={"scout_result_ids": [seeded["scout"]]})
+        r = client.post("/api/trends/download",
+                        json={"trend_result_ids": [seeded["scout"]]})
         assert r.status_code == 200, r.text
 
     def test_viral_formulas_are_listable(self, client):
-        assert client.get("/api/scout/viral-formulas").status_code == 200
+        assert client.get("/api/trends/viral-formulas").status_code == 200
 
     def test_deleting_an_unknown_result_is_a_404(self, client):
-        assert client.delete("/api/scout/results/nope").status_code == 404
+        assert client.delete("/api/trends/results/nope").status_code == 404
 
 
 # ══════════════════════════════════════════════════════════════════════

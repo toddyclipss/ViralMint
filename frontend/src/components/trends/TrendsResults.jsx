@@ -54,8 +54,7 @@ export default function TrendsResults({ results, onSelect, onRefresh }) {
       return
     }
     try {
-      await http.post("/api/trends/download", { trend_result_ids: [id], scout_result_ids: [id] })
-        .catch(() => http.post("/api/scout/download", { scout_result_ids: [id] }))
+      await http.post("/api/trends/download", { trend_result_ids: [id] })
       showSnackbar("Downloading & analyzing video...", "success")
     } catch (err) {
       showSnackbar(err.response?.data?.detail || err.message, "error")
@@ -64,7 +63,7 @@ export default function TrendsResults({ results, onSelect, onRefresh }) {
 
   const handleDeleteOne = async (id) => {
     try {
-      await http.delete(`/api/trends/results/${id}`).catch(() => http.delete(`/api/scout/results/${id}`))
+      await http.delete(`/api/trends/results/${id}`)
       showSnackbar("Deleted", "success")
       selectedIds.delete(id)
       setSelectedIds(new Set(selectedIds))
@@ -80,9 +79,7 @@ export default function TrendsResults({ results, onSelect, onRefresh }) {
     setDeleting(true)
     try {
       const ids = [...selectedIds]
-      await Promise.all(ids.map((id) =>
-        http.delete(`/api/trends/results/${id}`).catch(() => http.delete(`/api/scout/results/${id}`))
-      ))
+      await Promise.all(ids.map((id) => http.delete(`/api/trends/results/${id}`)))
       showSnackbar(`Deleted ${ids.length} result${ids.length > 1 ? "s" : ""}`, "success")
       setSelectedIds(new Set())
       if (selectedResult && ids.includes(selectedResult.id)) setSelectedResult(null)

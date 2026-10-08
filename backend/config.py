@@ -87,8 +87,8 @@ class Settings(BaseSettings):
 
     # ── Service keys (BYOK) ───────────────────────────
     # All optional — features gracefully degrade when keys are missing.
-    YOUTUBE_API_KEY: str = ""           # YouTube scout, channel reader, comments
-    TIKHUB_API_KEY: str = ""            # TikTok / Douyin scout (alternative: cookies in Settings)
+    YOUTUBE_API_KEY: str = ""           # YouTube trends, channel reader, comments
+    TIKHUB_API_KEY: str = ""            # TikTok / Douyin trends (alternative: cookies in Settings)
     PEXELS_API_KEY: str = ""            # Stock video footage
 
     # ── Upload OAuth ──────────────────────────────────

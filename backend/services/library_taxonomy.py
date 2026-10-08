@@ -150,7 +150,7 @@ DOWNLOADED_PRODUCER_KEYS = ("download", "import")
 # Listed here so `classify()` returning None is a decision on record rather
 # than an oversight — the difference between the two is the invisibility bug.
 NON_LIBRARY_JOB_TYPES = frozenset({
-    "scout", "news_scout", "news_save", "analyze", "channel_analysis",
+    "trend", "trends", "scout", "news_scout", "news_save", "analyze", "channel_analysis",
     "generate",          # registers a generated_videos row, which IS the item
     "extract_clips",     # ditto, one row per clip
     "motion_render",     # ditto

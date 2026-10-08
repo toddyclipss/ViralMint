@@ -273,15 +273,33 @@ export default function useWebSocket() {
         })
       }),
 
-      ws.on("scout_results", (msg) => {
+      ws.on("trend_results", (msg) => {
         const store = useAppStore.getState()
-        const existing = store.scoutResults || []
+        const existing = store.trendResults || []
         const newResults = msg.results || []
-        useAppStore.setState({ scoutResults: [...existing, ...newResults] })
+        useAppStore.setState({
+          trendResults: [...existing, ...newResults],
+          trendsResults: [...existing, ...newResults],
+        })
 
         addMessage({
           role: "rich",
-          type: "scout_results",
+          type: "trend_results",
+          data: { results: msg.results, platform: msg.platform, jobId: msg.job_id },
+        })
+      }),
+      ws.on("trends_results", (msg) => {
+        const store = useAppStore.getState()
+        const existing = store.trendResults || []
+        const newResults = msg.results || []
+        useAppStore.setState({
+          trendResults: [...existing, ...newResults],
+          trendsResults: [...existing, ...newResults],
+        })
+
+        addMessage({
+          role: "rich",
+          type: "trend_results",
           data: { results: msg.results, platform: msg.platform, jobId: msg.job_id },
         })
       }),

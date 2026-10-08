@@ -98,7 +98,6 @@ export default function App() {
                   Library. */}
               <Route path="trends" element={<Trends />} />
               <Route path="trend" element={<Trends />} />
-              <Route path="scout" element={<Navigate to="/trends" replace />} />
               <Route path="stock" element={<Navigate to="/trends" replace />} />
               <Route path="ai-video" element={<Navigate to="/trends" replace />} />
               <Route path="avatar" element={<Navigate to="/trends" replace />} />

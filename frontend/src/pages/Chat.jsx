@@ -54,7 +54,6 @@ function RichMessage({ msg }) {
   switch (msg.type) {
     case "trend_results":
     case "trends_results":
-    case "scout_results":
       return <Box sx={wrapper}><TrendsResultsCard results={msg.data.results} platform={msg.data.platform} jobId={msg.data.jobId} /></Box>
     case "job_progress":
       return <Box sx={wrapper}><JobProgressCard jobId={msg.data.jobId} jobType={msg.data.jobType} message={msg.data.message} /></Box>
@@ -76,14 +75,15 @@ function RichMessage({ msg }) {
 }
 
 const JOB_ICONS = {
-  scout: <RadarIcon sx={{ fontSize: 14 }} />,
+  trend: <RadarIcon sx={{ fontSize: 14 }} />,
+  trends: <RadarIcon sx={{ fontSize: 14 }} />,
   download: <DownloadIcon sx={{ fontSize: 14 }} />,
   generate: <MovieCreationIcon sx={{ fontSize: 14 }} />,
   upload: <UploadIcon sx={{ fontSize: 14 }} />,
 }
 
 const JOB_LABELS = {
-  scout: "Scouting", download: "Downloading", generate: "Generating", upload: "Uploading",
+  trend: "Finding Trends", trends: "Finding Trends", download: "Downloading", generate: "Generating", upload: "Uploading",
 }
 
 function ActiveJobsPanel() {
@@ -117,7 +117,7 @@ function ActiveJobsPanel() {
               <Stack direction="row" spacing={0.5} alignItems="center" sx={{ mb: isRunning ? 0.5 : 0 }}>
                 {isSuccess ? <CheckCircleOutlineIcon sx={{ fontSize: 14, color: "success.main" }} /> :
                   isFailed ? <ErrorOutlineIcon sx={{ fontSize: 14, color: "error.main" }} /> :
-                  JOB_ICONS[job.jobType] || JOB_ICONS.scout}
+                  JOB_ICONS[job.jobType] || JOB_ICONS.trend}
                 <Typography variant="caption" sx={{ fontWeight: 500, fontSize: "0.72rem", color: "text.primary", flex: 1 }} noWrap>
                   {isSuccess ? `${label} done` : isFailed ? `${label} failed` : `${label}...`}
                 </Typography>
@@ -152,9 +152,9 @@ const SIDEBAR_WIDTH = 260
 const STARTER_SUGGESTIONS = [
   {
     icon: <SearchIcon sx={{ fontSize: 28, color: "primary.main" }} />,
-    title: "Scout trending videos",
+    title: "Discover trending videos",
     description: "Find viral content across YouTube, TikTok, and Douyin",
-    message: "Scout trending videos on YouTube",
+    message: "Find trending videos on YouTube",
   },
   {
     icon: <SensorsIcon sx={{ fontSize: 28, color: "primary.main" }} />,
@@ -176,9 +176,9 @@ const STARTER_SUGGESTIONS = [
   },
   {
     icon: <NewspaperIcon sx={{ fontSize: 28, color: "primary.main" }} />,
-    title: "Scout trending news",
+    title: "Discover trending news",
     description: "Find hot articles and generate commentary videos",
-    message: "Scout trending news",
+    message: "Find trending news",
   },
 ]
 
@@ -372,7 +372,7 @@ export default function Chat() {
                 variant="body1"
                 sx={{ color: "text.secondary", mb: 5, maxWidth: 440, mx: "auto", lineHeight: 1.6, textAlign: "center" }}
               >
-                Your AI content strategy assistant. Scout trending videos, generate originals, and publish everywhere.
+                Your AI content strategy assistant. Discover trending videos, generate originals, and publish everywhere.
               </Typography>
 
               {suggestions.length > 0 && (

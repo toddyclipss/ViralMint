@@ -119,13 +119,11 @@ const useAppStore = create((set, get) => ({
   settings: null,
   setSettings: (s) => set({ settings: s }),
 
-  // Trends / Scout results
+  // Trends results
   trendResults: [],
   trendsResults: [],
-  scoutResults: [],
-  setTrendResults: (r) => set({ trendResults: r, trendsResults: r, scoutResults: r }),
-  setTrendsResults: (r) => set({ trendResults: r, trendsResults: r, scoutResults: r }),
-  setScoutResults: (r) => set({ trendResults: r, trendsResults: r, scoutResults: r }),
+  setTrendResults: (r) => set({ trendResults: r, trendsResults: r }),
+  setTrendsResults: (r) => set({ trendResults: r, trendsResults: r }),
 
   // Global snackbar (action: optional { label, href } for a clickable link)
   snackbar: { open: false, message: "", severity: "info", action: null },

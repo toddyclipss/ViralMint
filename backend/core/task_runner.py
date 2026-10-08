@@ -33,24 +33,34 @@ def _detect_platform(url: str) -> str:
     return "unknown"
 
 
-async def run_scout(job_id: str, niche: str, platforms: list[str], user_id: str = "local"):
-    logger.info("TASK START scout | job=%s niche=%r platforms=%s", job_id[:8], niche, platforms)
-    from backend.agents.scout import ScoutAgent
+async def run_trends(job_id: str, niche: str, platforms: list[str], user_id: str = "local"):
+    logger.info("TASK START trends | job=%s niche=%r platforms=%s", job_id[:8], niche, platforms)
+    from backend.agents.trends import TrendsAgent
     try:
-        await ScoutAgent().run(job_id=job_id, niche=niche, platforms=platforms, user_id=user_id)
-        logger.info("TASK DONE  scout | job=%s", job_id[:8])
+        await TrendsAgent().run(job_id=job_id, niche=niche, platforms=platforms, user_id=user_id)
+        logger.info("TASK DONE  trends | job=%s", job_id[:8])
     except Exception as e:
-        logger.error(f"TASK FAIL  scout | job={job_id[:8]}: {e}", exc_info=True)
+        logger.error(f"TASK FAIL  trends | job={job_id[:8]}: {e}", exc_info=True)
         from backend.agents.job_helper import update_job_status
         await update_job_status(job_id, "failed", error_message=str(e))
 
 
-async def run_download(job_id: str, scout_result_ids: list[str], user_id: str = "local"):
-    logger.info("TASK START download | job=%s count=%d ids=%s", job_id[:8], len(scout_result_ids), [i[:8] for i in scout_result_ids])
+run_trend = run_trends
+run_scout = run_trends
+
+
+async def run_download(
+    job_id: str,
+    trend_result_ids: list[str] = None,
+    scout_result_ids: list[str] = None,
+    user_id: str = "local",
+):
+    ids = [i for i in (trend_result_ids or scout_result_ids or []) if i]
+    logger.info("TASK START download | job=%s count=%d ids=%s", job_id[:8], len(ids), [i[:8] for i in ids])
     from backend.agents.downloader import DownloadAgent
     from backend.agents.analyzer import AnalyzerAgent
     try:
-        await DownloadAgent().run(job_id=job_id, scout_result_ids=scout_result_ids, user_id=user_id)
+        await DownloadAgent().run(job_id=job_id, scout_result_ids=ids, user_id=user_id)
         # A cancelled download is settled by the agent itself — don't start a
         # (long) analysis pass the user already said no to.
         from backend.agents.job_helper import job_cancelled
@@ -505,11 +515,11 @@ async def _download_single_video_to_db(job_id: str, url: str, title: str, user_i
     this parameter.
     """
     from backend.models.downloaded_video import DownloadedVideo
-    from backend.models.scout_result import ScoutResult
+    from backend.models.trends_result import TrendsResult as TrendResult
     from backend.services.ytdlp_service import download_video
     from backend.database import AsyncSessionLocal
     from backend.config import settings
-    from backend.agents.scout import compute_virality_score
+    from backend.agents.trends import compute_virality_score
     from uuid import uuid4
     from datetime import datetime
     from pathlib import Path
@@ -582,7 +592,7 @@ async def _download_single_video_to_db(job_id: str, url: str, title: str, user_i
     })
 
     async with AsyncSessionLocal() as db:
-        sr = ScoutResult(
+        sr = TrendResult(
             user_id=user_id,
             job_id=job_id,
             platform=platform,
@@ -1497,7 +1507,7 @@ async def _run_with_limit(coro):
         logger.error("Unhandled exception in background task: %s", e, exc_info=True)
 
 
-async def run_news_scout(
+async def run_news_trends(
     job_id: str,
     query: str,
     expanded_queries: list[str] = None,
@@ -1505,18 +1515,21 @@ async def run_news_scout(
     direct_url: str = None,
     user_id: str = "local",
 ):
-    logger.info("TASK START news_scout | job=%s query=%r", job_id[:8], query)
-    from backend.agents.news_scout import NewsScoutAgent
+    logger.info("TASK START news_trends | job=%s query=%r", job_id[:8], query)
+    from backend.agents.news_trends import NewsTrendsAgent
     try:
-        await NewsScoutAgent().run(
+        await NewsTrendsAgent().run(
             job_id=job_id, query=query, expanded_queries=expanded_queries,
             sources=sources, direct_url=direct_url, user_id=user_id,
         )
-        logger.info("TASK DONE  news_scout | job=%s", job_id[:8])
+        logger.info("TASK DONE  news_trends | job=%s", job_id[:8])
     except Exception as e:
-        logger.error("TASK FAIL  news_scout | job=%s: %s", job_id[:8], e, exc_info=True)
+        logger.error("TASK FAIL  news_trends | job=%s: %s", job_id[:8], e, exc_info=True)
         from backend.agents.job_helper import update_job_status
         await update_job_status(job_id, "failed", error_message=str(e))
+
+
+run_news_scout = run_news_trends
 
 
 async def run_news_save(
@@ -1528,7 +1541,7 @@ async def run_news_save(
     logger.info("TASK START news_save | job=%s count=%d", job_id[:8], len(article_ids))
     from backend.agents.job_helper import update_job_status
     from backend.database import AsyncSessionLocal
-    from backend.models.scout_result import ScoutResult
+    from backend.models.trends_result import TrendsResult as TrendResult
     from backend.models.downloaded_video import DownloadedVideo
     from backend.core.ws_manager import ws_manager
     from sqlalchemy import select
@@ -1540,7 +1553,7 @@ async def run_news_save(
         async with AsyncSessionLocal() as db:
             for i, article_id in enumerate(article_ids):
                 result = await db.execute(
-                    select(ScoutResult).where(ScoutResult.id == article_id)
+                    select(TrendResult).where(TrendResult.id == article_id)
                 )
                 sr = result.scalar_one_or_none()
                 if not sr:

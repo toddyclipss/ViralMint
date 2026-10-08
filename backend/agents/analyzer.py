@@ -257,7 +257,7 @@ class AnalyzerAgent:
         logger.info("ANALYZER START | job=%s user=%s", job_id[:8], user_id)
         # Get all downloaded videos from this job's downloads
         async with AsyncSessionLocal() as db:
-            from backend.models.scout_result import ScoutResult
+            from backend.models.trends_result import TrendsResult as ScoutResult
             # Find downloaded videos that haven't been analyzed
             result = await db.execute(
                 select(DownloadedVideo)
@@ -443,7 +443,7 @@ class AnalyzerAgent:
                         async def _comment_analysis():
                             # Get the video_id from scout result
                             async with AsyncSessionLocal() as db:
-                                from backend.models.scout_result import ScoutResult as SR
+                                from backend.models.trends_result import TrendsResult as SR
                                 sr_res = await db.execute(select(SR).where(SR.id == dv.scout_result_id))
                                 sr_obj = sr_res.scalar_one_or_none()
                                 yt_video_id = sr_obj.video_id if sr_obj else None
@@ -506,7 +506,7 @@ class AnalyzerAgent:
 
                         # Mark scout result as analyzed
                         if row.scout_result_id:
-                            from backend.models.scout_result import ScoutResult
+                            from backend.models.trends_result import TrendsResult as ScoutResult
                             sr_result = await db.execute(
                                 select(ScoutResult).where(ScoutResult.id == row.scout_result_id)
                             )

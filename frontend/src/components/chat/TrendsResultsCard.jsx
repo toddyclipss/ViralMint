@@ -56,8 +56,7 @@ export default function TrendsResultsCard({ results, platform, jobId }) {
     try {
       const { data } = await http.post("/api/trends/download", {
         trend_result_ids: [...selectedIds],
-        scout_result_ids: [...selectedIds],
-      }).catch(() => http.post("/api/scout/download", { scout_result_ids: [...selectedIds] }))
+      })
       showSnackbar(`Downloading ${data.count} videos...`, "success")
       setSelectedIds(new Set())
     } catch (err) {
@@ -137,10 +136,12 @@ export default function TrendsResultsCard({ results, platform, jobId }) {
                     sx={{ position: "absolute", top: 2, left: 2, zIndex: 2, bgcolor: "background.paper", borderRadius: 0.5, p: 0.25 }}
                   />
                   {r.thumbnail_url ? (
-                    <CardMedia component="img" height={110} image={r.thumbnail_url} alt={r.title}
-                      sx={{ objectFit: "cover" }} />
+                    <Box sx={{ width: "100%", aspectRatio: "16 / 9", overflow: "hidden", bgcolor: "#000" }}>
+                      <CardMedia component="img" image={r.thumbnail_url} alt={r.title}
+                        sx={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                    </Box>
                   ) : (
-                    <Box sx={{ height: 110, bgcolor: "action.hover", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Box sx={{ width: "100%", aspectRatio: "16 / 9", bgcolor: "action.hover", display: "flex", alignItems: "center", justifyContent: "center" }}>
                       <Typography variant="caption" sx={{ color: "text.disabled" }}>No thumbnail</Typography>
                     </Box>
                   )}

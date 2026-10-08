@@ -20,7 +20,7 @@ from sqlalchemy import select
 from backend.database import AsyncSessionLocal
 from backend.models.downloaded_video import DownloadedVideo
 from backend.models.generated_video import GeneratedVideo, NICHE_MAX_CHARS
-from backend.models.scout_result import ScoutResult
+from backend.models.trends_result import TrendsResult as ScoutResult
 from backend.models.user_settings import UserSettings
 from backend.core.ai_provider import get_ai_client
 from backend.core.ws_manager import ws_manager

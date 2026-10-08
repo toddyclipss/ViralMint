@@ -59,7 +59,7 @@ async def init_db():
     # Import all models so Base knows about them
     from backend.models import (  # noqa: F401
         user_settings, user_behavior, feature_flag,
-        job, scout_result, downloaded_video, generated_video,
+        job, trends_result, downloaded_video, generated_video,
         messaging_config, chat_session, user_profile,
         video_metrics, viral_formula,
         connected_channel, dynamic_template, caption_style,

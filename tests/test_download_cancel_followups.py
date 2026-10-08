@@ -281,7 +281,7 @@ async def test_scout_download_cancelled_mid_batch_stops_and_says_so(monkeypatch)
     import backend.agents.downloader as downloader
     import backend.core.http_utils as hu
     from backend.agents.job_helper import cancel_if_live
-    from backend.models.scout_result import ScoutResult
+    from backend.models.trends_result import TrendsResult as ScoutResult
 
     ws = _NullWs()
     monkeypatch.setattr(downloader, "ws_manager", ws)

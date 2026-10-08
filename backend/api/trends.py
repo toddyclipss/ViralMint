@@ -1,62 +1,68 @@
-# SPDX-License-Identifier: AGPL-3.0-only
-# Copyright (c) 2025-2026 ViralMint Contributors
-"""REST /api/trends — start scouting trends + retrieve results."""
+# Copyright (c) 2026 ViralMint. All rights reserved.
+# Authorial trends API router — discovery, queries, velocity & download orchestration.
+import json
 import logging
+from typing import Optional
+
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from typing import Optional
-from sqlalchemy import select
+from sqlalchemy import and_, select
 
-from backend.database import AsyncSessionLocal
-from backend.models.scout_result import ScoutResult
 from backend.agents.job_helper import create_job
+from backend.database import AsyncSessionLocal
+from backend.models.trends_result import TrendsResult, TrendsResult as TrendResult
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
-class TrendStartRequest(BaseModel):
+class TrendsStartRequest(BaseModel):
     niche: str
     platforms: list[str] = ["youtube"]
+
+
+# Compatibility alias
+TrendStartRequest = TrendsStartRequest
+ScoutStartRequest = TrendsStartRequest
 
 
 @router.post("/trends/start")
 @router.post("/trend/start")
 @router.post("/scout/start")
-async def start_scout(req: TrendStartRequest):
-    """Start a trend scout job (runs in-process as async background task)."""
-    from backend.core.task_runner import run_scout, dispatch
-    job = await create_job("scout", "local", {"niche": req.niche, "platforms": req.platforms})
-    dispatch(run_scout(job_id=job.id, niche=req.niche, platforms=req.platforms, user_id="local"))
+async def start_trends(req: TrendsStartRequest):
+    """Start an asynchronous trends discovery job across selected platforms."""
+    from backend.core.task_runner import dispatch, run_trends
+    job = await create_job("trends", "local", {"niche": req.niche, "platforms": req.platforms})
+    dispatch(run_trends(job_id=job.id, niche=req.niche, platforms=req.platforms, user_id="local"))
     return {"job_id": job.id}
 
 
 @router.get("/trends/results")
 @router.get("/trend/results")
 @router.get("/scout/results")
-async def get_scout_results(
+async def get_trends_results(
     job_id: Optional[str] = None,
     limit: int = 50,
     offset: int = 0,
 ):
-    """Get trend results, optionally filtered by job_id."""
+    """Retrieve indexed trends results, optionally filtered by job_id."""
     async with AsyncSessionLocal() as db:
         query = (
-            select(ScoutResult)
-            .where(ScoutResult.user_id == "local")
-            .order_by(ScoutResult.created_at.desc())
+            select(TrendsResult)
+            .where(TrendsResult.user_id == "local")
+            .order_by(TrendsResult.created_at.desc())
         )
         if job_id:
-            query = query.where(ScoutResult.job_id == job_id)
+            query = query.where(TrendsResult.job_id == job_id)
         query = query.offset(offset).limit(limit)
 
         result = await db.execute(query)
         results = result.scalars().all()
 
         from sqlalchemy import func
-        count_query = select(func.count(ScoutResult.id)).where(ScoutResult.user_id == "local")
+        count_query = select(func.count(TrendsResult.id)).where(TrendsResult.user_id == "local")
         if job_id:
-            count_query = count_query.where(ScoutResult.job_id == job_id)
+            count_query = count_query.where(TrendsResult.job_id == job_id)
         total = (await db.execute(count_query)).scalar()
 
     return {
@@ -93,9 +99,10 @@ async def get_scout_results(
 @router.get("/trends/results/{result_id}")
 @router.get("/trend/results/{result_id}")
 @router.get("/scout/results/{result_id}")
-async def get_scout_result(result_id: str):
+async def get_trends_result(result_id: str):
+    """Retrieve detailed metadata for a single indexed trend result."""
     async with AsyncSessionLocal() as db:
-        result = await db.execute(select(ScoutResult).where(ScoutResult.id == result_id))
+        result = await db.execute(select(TrendsResult).where(TrendsResult.id == result_id))
         r = result.scalar_one_or_none()
     if not r:
         raise HTTPException(status_code=404, detail="Result not found")
@@ -118,23 +125,29 @@ async def get_scout_result(result_id: str):
 
 
 class DownloadRequest(BaseModel):
-    trend_result_ids: Optional[list[str]] = None
-    scout_result_ids: Optional[list[str]] = None
+    trend_result_ids: list[str] = []
+    trends_result_ids: list[str] = []
+    scout_result_ids: list[str] = []
+
+
+# Compatibility alias
+ScoutDownloadRequest = DownloadRequest
 
 
 @router.post("/trends/download")
 @router.post("/trend/download")
 @router.post("/scout/download")
-async def start_download(req: DownloadRequest):
-    """Start a download + analyze job for selected trend results."""
-    ids = req.trend_result_ids or req.scout_result_ids or []
+async def start_trends_download(req: DownloadRequest):
+    """Dispatch download and analysis pipeline for selected trend records."""
+    ids = req.trends_result_ids or req.trend_result_ids or req.scout_result_ids or []
     if not ids:
         raise HTTPException(status_code=400, detail="No results selected")
     if len(ids) > 20:
         raise HTTPException(status_code=400, detail="Maximum 20 videos per batch")
-    from backend.core.task_runner import run_download, dispatch
-    job = await create_job("download", "local", {"scout_result_ids": ids})
-    dispatch(run_download(job_id=job.id, scout_result_ids=ids, user_id="local"))
+
+    from backend.core.task_runner import dispatch, run_download
+    job = await create_job("download", "local", {"trend_result_ids": ids, "scout_result_ids": ids})
+    dispatch(run_download(job_id=job.id, trend_result_ids=ids, scout_result_ids=ids, user_id="local"))
     return {"job_id": job.id, "count": len(ids)}
 
 
@@ -142,7 +155,7 @@ async def start_download(req: DownloadRequest):
 @router.get("/trend/suggest")
 @router.get("/scout/suggest")
 async def suggest_keywords(q: str = "", lang: str = "en"):
-    """YouTube search autocomplete suggestions — free, no API key needed."""
+    """YouTube search autocomplete suggestions without requiring an API key."""
     if not q or len(q.strip()) < 2:
         return {"suggestions": []}
     from backend.services.youtube_suggest_service import get_suggestions
@@ -154,7 +167,7 @@ async def suggest_keywords(q: str = "", lang: str = "en"):
 @router.get("/trend/search-demand")
 @router.get("/scout/search-demand")
 async def search_demand(niche: str = "", lang: str = "en"):
-    """Full search demand analysis for a niche — reveals what users are searching for."""
+    """Search demand breakdown revealing search intention and demand clusters."""
     if not niche or len(niche.strip()) < 2:
         raise HTTPException(status_code=400, detail="Niche must be at least 2 characters")
     from backend.services.youtube_suggest_service import get_search_demand
@@ -165,19 +178,18 @@ async def search_demand(niche: str = "", lang: str = "en"):
 @router.get("/trend/keyword-score")
 @router.get("/scout/keyword-score")
 async def keyword_score(keyword: str):
-    """Score a keyword/niche for content opportunity (volume vs competition)."""
+    """Opportunity score for a keyword evaluating search volume against creator competition."""
     if not keyword or len(keyword.strip()) < 2:
         raise HTTPException(status_code=400, detail="Keyword must be at least 2 characters")
     from backend.services.keyword_score_service import score_keyword
-    result = await score_keyword(keyword.strip())
-    return result
+    return await score_keyword(keyword.strip())
 
 
 @router.get("/trends/rising-keywords")
 @router.get("/trend/rising-keywords")
 @router.get("/scout/rising-keywords")
 async def rising_keywords(niche: str = ""):
-    """Discover rising keywords related to a niche using Google Trends."""
+    """Discover rising trend keywords correlated with a niche using Google Trends."""
     if not niche or len(niche.strip()) < 2:
         raise HTTPException(status_code=400, detail="Niche must be at least 2 characters")
     from backend.services.keyword_score_service import discover_rising_keywords
@@ -189,21 +201,22 @@ async def rising_keywords(niche: str = ""):
 @router.get("/trend/cross-platform")
 @router.get("/scout/cross-platform")
 async def cross_platform_check(keyword: str = ""):
-    """Check a keyword across Google Trends, YouTube, and Reddit for cross-platform momentum."""
+    """Check multi-platform momentum across Google Trends, YouTube, and Reddit."""
     if not keyword or len(keyword.strip()) < 2:
         raise HTTPException(status_code=400, detail="Keyword must be at least 2 characters")
-    from backend.services.trend_velocity_service import cross_platform_correlation
+    from backend.services.trends_velocity_service import cross_platform_correlation
     return await cross_platform_correlation(keyword.strip())
 
 
 @router.get("/trends/trend-velocity")
 @router.get("/trend/trend-velocity")
+@router.get("/trends/velocity")
 @router.get("/scout/trend-velocity")
-async def check_trend_velocity(keyword: str = None):
-    """Check trend velocity for a keyword or all user's tracked niches."""
+async def check_trends_velocity(keyword: str = None):
+    """Check velocity indicators for a specific keyword or all user niches."""
     if keyword:
-        from backend.services.trend_velocity_service import check_keyword_velocity
-        alert = await check_keyword_velocity(keyword.strip())
+        from backend.services.trends_velocity_service import check_keyword_trends_velocity
+        alert = await check_keyword_trends_velocity(keyword.strip())
         return {
             "keyword": alert.keyword,
             "current_interest": alert.current_interest,
@@ -212,7 +225,7 @@ async def check_trend_velocity(keyword: str = None):
             "alert_level": alert.alert_level,
         }
     else:
-        from backend.services.trend_velocity_service import check_user_keywords_velocity
+        from backend.services.trends_velocity_service import check_user_keywords_velocity
         alerts = await check_user_keywords_velocity()
         return {
             "alerts": [
@@ -231,9 +244,10 @@ async def check_trend_velocity(keyword: str = None):
 @router.delete("/trends/results/{result_id}")
 @router.delete("/trend/results/{result_id}")
 @router.delete("/scout/results/{result_id}")
-async def delete_scout_result(result_id: str):
+async def delete_trends_result(result_id: str):
+    """Delete an indexed trends result entity."""
     async with AsyncSessionLocal() as db:
-        result = await db.execute(select(ScoutResult).where(ScoutResult.id == result_id))
+        result = await db.execute(select(TrendsResult).where(TrendsResult.id == result_id))
         r = result.scalar_one_or_none()
         if not r:
             raise HTTPException(status_code=404, detail="Result not found")
@@ -246,14 +260,12 @@ async def delete_scout_result(result_id: str):
 @router.post("/trend/viral-formula")
 @router.post("/scout/viral-formula")
 async def generate_formula(body: dict = None):
-    """Generate a cross-video viral formula for a niche."""
-    import json
-    from backend.models.downloaded_video import DownloadedVideo
-    from backend.models.viral_formula import ViralFormula
-    from backend.models.user_settings import UserSettings
+    """Synthesize cross-video viral formula from analyzed videos in a niche."""
     from backend.core.ai_provider import get_ai_client
+    from backend.models.downloaded_video import DownloadedVideo
+    from backend.models.user_settings import UserSettings
+    from backend.models.viral_formula import ViralFormula
     from backend.services.viral_formula_service import generate_viral_formula
-    from sqlalchemy import and_
 
     body = body or {}
     niche = body.get("niche", "").strip()
@@ -272,10 +284,10 @@ async def generate_formula(body: dict = None):
         else:
             result = await db.execute(
                 select(DownloadedVideo)
-                .join(ScoutResult, ScoutResult.id == DownloadedVideo.scout_result_id)
+                .join(TrendsResult, TrendsResult.id == DownloadedVideo.scout_result_id)
                 .where(
                     and_(
-                        ScoutResult.niche.ilike(f"%{niche}%"),
+                        TrendsResult.niche.ilike(f"%{niche}%"),
                         DownloadedVideo.insights_json != None,
                     )
                 )
@@ -287,7 +299,7 @@ async def generate_formula(body: dict = None):
         raise HTTPException(
             status_code=400,
             detail=f"Need at least 3 analyzed videos for a viral formula (found {len(videos)}). "
-                   f"Download and analyze more videos in the '{niche}' niche first."
+                   f"Download and analyze more videos in the '{niche}' niche first.",
         )
 
     analyses = []
@@ -338,7 +350,6 @@ async def generate_formula(body: dict = None):
 @router.get("/scout/viral-formulas")
 async def list_formulas(niche: str = None):
     """List saved viral formulas, optionally filtered by niche."""
-    import json
     from backend.models.viral_formula import ViralFormula
 
     async with AsyncSessionLocal() as db:

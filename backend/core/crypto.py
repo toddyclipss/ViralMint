@@ -1,5 +1,5 @@
-# SPDX-License-Identifier: AGPL-3.0-only
-# Copyright (c) 2025-2026 ViralMint Contributors
+# Copyright (c) 2026 ViralMint. All rights reserved.
+# Authorial symmetric encryption engine.
 """
 Symmetric encryption using Fernet (AES-128-CBC + HMAC-SHA256).
 All secrets stored in DB must be encrypted with these functions.

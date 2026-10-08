@@ -247,7 +247,7 @@ class UserIntelligence:
         """
         from backend.models.downloaded_video import DownloadedVideo
         from backend.models.generated_video import GeneratedVideo
-        from backend.models.scout_result import ScoutResult
+        from backend.models.trends_result import TrendsResult as ScoutResult
         from backend.models.job import Job
         try:
             async with AsyncSessionLocal() as db:
@@ -461,7 +461,7 @@ Return a JSON array of 3 strings. No explanation."""
         """Find the best downloaded+analyzed video that hasn't been used to generate yet."""
         from backend.models.downloaded_video import DownloadedVideo
         from backend.models.generated_video import GeneratedVideo
-        from backend.models.scout_result import ScoutResult
+        from backend.models.trends_result import TrendsResult as ScoutResult
 
         async with AsyncSessionLocal() as db:
             # Get IDs of downloaded videos that already have generated videos

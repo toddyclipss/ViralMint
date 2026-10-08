@@ -222,7 +222,9 @@ export function normalizeProducerKey(raw) {
 // Kept out of PRODUCERS on purpose — that map answers "where does this file sit
 // in the library", and these have no file.
 export const JOB_ONLY_LABELS = {
-  scout: "Scout",
+  trend: "Trends",
+  trends: "Trends",
+  scout: "Trends",
   news_scout: "News scout",
   news_save: "Saved article",
   analyze: "Analysis",
@@ -280,7 +282,7 @@ export function jobDetail(job, input) {
   const p = input || {}
   const t = normalizeProducerKey(job.job_type)
 
-  if (t === "scout") {
+  if (t === "trend" || t === "trends" || t === "scout") {
     const plats = Array.isArray(p.platforms) ? p.platforms.join(", ") : ""
     return [p.niche, plats].filter(Boolean).join(" · ")
   }
@@ -291,9 +293,10 @@ export function jobDetail(job, input) {
       const n = p.count || p.batch_urls.length
       return `${n} video${n === 1 ? "" : "s"}`
     }
-    if (Array.isArray(p.scout_result_ids)) {
-      const n = p.scout_result_ids.length
-      return `${n} scouted video${n === 1 ? "" : "s"}`
+    const ids = p.trend_result_ids || p.scout_result_ids
+    if (Array.isArray(ids)) {
+      const n = ids.length
+      return `${n} trending video${n === 1 ? "" : "s"}`
     }
     if (p.channel_download) return `Channel${p.max_videos ? ` · top ${p.max_videos}` : ""}`
     return ""

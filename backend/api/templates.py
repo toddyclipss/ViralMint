@@ -15,7 +15,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from backend.database import get_db
 from backend.models.dynamic_template import DynamicTemplate
-from backend.models.scout_result import ScoutResult
+from backend.models.trends_result import TrendsResult as ScoutResult
 from backend.models.user_settings import UserSettings
 
 logger = logging.getLogger(__name__)

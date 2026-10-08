@@ -7,7 +7,6 @@ import UploadIcon from "@mui/icons-material/Upload"
 const actionConfig = {
   start_trend: { icon: <RadarIcon fontSize="small" />, label: "Finding Trends" },
   start_trends: { icon: <RadarIcon fontSize="small" />, label: "Finding Trends" },
-  start_scout: { icon: <RadarIcon fontSize="small" />, label: "Finding Trends" },
   start_download: { icon: <DownloadIcon fontSize="small" />, label: "Downloading" },
   start_generate: { icon: <MovieIcon fontSize="small" />, label: "Generating" },
   start_upload: { icon: <UploadIcon fontSize="small" />, label: "Uploading" },

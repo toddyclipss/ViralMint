@@ -2,11 +2,11 @@ import { useState } from "react"
 import { Box, Typography, Chip, Stack, TablePagination } from "@mui/material"
 import TrendsResults from "../trends/TrendsResults"
 
-export default function TrendsTab({ jobs = [], results = [], scoutResults, total = 0, scoutTotal = 0, onFetchResults, page = 0, rowsPerPage = 50, onPageChange, onRowsPerPageChange }) {
+export default function TrendsTab({ jobs = [], results = [], total = 0, onFetchResults, page = 0, rowsPerPage = 50, onPageChange, onRowsPerPageChange }) {
   const [selectedJobId, setSelectedJobId] = useState(null)
-  const trendJobs = jobs.filter(j => j.job_type === "trend" || j.job_type === "scout")
-  const items = results.length > 0 ? results : (scoutResults || [])
-  const count = total || scoutTotal || 0
+  const trendJobs = jobs.filter(j => j.job_type === "trend" || j.job_type === "trends")
+  const items = results || []
+  const count = total || 0
 
   return (
     <Box>

@@ -171,7 +171,7 @@ async def sweep_scout(db: AsyncSession, *, retention_days: int = SCOUT_RETENTION
     """
     from backend.models.downloaded_video import DownloadedVideo
     from backend.models.generated_video import GeneratedVideo
-    from backend.models.scout_result import ScoutResult
+    from backend.models.trends_result import TrendsResult as TrendResult
 
     referenced: set[str] = set()
     for column in (DownloadedVideo.scout_result_id, GeneratedVideo.source_scout_result_id):
@@ -180,7 +180,7 @@ async def sweep_scout(db: AsyncSession, *, retention_days: int = SCOUT_RETENTION
         )
 
     rows = (
-        await db.execute(select(ScoutResult).order_by(ScoutResult.created_at.asc()))
+        await db.execute(select(TrendResult).order_by(TrendResult.created_at.asc()))
     ).scalars().all()
     prunable = [r for r in rows if r.id not in referenced]
 
@@ -192,14 +192,20 @@ async def sweep_scout(db: AsyncSession, *, retention_days: int = SCOUT_RETENTION
     if aged or over_cap:
         await db.commit()
         logger.info(
-            "scout retention: deleted %d aged + %d over-cap; kept %d referenced lead(s)",
+            "trend retention: deleted %d aged + %d over-cap; kept %d referenced lead(s)",
             len(aged), len(over_cap), len(rows) - len(prunable),
         )
 
-    total = (await db.execute(select(func.count(ScoutResult.id)))).scalar() or 0
+    total = (await db.execute(select(func.count(TrendResult.id)))).scalar() or 0
     return {
         "deleted_aged": len(aged),
         "deleted_over_cap": len(over_cap),
         "kept_referenced": len(rows) - len(prunable),
         "rows_remaining": total,
     }
+
+
+sweep_trends = sweep_scout
+sweep_trend = sweep_scout
+TREND_RETENTION_DAYS = SCOUT_RETENTION_DAYS
+MAX_TREND_ROWS = MAX_SCOUT_ROWS

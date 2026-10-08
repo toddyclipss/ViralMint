@@ -29,7 +29,7 @@ async def _cleanup():
     from backend.models.generated_video import GeneratedVideo
     from backend.models.downloaded_video import DownloadedVideo
     from backend.models.video_metrics import VideoMetrics
-    from backend.models.scout_result import ScoutResult
+    from backend.models.trends_result import TrendsResult as ScoutResult
     from backend.models.job import Job
     from sqlalchemy import delete
 

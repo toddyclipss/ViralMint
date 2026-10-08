@@ -526,7 +526,7 @@ export default function Library() {
               in Audio, and none of them needs a tab of its own. Switch to
               <strong> By source</strong> to see each download with everything you made from it.
               <br />
-              Scout results are deliberately not here — a lead is not a file you own, so it has its
+              Trend results are deliberately not here — a lead is not a file you own, so it has its
               own page. Jobs split in two: work in flight appears as a tile in the grid where it will
               land, and the full log lives in <strong>Activity</strong> (top right), reachable from
               every page instead of only this one.

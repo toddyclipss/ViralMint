@@ -42,7 +42,7 @@ export default function JobHistoryTab({ jobs, jobTotal, onDelete, onBulkDelete, 
     return (
       <Box sx={{ textAlign: "center", py: 8, color: "text.secondary" }}>
         <Typography variant="h6" sx={{ mb: 0.5 }}>No jobs yet</Typography>
-        <Typography variant="body2">Start scouting from the Chat page to see jobs here.</Typography>
+        <Typography variant="body2">Start finding trends from the Chat page to see jobs here.</Typography>
       </Box>
     )
   }

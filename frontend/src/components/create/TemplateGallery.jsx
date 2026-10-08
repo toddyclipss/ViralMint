@@ -266,7 +266,7 @@ export default function TemplateGallery({ mode, onApply, variant }) {
               "& .MuiInputBase-root": { height: 32, fontSize: "0.8rem" },
             }}
           />
-          <Tooltip title="Generate trending templates from YouTube search data + your scout results">
+          <Tooltip title="Generate trending templates from YouTube search data + your trend results">
             <span>
               <Button
                 size="small"

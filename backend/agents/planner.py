@@ -29,7 +29,7 @@ You have memory across sessions and know what the user was working on before.
 
 You can do ANYTHING related to video content strategy:
 
-1. **Scout** — Find trending videos across ANY platform. YouTube, TikTok, Douyin have dedicated APIs (richer results). ALL other platforms (Bilibili, SoundCloud, Niconico, Instagram, Vimeo, etc.) are searched dynamically — no API key needed. You can put ANY platform name in the platforms list and it just works.
+1. **Trends** — Find trending videos across ANY platform. YouTube, TikTok, Douyin have dedicated APIs (richer results). ALL other platforms (Bilibili, SoundCloud, Niconico, Instagram, Vimeo, etc.) are searched dynamically — no API key needed. You can put ANY platform name in the platforms list and it just works.
 2. **Download ANY video from ANY platform** — 1000+ sites supported via yt-dlp. You NEVER refuse a download request. If a user gives you a URL, you download it — period.
 3. **Transcribe & Analyze** — Extract transcripts, hooks, structure, tone, viral factors from any downloaded video
 4. **Generate original videos** — Script → AI voice → AI visuals → captions → finished MP4
@@ -41,20 +41,20 @@ You can do ANYTHING related to video content strategy:
 ### Be Proactive and Contextual — You Have Memory
 - Reference the previous session naturally: "Welcome back! Last time you were looking at cooking videos — want to continue with that?"
 - If there are recent failures, mention them: "Heads up — 2 downloads failed yesterday due to rate limiting. Want me to retry?"
-- If a credential is expiring, warn early: "Your TikTok cookie is getting old (28 days) — want to refresh it before we scout?"
+- If a credential is expiring, warn early: "Your TikTok cookie is getting old (28 days) — want to refresh it before we search?"
 - Weave smart suggestions into conversation naturally. Don't list them like a menu — suggest the most relevant one as a natural next step.
 
 ### Examples of PROACTIVE behavior (this is what makes you feel smart):
 
-User opens new session after scouting "morning routines" yesterday:
-You: "Welcome back! Last time we found some great morning routine content — you downloaded 3 videos. Want me to generate a video from the best one, or scout a fresh batch?"
+User opens new session after finding trends in "morning routines" yesterday:
+You: "Welcome back! Last time we found some great morning routine content — you downloaded 3 videos. Want me to generate a video from the best one, or find a fresh batch of trends?"
 
 User says "hi" with 5 analyzed videos and 0 generated:
 You: "Hey! You've got 5 analyzed competitor videos waiting. The one about '10-minute morning habits' had a virality score of 87 — want me to generate a video inspired by it?"
 <action>{{"type": "show_downloaded"}}</action>
 
-User asks to scout TikTok but cookie is 29 days old:
-You: "I can scout TikTok, but heads up — your TikTok cookie is 29 days old and might stop working soon. Let me refresh it first, then we'll scout."
+User asks to search TikTok but cookie is 29 days old:
+You: "I can search TikTok trends, but heads up — your TikTok cookie is 29 days old and might stop working soon. Let me refresh it first, then we'll search."
 <action>{{"type": "start_wizard", "wizard_id": "tiktok_cookie"}}</action>
 
 ### ALWAYS Emit Action Blocks — This Is Non-Negotiable
@@ -68,13 +68,13 @@ User: "analyze this channel https://youtube.com/@SomeChannel"
 You: "Let me pull up an overview of that channel for you."
 <action>{{"type": "analyze_channel", "url": "https://youtube.com/@SomeChannel"}}</action>
 
-User: "scout personal finance videos"
+User: "find trending personal finance videos"
 You: "On it! Searching for trending personal finance content."
-<action>{{"type": "start_scout", "niche": "personal finance", "platforms": ["youtube", "tiktok"]}}</action>
+<action>{{"type": "start_trend", "niche": "personal finance", "platforms": ["youtube", "tiktok"]}}</action>
 
 User: "找一下街边美食"
 You: "马上搜索街边美食的热门内容！"
-<action>{{"type": "start_scout", "niche": "街边美食", "platforms": ["youtube", "tiktok"]}}</action>
+<action>{{"type": "start_trend", "niche": "街边美食", "platforms": ["youtube", "tiktok"]}}</action>
 
 User: "download this video https://youtube.com/watch?v=abc123"
 You: "Downloading and analyzing that video now."
@@ -90,7 +90,7 @@ You: "I'll take a look at that channel and provide an overview. Give me a moment
 (NO ACTION BLOCK = NOTHING HAPPENS = USER WAITS FOREVER = THIS IS A BUG)
 
 ### CRITICAL: Self-check before responding
-Before sending your response, verify: "Did I include an <action> block?" If the user asked you to DO something (scout, download, analyze, generate, upload) and your response has no <action> block, your response is BROKEN. Add the action block.
+Before sending your response, verify: "Did I include an <action> block?" If the user asked you to DO something (find trends, download, analyze, generate, upload) and your response has no <action> block, your response is BROKEN. Add the action block.
 
 ### CRITICAL: Know When NOT to Act
 - When the user says "thanks", "ok", "got it", "that's it", "no", "I'm done", "bye", or any other conversational acknowledgment — just respond conversationally. Do NOT trigger any action.
@@ -107,15 +107,15 @@ Before sending your response, verify: "Did I include an <action> block?" If the 
 ### Be Proactive
 - ALWAYS suggest the next logical step. Never leave the user hanging.
 - After any action completes, immediately suggest what to do next.
-- Push the pipeline forward: scout → download → analyze → generate → upload.
+- Push the pipeline forward: trends → download → analyze → generate → upload.
 
 ### Proactively Prompt for Missing Credentials
 - Check the credential status above. If a key service is missing, proactively offer to set it up.
 - For AI provider: "I notice you haven't set up an AI provider yet. Want me to walk you through it? It takes 2 minutes and unlocks everything."
-- For YouTube API: "To scout YouTube trending videos, I need a YouTube API key. Want me to help you set one up? It's free."
+- For YouTube API: "To discover YouTube trending videos, I need a YouTube API key. Want me to help you set one up? It's free."
 - For voice/video generation: "You're ready to generate videos! Edge TTS is set up by default — want to try OpenAI TTS for premium quality? You'll need an OpenAI key."
 - Use the start_wizard action to open the setup wizard — don't just tell them to go to Settings.
-- Frame missing credentials as opportunities, not blockers: "You could also scout TikTok — want to set that up?"
+- Frame missing credentials as opportunities, not blockers: "You could also search TikTok trends — want to set that up?"
 
 ### Be Concise but Actionable
 - Use bullet points for options.
@@ -124,7 +124,7 @@ Before sending your response, verify: "Did I include an <action> block?" If the 
 - Respond in the same language the user writes in.
 
 ### Suggest Expanding Scope
-- After a scout: "Great results! Want me to also check TikTok/Douyin for the same niche?"
+- After finding trends: "Great results! Want me to also check TikTok/Douyin for the same niche?"
 - After analysis: "I found 3 great angles. Want me to generate a video from the best one?"
 - After generation: "Video is ready! Upload to YouTube now, or want to generate another variation?"
 - Periodically: "Have you considered exploring [related niche]? It's trending right now."
@@ -135,7 +135,7 @@ Before sending your response, verify: "Did I include an <action> block?" If the 
 - Especially useful right after you ASK a clarifying question (e.g. "which platform?") — offer the likely answers as chips instead of leaving the user to type.
 - Example:
 ```
-<quick_replies>["Scout YouTube", "Scout TikTok", "Both"]</quick_replies>
+<quick_replies>["Trends on YouTube", "Trends on TikTok", "Both"]</quick_replies>
 ```
 
 ## Available Actions
@@ -143,15 +143,15 @@ Before sending your response, verify: "Did I include an <action> block?" If the 
 Output these JSON blocks at the END of your response to trigger actions:
 
 ```
-<action>{{"type": "start_scout", "niche": "personal finance", "platforms": ["youtube", "tiktok", "douyin"]}}</action>
+<action>{{"type": "start_trend", "niche": "personal finance", "platforms": ["youtube", "tiktok", "douyin"]}}</action>
 <action>{{"type": "analyze_channel", "url": "https://youtube.com/@ChannelName"}}</action>
 <action>{{"type": "download_url", "url": "https://youtube.com/watch?v=xxx", "title": "optional title"}}</action>
 <action>{{"type": "download_channel_videos", "url": "https://youtube.com/@ChannelName", "max_videos": 5}}</action>
-<action>{{"type": "start_download", "scout_result_ids": ["id1", "id2"]}}</action>
+<action>{{"type": "start_download", "trend_result_ids": ["id1", "id2"]}}</action>
 <action>{{"type": "start_generate", "downloaded_video_id": "uuid"}}</action>
 <action>{{"type": "start_upload", "generated_video_id": "uuid", "platforms": ["youtube", "tiktok"]}}</action>
 <action>{{"type": "start_wizard", "wizard_id": "youtube_auth"}}</action>
-<action>{{"type": "show_scout_results"}}</action>
+<action>{{"type": "show_trend_results"}}</action>
 <action>{{"type": "show_downloaded"}}</action>
 <action>{{"type": "show_videos"}}</action>
 <action>{{"type": "content_calendar", "days": 7}}</action>
@@ -182,7 +182,7 @@ IMPORTANT news intelligence rules:
 
 PROACTIVE news behavior:
 - If user casually mentions a topic/niche: "Want me to find today's trending news about [topic]? Great for commentary videos."
-- After video scouting: "I also found breaking news related to [niche] — want me to pull the top stories?"
+- After video trends: "I also found breaking news related to [niche] — want me to pull the top stories?"
 - When user saves articles but doesn't generate: "You've got [N] articles saved — the [best one] has strong video potential."
 - Be a content strategist, not a passive tool.
 
@@ -191,8 +191,8 @@ PROACTIVE news behavior:
 - `analyze_channel` — User shares a channel/playlist URL (/@, /channel/, /c/, /playlist) and wants to understand it. ALWAYS use this first for channel URLs. Never jump straight to downloading an entire channel.
 - `download_url` — User shares a SINGLE video URL (youtube.com/watch?v=xxx) and wants to download/analyze it.
 - `download_channel_videos` — User has ALREADY seen the channel analysis summary and explicitly asks to download videos from that channel. Only use AFTER analyze_channel.
-- `start_scout` — User wants to search by niche/topic across platforms. You can use ANY platform name in the platforms list — the system handles it dynamically. Never refuse a platform.
-- `start_download` — Download specific scout results by ID.
+- `start_trend` — User wants to search trends by niche/topic across platforms. You can use ANY platform name in the platforms list — the system handles it dynamically. Never refuse a platform.
+- `start_download` — Download specific trend results by ID.
 - `show_downloaded` — User asks about their downloaded/analyzed videos. Shows the list inline in chat with generate buttons.
 - `show_videos` — User asks about generated videos. Navigates to videos page.
 - `start_wizard` — Set up missing credentials when user agrees.
@@ -206,7 +206,7 @@ PROACTIVE news behavior:
 
 ## Important: wizard_id values
 Valid wizard IDs: youtube_auth, tiktok_upload_auth, telegram
-Note: Scouting credentials (YouTube API key, TikHub token, Pexels) are configured via .env file or Settings page. If a platform's key is missing, that platform is skipped gracefully.
+Note: Trends credentials (YouTube API key, TikHub token, Pexels) are configured via .env file or Settings page. If a platform's key is missing, that platform is skipped gracefully.
 
 ## ═══════ DYNAMIC CONTEXT (changes per request) ═══════
 
@@ -468,6 +468,20 @@ class PlannerAgent:
         try:
             ai = get_ai_client(user_settings)
         except Exception:
+            direct_actions = self._infer_missing_action(message, "")
+            if direct_actions:
+                for action_json in direct_actions:
+                    try:
+                        action = json.loads(action_json.strip())
+                        await self._dispatch_action(action, user_settings, user_id)
+                    except Exception as err:
+                        logger.error("Direct action dispatch failed: %s", err)
+                clean_msg = message.strip()
+                resp = f"Searching trends for '{clean_msg}' directly..."
+                await ws_manager.send({"type": "chat_token", "token": resp}, user_id)
+                await ws_manager.send({"type": "chat_done", "full_response": resp}, user_id)
+                return
+
             welcome = (
                 "Welcome to ViralMint!\n\n"
                 "To get started, set `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` in your `.env` file, "
@@ -685,8 +699,8 @@ class PlannerAgent:
         action_type = action.get("type")
         logger.info("DISPATCH action=%s | user=%s | payload=%s", action_type, user_id, json.dumps(action, ensure_ascii=False)[:200])
 
-        if action_type == "start_scout":
-            await self._check_and_start_scout(action, user_settings, user_id)
+        if action_type in ("start_trend", "start_trends", "start_scout"):
+            await self._check_and_start_trend(action, user_settings, user_id)
 
         elif action_type == "analyze_channel":
             await self._analyze_channel(action, user_id)
@@ -707,17 +721,20 @@ class PlannerAgent:
                 }, user_id)
 
         elif action_type == "start_download":
-            scout_result_ids = action.get("scout_result_ids", [])
-            if scout_result_ids:
+            trend_result_ids = [
+                i for i in (action.get("trend_result_ids") or action.get("scout_result_ids") or [])
+                if i
+            ]
+            if trend_result_ids:
                 from backend.agents.job_helper import create_job
                 from backend.core.task_runner import run_download, dispatch
-                job = await create_job("download", user_id, {"scout_result_ids": scout_result_ids})
-                dispatch(run_download(job_id=job.id, scout_result_ids=scout_result_ids, user_id=user_id))
+                job = await create_job("download", user_id, {"trend_result_ids": trend_result_ids, "scout_result_ids": trend_result_ids})
+                dispatch(run_download(job_id=job.id, trend_result_ids=trend_result_ids, scout_result_ids=trend_result_ids, user_id=user_id))
                 await ws_manager.send({
                     "type": "job_started",
                     "job_id": job.id,
                     "job_type": "download",
-                    "message": f"Downloading {len(scout_result_ids)} videos...",
+                    "message": f"Downloading {len(trend_result_ids)} videos...",
                 }, user_id)
 
         elif action_type == "start_generate":
@@ -741,8 +758,8 @@ class PlannerAgent:
                     job_id=job.id, generated_video_id=generated_video_id, platforms=platforms, user_id=user_id,
                 ))
 
-        elif action_type == "show_scout_results":
-            await self._show_scout_results(action, user_id)
+        elif action_type in ("show_trend_results", "show_trends_results", "show_scout_results"):
+            await self._show_trend_results(action, user_id)
 
         elif action_type == "show_downloaded":
             await self._show_downloaded(user_id)
@@ -859,10 +876,10 @@ class PlannerAgent:
             "count": len(article_ids),
         }, user_id)
 
-    async def _show_scout_results(self, action: dict, user_id: str):
-        """Fetch recent scout results from DB and send them over WS."""
+    async def _show_trend_results(self, action: dict, user_id: str):
+        """Fetch recent trend results from DB and send them over WS."""
         from backend.database import AsyncSessionLocal
-        from backend.models.scout_result import ScoutResult
+        from backend.models.trends_result import TrendsResult as TrendResult
         from sqlalchemy import select
 
         job_id = action.get("job_id")
@@ -870,18 +887,18 @@ class PlannerAgent:
 
         async with AsyncSessionLocal() as db:
             query = (
-                select(ScoutResult)
-                .where(ScoutResult.user_id == user_id)
-                .order_by(ScoutResult.created_at.desc())
+                select(TrendResult)
+                .where(TrendResult.user_id == user_id)
+                .order_by(TrendResult.created_at.desc())
                 .limit(limit)
             )
             if job_id:
-                query = query.where(ScoutResult.job_id == job_id)
+                query = query.where(TrendResult.job_id == job_id)
             result = await db.execute(query)
             results = result.scalars().all()
 
         if not results:
-            await self._followup(user_id, "No scout results found yet. Try scouting a niche first!")
+            await self._followup(user_id, "No trend results found yet. Try searching for trends first!")
             return
 
         # Group by platform and send
@@ -907,18 +924,20 @@ class PlannerAgent:
 
         for platform, items in platforms.items():
             await ws_manager.send({
-                "type": "scout_results",
+                "type": "trend_results",
                 "job_id": job_id or "",
                 "platform": platform,
                 "total": len(items),
                 "results": items,
             }, user_id)
 
+    _show_scout_results = _show_trend_results
+
     async def _show_downloaded(self, user_id: str):
         """Fetch downloaded videos from DB and send them as a rich list in chat."""
         from backend.database import AsyncSessionLocal
         from backend.models.downloaded_video import DownloadedVideo
-        from backend.models.scout_result import ScoutResult
+        from backend.models.trends_result import TrendsResult as ScoutResult
         from sqlalchemy import select, outerjoin
         import json as _json
 
@@ -1042,7 +1061,7 @@ class PlannerAgent:
     # Platforms that need API credentials — keys come from .env (BYOK).
     _CREDENTIAL_PLATFORMS = {
         "youtube": {
-            "check": lambda us: bool(settings.YOUTUBE_API_KEY),
+            "check": lambda us: True,
         },
         "tiktok": {
             "check": lambda us: (
@@ -1058,8 +1077,8 @@ class PlannerAgent:
         },
     }
 
-    async def _check_and_start_scout(self, action: dict, user_settings, user_id: str):
-        """Start a scout job. Unavailable platforms are skipped gracefully."""
+    async def _check_and_start_trend(self, action: dict, user_settings, user_id: str):
+        """Start a trend discovery job. Unavailable platforms are skipped gracefully."""
         niche = action.get("niche", "")
         platforms = action.get("platforms", ["youtube"])
 
@@ -1079,7 +1098,7 @@ class PlannerAgent:
         if not ready_platforms:
             await self._followup(
                 user_id,
-                "No platforms available for scouting — please configure API keys in Settings.",
+                "No platforms available for trends — please configure API keys in Settings.",
             )
             return
 
@@ -1087,27 +1106,29 @@ class PlannerAgent:
             await self._followup(
                 user_id,
                 f"Note: {', '.join(skipped)} unavailable (no API key configured) — "
-                f"scouting on {', '.join(ready_platforms)} only.",
+                f"searching on {', '.join(ready_platforms)} only.",
             )
 
-        # Kick off scout
+        # Kick off trend
         from backend.agents.job_helper import create_job
-        from backend.core.task_runner import run_scout, dispatch
-        job = await create_job("scout", user_id, {"niche": niche, "platforms": ready_platforms})
-        dispatch(run_scout(job_id=job.id, niche=niche, platforms=ready_platforms, user_id=user_id))
+        from backend.core.task_runner import run_trend, dispatch
+        job = await create_job("trend", user_id, {"niche": niche, "platforms": ready_platforms})
+        dispatch(run_trend(job_id=job.id, niche=niche, platforms=ready_platforms, user_id=user_id))
         await ws_manager.send({
             "type": "job_started",
             "job_id": job.id,
-            "job_type": "scout",
-            "message": f"Scouting '{niche}' on {', '.join(ready_platforms)}...",
+            "job_type": "trend",
+            "message": f"Finding trends for '{niche}' on {', '.join(ready_platforms)}...",
         }, user_id)
         await self.intelligence.record_event("niche_searched", {"niche": niche, "platforms": ready_platforms}, user_id)
+
+    _check_and_start_scout = _check_and_start_trend
 
     @staticmethod
     def _infer_missing_action(user_message: str, ai_response: str) -> list[str]:
         """
-        Safety net: if the AI clearly intended to scout/search but forgot the <action> block,
-        infer the action from the user message. Returns list of action JSON strings.
+        Safety net: if the AI clearly intended to find trends but forgot the <action> block,
+        or if direct intent was detected without an active LLM, infer the action.
         """
         msg_lower = user_message.lower()
         resp_lower = ai_response.lower()
@@ -1117,50 +1138,55 @@ class PlannerAgent:
         url_match = _re.search(r'(https?://[^\s<>"\']+)', user_message)
         if url_match:
             url = url_match.group(1).rstrip(".,;:)")
-            # Check if it's a news/article URL (not a YouTube/TikTok/Douyin video)
             video_domains = ["youtube.com", "youtu.be", "tiktok.com", "douyin.com"]
             is_video_url = any(d in url.lower() for d in video_domains)
             if not is_video_url:
                 return [json.dumps({"type": "analyze_url", "url": url})]
 
-        # Detect news scout intent
-        news_keywords = ["news", "article", "headlines", "新闻", "热点", "资讯"]
+        # Detect news intent
+        news_keywords = ["news", "article", "headlines", "notícias", "noticias", "新闻", "热点", "资讯"]
         has_news_intent = any(kw in msg_lower for kw in news_keywords)
 
-        # Detect scout intent from user message
-        scout_keywords = [
-            "scout", "search", "find", "look for", "trending",
+        # Detect trend intent from user message
+        trend_keywords = [
+            "trend", "trends", "tendencia", "tendencias", "tendência", "tendências",
+            "scout", "search", "find", "look for", "trending", "viral",
             "找", "搜索", "搜一下", "查找", "热门", "帮我找",
         ]
-        has_scout_intent = any(kw in msg_lower for kw in scout_keywords)
+        has_trend_intent = any(kw in msg_lower for kw in trend_keywords)
 
-        # Detect that AI claimed it was doing something
         doing_keywords = [
-            "searching", "scouting", "looking", "on it", "i'll search", "let me find",
+            "searching", "finding", "scouting", "looking", "on it", "i'll search", "let me find",
             "正在搜索", "正在为您", "开始搜索", "马上", "开始为您",
         ]
-        ai_claimed_action = any(kw in resp_lower for kw in doing_keywords)
+        ai_claimed_action = not ai_response or any(kw in resp_lower for kw in doing_keywords)
 
-        if has_scout_intent and ai_claimed_action:
-            # Extract niche from user message — strip common prefixes
+        if has_trend_intent and ai_claimed_action:
             niche = user_message.strip()
-            for prefix in ["scout ", "search ", "find ", "look for ", "找一下", "找", "搜索", "搜一下", "帮我找", "查找"]:
+            for prefix in [
+                "scout trending videos on youtube", "scout trending videos", "scout ",
+                "find trending videos on youtube", "find trending videos", "find trends in ", "find trends on ", "find trends ",
+                "search for trending videos", "search trends ", "search ", "find ", "look for ",
+                "buscar tendências", "buscar tendencias", "ver tendências", "tendências de ", "tendencias de ",
+                "tendências ", "tendencias ", "trends in ", "trends on ", "trends ", "trend ",
+                "找一下", "找", "搜索", "搜一下", "帮我找", "查找",
+            ]:
                 if niche.lower().startswith(prefix):
                     niche = niche[len(prefix):].strip()
                     break
 
+            if not niche:
+                niche = "trending"
+
             if niche:
-                # If the user mentioned "news"/"article", use news scout
                 if has_news_intent:
-                    # Strip "news" from the query for cleaner search
                     clean_query = niche
-                    for word in ["news", "articles", "headlines", "新闻", "热点", "资讯"]:
+                    for word in ["news", "articles", "headlines", "notícias", "noticias", "新闻", "热点", "资讯"]:
                         clean_query = clean_query.replace(word, "").strip()
                     clean_query = clean_query or niche
-                    # Don't auto-trigger for vague queries like "trending news" — let AI ask
                     vague_queries = {"trending", "trending news", "latest", "latest news", "news", "headlines"}
                     if clean_query.lower() in vague_queries:
-                        return []  # Let the AI ask what topic
+                        return []
                     action = json.dumps({
                         "type": "start_news_scout",
                         "query": clean_query,
@@ -1168,9 +1194,9 @@ class PlannerAgent:
                     return [action]
 
                 action = json.dumps({
-                    "type": "start_scout",
+                    "type": "start_trend",
                     "niche": niche,
-                    "platforms": ["youtube", "tiktok"],
+                    "platforms": ["youtube"],
                 })
                 return [action]
 

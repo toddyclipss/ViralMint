@@ -68,8 +68,8 @@ export default function HealthDashboard() {
     }] : []),
     { label: "ImageMagick", key: "imagemagick", description: "Required for caption rendering" },
     { label: "yt-dlp", key: "ytdlp", description: "Video downloader", extra: health.ytdlp?.version ? `v${health.ytdlp.version}` : null },
-    { label: "Douyin Cookie", key: "douyin_cookie", description: "Douyin scouting access", extra: health.douyin_cookie?.age_days != null ? `${health.douyin_cookie.age_days}d old` : null },
-    { label: "TikTok Cookie", key: "tiktok_cookie", description: "TikTok scouting access", extra: health.tiktok_cookie?.age_days != null ? `${health.tiktok_cookie.age_days}d old` : null },
+    { label: "Douyin Cookie", key: "douyin_cookie", description: "Douyin trends access", extra: health.douyin_cookie?.age_days != null ? `${health.douyin_cookie.age_days}d old` : null },
+    { label: "TikTok Cookie", key: "tiktok_cookie", description: "TikTok trends access", extra: health.tiktok_cookie?.age_days != null ? `${health.tiktok_cookie.age_days}d old` : null },
   ]
 
   return (

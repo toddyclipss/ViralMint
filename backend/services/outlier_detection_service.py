@@ -322,3 +322,8 @@ def enrich_scout_results_with_outliers(
             result["outlier_score"] = round(views / estimated_avg, 1) if estimated_avg > 0 else None
 
     return results
+
+
+enrich_trend_results_with_outliers = enrich_scout_results_with_outliers
+enrich_trends_results_with_outliers = enrich_scout_results_with_outliers
+

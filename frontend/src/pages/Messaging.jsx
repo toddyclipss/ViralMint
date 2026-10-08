@@ -733,7 +733,7 @@ export default function Messaging() {
           {(waState === WA_STATE.DISCONNECTED || waState === WA_STATE.PAIRING) && (
             <Stack spacing={2}>
               <Typography variant="body2" color="text.secondary">
-                Get scout, download, and upload alerts on WhatsApp — and chat with ViralMint
+                Get trend, download, and upload alerts on WhatsApp — and chat with ViralMint
                 straight from your phone. Pairs in seconds, just like WhatsApp Web.
               </Typography>
               <Typography variant="body2" color="text.secondary">
