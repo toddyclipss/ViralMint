@@ -6,15 +6,17 @@ import {
   TextField, Tooltip, MenuItem, FormControlLabel, Checkbox, Switch,
   Dialog, DialogTitle, DialogContent, DialogActions, Collapse,
 } from "@mui/material"
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesomeOutlined"
-import ContentCutIcon from "@mui/icons-material/ContentCut"
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
-import TuneIcon from "@mui/icons-material/TuneOutlined"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import SubtitlesOutlinedIcon from "@mui/icons-material/SubtitlesOutlined"
-import GraphicEqOutlinedIcon from "@mui/icons-material/GraphicEqOutlined"
-import CropPortraitOutlinedIcon from "@mui/icons-material/CropPortraitOutlined"
-import RecordVoiceOverOutlinedIcon from "@mui/icons-material/RecordVoiceOverOutlined"
+import {
+  IconSparkles,
+  IconScissors,
+  IconInfoCircle,
+  IconAdjustments,
+  IconChevronDown,
+  IconSubtitles,
+  IconWaveSine,
+  IconDeviceMobile,
+  IconMicrophone,
+} from "@tabler/icons-react"
 import { formatTime } from "./clipFormat"
 import { CAPTION_STYLES } from "../tools/captionOptions"
 import { clipSettingsPayload } from "./useClipSettings"
@@ -166,18 +168,16 @@ export default function ExtractDialog({ open, onClose, video, onExtract, setting
   const estimate = autoCutEstimate({
     durationSeconds: video.duration_seconds,
     requested: ai.max_clips,
-    // A "Min (s)" of 60 means at most duration/60 clips fit, whatever the
-    // count field says — quote what can actually be produced.
     minDurationSeconds: ai.min_duration,
   })
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth PaperProps={{ sx: { borderRadius: "20px" } }}>
       <DialogTitle sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <AutoAwesomeIcon color="secondary" /> Auto-cut clips
+        <IconSparkles size={20} stroke={1.8} color="var(--color-primary, #8b5cf6)" /> Auto-cut clips
         <Tooltip title="Reads the transcript, picks the most viral moments and cuts them straight away — no review step. To see the picks on a timeline and adjust them before cutting, use Ask AI on the bench." arrow>
           <IconButton size="small" sx={{ ml: "auto", color: "text.secondary" }}>
-            <InfoOutlinedIcon sx={{ fontSize: 18 }} />
+            <IconInfoCircle size={18} stroke={1.8} />
           </IconButton>
         </Tooltip>
       </DialogTitle>
@@ -190,37 +190,25 @@ export default function ExtractDialog({ open, onClose, video, onExtract, setting
         </Typography>
 
         <Stack spacing={2.5}>
-          {/* ── Layout contract (2026-08-01 reorganization) ──
-              1. Mode-specific body FIRST — what to cut (ranges | AI targeting).
-              2. "Style & polish" ONCE, shared — captions / emoji / silence /
-                 vertical apply identically in both modes. They used to render
-                 per-tab (buried under Advanced in AI mode, inline in manual),
-                 so the same control sat at a different place and prominence
-                 depending on the tab.
-              3. "Transcription" LAST — plumbing with correct defaults; the
-                 least-touched section shouldn't be the first thing shown. */}
-
-          {/* Clip length & count — the two knobs that shape what the AI hunts
-              for. Count is the MAX; the backend auto-scales down when the
-              content doesn't support that many quality clips. */}
+          {/* Clip length & count */}
           <Box>
             <Typography variant="caption" sx={{ fontWeight: 600, mb: 0.5, display: "block" }}>
               Clip length & count (leave empty for auto)
             </Typography>
             <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap" useFlexGap>
-              <TextField label="Min (s)" type="number" size="small" sx={{ width: 90 }}
+              <TextField label="Min (s)" type="number" size="small" sx={{ width: 90, "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
                 value={ai.min_duration || ""}
                 error={!!durationError}
                 slotProps={{ htmlInput: { min: 10, max: 120 } }}
                 onChange={e => setAi(p => ({ ...p, min_duration: parseInt(e.target.value) || null }))} />
               <Typography variant="body2" sx={{ color: "text.secondary" }}>to</Typography>
-              <TextField label="Max (s)" type="number" size="small" sx={{ width: 90 }}
+              <TextField label="Max (s)" type="number" size="small" sx={{ width: 90, "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
                 value={ai.max_duration || ""}
                 error={!!durationError}
                 slotProps={{ htmlInput: { min: 15, max: 180 } }}
                 onChange={e => setAi(p => ({ ...p, max_duration: parseInt(e.target.value) || null }))} />
               <Box sx={{ flex: 1 }} />
-              <TextField label="Clips (max)" type="number" size="small" sx={{ width: 110 }}
+              <TextField label="Clips (max)" type="number" size="small" sx={{ width: 110, "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
                 value={ai.max_clips || ""}
                 slotProps={{ htmlInput: { min: 1, max: 99 } }}
                 onChange={e => setAi(p => ({ ...p, max_clips: parseInt(e.target.value) || null }))} />
@@ -230,9 +218,6 @@ export default function ExtractDialog({ open, onClose, video, onExtract, setting
                 ? `Up to ${estimate.clips} clip${estimate.clips === 1 ? "" : "s"}, 15–60s each — fewer if the video has less quality material.`
                 : video.duration_seconds
                   ? `Blank means ~1 clip per 30s of content: up to ${estimate.clips} for this ${Math.round(video.duration_seconds / 60)}-minute video. Fewer if it has less quality material.`
-                  /* Duration unknown (an import ffprobe could not read): the
-                     backend falls back to a flat 5, so say 5 rather than
-                     inventing a "0-minute video". */
                   : `Blank means ~1 clip per 30s of content — up to ${estimate.clips} here, since this video's length is unknown.`}
             </Typography>
             {durationError && (
@@ -242,19 +227,15 @@ export default function ExtractDialog({ open, onClose, video, onExtract, setting
             )}
           </Box>
 
-          {/* Advanced-options expander — collapses the 3 AI-targeting knobs so
-              the dialog opens compact. All defaults are sensible; the user only
-              has to touch these for niche cases (genre bias, custom query,
-              platform bias). */}
           <Box>
             <Button
               variant="text"
-              startIcon={<TuneIcon sx={{ fontSize: 18 }} />}
-              endIcon={<ExpandMoreIcon sx={{ fontSize: 18, transform: advancedOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform .15s ease" }} />}
+              startIcon={<IconAdjustments size={18} stroke={1.8} />}
+              endIcon={<IconChevronDown size={18} stroke={1.8} style={{ transform: advancedOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform .15s ease" }} />}
               onClick={() => setAdvancedOpen(v => !v)}
               sx={{
                 textTransform: "none", fontWeight: 600, color: "text.secondary",
-                px: 0.5, py: 0.5,
+                px: 0.5, py: 0.5, borderRadius: "12px",
                 "&:hover": { bgcolor: "action.hover", color: "primary.main" },
               }}
             >
@@ -354,10 +335,10 @@ export default function ExtractDialog({ open, onClose, video, onExtract, setting
             <Typography variant="caption" sx={{ fontWeight: 700, color: "text.secondary", letterSpacing: 0.3, display: "block", mb: 0.75 }}>
               Every clip
             </Typography>
-            <Box sx={{ border: "1px solid", borderColor: "divider", borderRadius: 2, overflow: "hidden" }}>
+            <Box sx={{ border: "1px solid", borderColor: "divider", borderRadius: "16px", overflow: "hidden" }}>
 
               <SettingRow
-                icon={<SubtitlesOutlinedIcon />}
+                icon={<IconSubtitles size={18} stroke={1.8} />}
                 label="Captions"
                 sublabel={!captionsOn ? "Off also hides the AI hook overlay" : null}
                 summary={captionsOn
@@ -379,7 +360,7 @@ export default function ExtractDialog({ open, onClose, video, onExtract, setting
                           lastStyle.current = s.v
                           set({ caption_style: s.v })
                         }}
-                        sx={{ cursor: "pointer" }} />
+                        sx={{ cursor: "pointer", borderRadius: "12px" }} />
                     ))}
                   </Stack>
                   <Box onClick={e => e.stopPropagation()}>
@@ -392,7 +373,7 @@ export default function ExtractDialog({ open, onClose, video, onExtract, setting
                           variant={settings.emoji_style === v ? "filled" : "outlined"}
                           color={settings.emoji_style === v ? "primary" : "default"}
                           onClick={() => set({ emoji_style: v })}
-                          sx={{ cursor: "pointer" }} />
+                          sx={{ cursor: "pointer", borderRadius: "12px" }} />
                       ))}
                     </Stack>
                     <Typography variant="caption" sx={{ color: "text.secondary", mt: 0.5, display: "block" }}>
@@ -403,7 +384,7 @@ export default function ExtractDialog({ open, onClose, video, onExtract, setting
               </SettingRow>
 
               <SettingRow
-                icon={<GraphicEqOutlinedIcon />}
+                icon={<IconWaveSine size={18} stroke={1.8} />}
                 label="Remove silence & fillers"
                 sublabel={'Cuts "um"s and dead air inside each clip'}
                 control={<RowSwitch checked={settings.remove_silence} />}
@@ -412,7 +393,7 @@ export default function ExtractDialog({ open, onClose, video, onExtract, setting
               />
 
               <SettingRow
-                icon={<CropPortraitOutlinedIcon />}
+                icon={<IconDeviceMobile size={18} stroke={1.8} />}
                 label="Force vertical (9:16)"
                 sublabel="Blur-fill landscape sources into portrait"
                 control={<RowSwitch checked={settings.force_vertical} />}
@@ -421,14 +402,14 @@ export default function ExtractDialog({ open, onClose, video, onExtract, setting
               />
 
               <SettingRow
-                icon={<RecordVoiceOverOutlinedIcon />}
+                icon={<IconMicrophone size={18} stroke={1.8} />}
                 label="Transcription"
                 summary={hasSegments && !settings.force_retranscribe
                   ? "Cached · Whisper skipped"
                   : WHISPER_QUALITIES.find(q => q.value === settings.whisper_quality)?.label || settings.whisper_quality}
                 control={
-                  <ExpandMoreIcon sx={{
-                    fontSize: 20, color: "text.secondary", flexShrink: 0,
+                  <IconChevronDown size={18} stroke={1.8} style={{
+                    color: "var(--color-text-secondary, #94a3b8)", flexShrink: 0,
                     transform: transcriptOpen ? "rotate(180deg)" : "rotate(0deg)",
                     transition: "transform .15s ease",
                   }} />
@@ -450,8 +431,8 @@ export default function ExtractDialog({ open, onClose, video, onExtract, setting
                     label={
                       <Typography variant="caption" sx={{ fontWeight: 600 }}>
                         Run Whisper {hasSegments
-                          ? <Chip label="cached transcript available" size="small" color="success" variant="outlined" sx={{ ml: 0.5, height: 18, fontSize: "0.65rem" }} />
-                          : <Chip label="required" size="small" color="warning" variant="outlined" sx={{ ml: 0.5, height: 18, fontSize: "0.65rem" }} />
+                          ? <Chip label="cached transcript available" size="small" color="success" variant="outlined" sx={{ ml: 0.5, height: 18, fontSize: "0.65rem", borderRadius: "10px" }} />
+                          : <Chip label="required" size="small" color="warning" variant="outlined" sx={{ ml: 0.5, height: 18, fontSize: "0.65rem", borderRadius: "10px" }} />
                         }
                       </Typography>
                     }
@@ -472,6 +453,7 @@ export default function ExtractDialog({ open, onClose, video, onExtract, setting
                     value={settings.whisper_quality}
                     onChange={e => set({ whisper_quality: e.target.value })}
                     disabled={!transcribeEnabled}
+                    sx={{ "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
                   >
                     {WHISPER_QUALITIES.map(q => (
                       <MenuItem key={q.value} value={q.value}>
@@ -490,20 +472,18 @@ export default function ExtractDialog({ open, onClose, video, onExtract, setting
         </Stack>
       </DialogContent>
       <DialogActions sx={{ px: 3, pb: 2 }}>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button variant="contained" startIcon={<ContentCutIcon />}
+        <Button onClick={onClose} sx={{ borderRadius: "20px" }}>Cancel</Button>
+        <Button variant="contained" startIcon={<IconScissors size={16} stroke={1.8} />}
           disabled={!canSubmit}
           onClick={() => {
             onExtract(video.id, {
-              // Whisper has to run when there is no cached transcript, and
-              // the payload has to say so or the chosen model is dropped —
-              // derived once in clipSettingsPayload, shared with the bench.
               ...clipSettingsPayload(settings, { hasTranscript: hasSegments }),
               ...ai,
               mode: "ai",
             })
             onClose()
-          }}>
+          }}
+          sx={{ borderRadius: "20px" }}>
           {`Cut now · ${estimate.label}`}
         </Button>
       </DialogActions>

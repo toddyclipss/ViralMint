@@ -21,17 +21,19 @@ import {
   Tooltip, Menu, MenuItem, CircularProgress, alpha, useTheme,
   Dialog, DialogTitle, DialogContent, DialogActions,
 } from "@mui/material"
-import SearchIcon from "@mui/icons-material/Search"
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded"
-import FileUploadRoundedIcon from "@mui/icons-material/FileUploadRounded"
-import PhotoLibraryRoundedIcon from "@mui/icons-material/PhotoLibraryRounded"
-import InventoryRoundedIcon from "@mui/icons-material/Inventory2Rounded"
-import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded"
-import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded"
-import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded"
-import LightbulbRoundedIcon from "@mui/icons-material/LightbulbRounded"
-import BoltRoundedIcon from "@mui/icons-material/BoltRounded"
-import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded"
+import {
+  IconSearch,
+  IconX,
+  IconUpload,
+  IconFolder,
+  IconArchive,
+  IconSparkles,
+  IconTrash,
+  IconDownload,
+  IconBulb,
+  IconBolt,
+  IconAlertCircle,
+} from "@tabler/icons-react"
 import http from "../api/http"
 import PageHero from "../components/PageHero"
 import useDocumentTitle from "../hooks/useDocumentTitle"
@@ -438,7 +440,7 @@ export default function Library() {
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <PageHero
-        icon={<PhotoLibraryRoundedIcon sx={{ fontSize: 22 }} />}
+        icon={<IconFolder size={22} stroke={1.8} />}
         title="Library"
         subtitle={
           loading && !libraryTotal
@@ -449,7 +451,7 @@ export default function Library() {
             // itself as soon as you picked a media tab.
             : `${libraryTotal} items`
         }
-        accentColor="#0097a7"
+        accentColor="#8b5cf6"
         actions={
           <Stack direction="row" spacing={1} alignItems="center">
             <TextField
@@ -459,20 +461,20 @@ export default function Library() {
               onChange={(e) => setQ(e.target.value)}
               slotProps={{
                 input: {
-                  startAdornment: <SearchIcon sx={{ mr: 0.5, fontSize: 18, color: "text.secondary" }} />,
+                  startAdornment: <IconSearch size={18} stroke={1.8} style={{ marginRight: 6, color: "var(--text-secondary, #94a3b8)" }} />,
                 },
               }}
-              sx={{ width: { xs: 140, sm: 250 } }}
+              sx={{ width: { xs: 140, sm: 250 }, "& .MuiOutlinedInput-root": { borderRadius: "14px" } }}
             />
             {/* A real file input behind the label — the first cut carried the
                 button over without one, so clicking it did nothing. */}
             <Button size="small" variant="outlined" component="label"
-              disabled={importing} startIcon={<FileUploadRoundedIcon />}>
+              disabled={importing} startIcon={<IconUpload size={18} stroke={1.8} />} sx={{ borderRadius: "20px" }}>
               {importing ? "Importing…" : "Import"}
               <input type="file" hidden accept={IMPORT_ACCEPT} onChange={handleImport} />
             </Button>
             <Button size="small" variant="outlined" onClick={openActivity}
-              startIcon={<BoltRoundedIcon sx={{ fontSize: 17 }} />}>
+              startIcon={<IconBolt size={17} stroke={1.8} />} sx={{ borderRadius: "20px" }}>
               Activity
               {(runningCount > 0 || recentFailures.length > 0) && (
                 <Box component="span" sx={{
@@ -514,11 +516,11 @@ export default function Library() {
       }}>
         {showWhy && (
           <Stack direction="row" spacing={1.25} alignItems="flex-start" sx={{
-            mb: 2.5, px: 1.5, py: 1.1, borderRadius: "12px",
-            border: 1, borderColor: alpha("#0097a7", 0.3),
-            bgcolor: alpha("#0097a7", theme.palette.mode === "dark" ? 0.1 : 0.06),
+            mb: 2.5, px: 1.5, py: 1.1, borderRadius: "14px",
+            border: 1, borderColor: alpha("#8b5cf6", 0.3),
+            bgcolor: alpha("#8b5cf6", theme.palette.mode === "dark" ? 0.1 : 0.06),
           }}>
-            <LightbulbRoundedIcon sx={{ fontSize: 17, color: "#0097a7", mt: "1px" }} />
+            <IconBulb size={17} stroke={1.8} style={{ color: "#a78bfa", marginTop: 1 }} />
             <Typography sx={{ flex: 1, fontSize: "0.78rem", color: "text.secondary", lineHeight: 1.65 }}>
               <strong>Two questions, two controls.</strong> The tabs say what a file <em>is</em>; the
               From chips say where it <em>came from</em>. A downloaded mp3 is Audio + Sources, a
@@ -532,7 +534,7 @@ export default function Library() {
               every page instead of only this one.
             </Typography>
             <IconButton size="small" onClick={() => setShowWhy(false)} aria-label="Dismiss">
-              <CloseRoundedIcon sx={{ fontSize: 15 }} />
+              <IconX size={15} stroke={1.8} />
             </IconButton>
           </Stack>
         )}
@@ -559,11 +561,11 @@ export default function Library() {
 
         {recentFailures.length > 0 && (
           <Stack direction="row" spacing={1.25} alignItems="center" sx={{
-            mb: 2.5, px: 1.5, py: 1, borderRadius: "12px",
+            mb: 2.5, px: 1.5, py: 1, borderRadius: "14px",
             border: 1, borderColor: alpha(theme.palette.error.main, 0.4),
             bgcolor: alpha(theme.palette.error.main, theme.palette.mode === "dark" ? 0.1 : 0.05),
           }}>
-            <ErrorOutlineRoundedIcon sx={{ fontSize: 18, color: "error.main" }} />
+            <IconAlertCircle size={18} stroke={1.8} style={{ color: "var(--error-main, #ef4444)" }} />
             <Typography sx={{ flex: 1, fontSize: "0.8rem", color: "text.secondary" }}>
               <strong>
                 {recentFailures.length} {recentFailures.length === 1 ? "run" : "runs"} didn't finish
@@ -571,7 +573,7 @@ export default function Library() {
               in the last day — nothing was added to your library.
             </Typography>
             <Button size="small" variant="outlined" color="error"
-              onClick={openActivity}>
+              onClick={openActivity} sx={{ borderRadius: "20px" }}>
               Review
             </Button>
           </Stack>
@@ -601,7 +603,7 @@ export default function Library() {
           )
         ) : total === 0 && pendingTiles.length === 0 ? (
           <Stack alignItems="center" spacing={1.5} sx={{ py: 10 }}>
-            <InventoryRoundedIcon sx={{ fontSize: 40, color: "text.disabled" }} />
+            <IconArchive size={40} stroke={1.5} style={{ color: "var(--text-disabled, #64748b)" }} />
             <Typography sx={{ fontSize: "0.95rem", fontWeight: 600 }}>
               {filtersActive ? "Nothing matches those filters" : "Your library is empty"}
             </Typography>
@@ -615,8 +617,8 @@ export default function Library() {
                 : "Renders, downloads and anything you edit collect here."}
             </Typography>
             {filtersActive
-              ? <Button size="small" variant="outlined" onClick={clearFilters}>Clear filters</Button>
-              : <Button size="small" variant="contained" onClick={() => navigate("/stock")}>Make a video</Button>}
+              ? <Button size="small" variant="outlined" onClick={clearFilters} sx={{ borderRadius: "20px" }}>Clear filters</Button>
+              : <Button size="small" variant="contained" onClick={() => navigate("/stock")} sx={{ borderRadius: "20px" }}>Make a video</Button>}
           </Stack>
         ) : (
           <>
@@ -687,7 +689,7 @@ export default function Library() {
               fontWeight: 800, height: 24,
               bgcolor: alpha("#fff", 0.22), color: "primary.contrastText",
             }} />
-          <Button size="small" startIcon={<DeleteOutlineRoundedIcon sx={{ fontSize: 16 }} />}
+          <Button size="small" startIcon={<IconTrash size={16} stroke={1.8} />}
             onClick={() => openConfirm(
               `Delete ${selected.size} item${selected.size === 1 ? "" : "s"}?`,
               "The files are removed from disk. This cannot be undone.",
@@ -697,7 +699,7 @@ export default function Library() {
             Delete
           </Button>
           <IconButton size="small" onClick={() => setSelected(new Map())} aria-label="Clear selection">
-            <CloseRoundedIcon sx={{ fontSize: 16 }} />
+            <IconX size={16} stroke={1.8} />
           </IconButton>
         </Box>
       )}

@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material"
-import GraphicEqOutlinedIcon from "@mui/icons-material/GraphicEqOutlined"
+import { IconAdjustments } from "@tabler/icons-react"
 import ToolRunner from "../../components/tools/ToolRunner"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
 import { MEDIA_ACCEPT } from "../../components/tools/mediaAccept"
@@ -10,7 +10,7 @@ export default function ToolAudioEnhance() {
     <ToolRunner
       title="Enhance Audio"
       description="Denoise hiss, normalize loudness, polish speech"
-      icon={<GraphicEqOutlinedIcon fontSize="large" />}
+      icon={<IconAdjustments size={28} stroke={1.8} />}
       endpoint="/api/tools/audio-enhance"
       acceptExts={MEDIA_ACCEPT}
     >

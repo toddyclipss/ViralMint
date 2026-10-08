@@ -2,7 +2,7 @@ import { useState } from "react"
 import {
   Box, Typography, Button, Stack, IconButton, Paper, CircularProgress,
 } from "@mui/material"
-import PlayArrowIcon from "@mui/icons-material/PlayArrow"
+import { IconPlayerPlay } from "@tabler/icons-react"
 
 /**
  * Compact Inspiration-Source banner used in the script panel. Replaces the
@@ -25,7 +25,7 @@ export function CompactSourcePanel({ source }) {
   return (
     <Paper
       variant="outlined"
-      sx={{ p: 1.25, borderRadius: 2, mb: 1, bgcolor: "action.hover" }}
+      sx={{ p: 1.25, borderRadius: "14px", mb: 1, bgcolor: "action.hover" }}
     >
       <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 0.5 }}>
         <Typography variant="overline" sx={{ fontSize: "0.6rem", fontWeight: 700, color: "text.secondary", letterSpacing: "0.06em" }}>
@@ -38,7 +38,7 @@ export function CompactSourcePanel({ source }) {
           <Button
             size="small" variant="text"
             onClick={() => setShowTranscript(!showTranscript)}
-            sx={{ minWidth: 0, px: 0.75, fontSize: "0.65rem", textTransform: "none", fontWeight: 600, lineHeight: 1 }}
+            sx={{ minWidth: 0, px: 0.75, fontSize: "0.65rem", textTransform: "none", fontWeight: 600, lineHeight: 1, borderRadius: "20px" }}
           >
             {showTranscript ? "Hide transcript" : "Transcript"}
             {source.transcript_language && ` (${source.transcript_language})`}
@@ -50,6 +50,7 @@ export function CompactSourcePanel({ source }) {
         <Paper variant="outlined" sx={{
           p: 1, mt: 0.5, mb: 0.75, maxHeight: 110, overflowY: "auto",
           fontSize: "0.72rem", color: "text.secondary", lineHeight: 1.5, bgcolor: "background.paper",
+          borderRadius: "10px",
         }}>
           {source.transcript}
         </Paper>
@@ -71,7 +72,7 @@ export function CompactSourcePanel({ source }) {
                 title={it.value}
                 sx={{
                   gridColumn: spanFull ? "1 / -1" : "auto",
-                  px: 0.875, py: 0.625, borderRadius: 1.5,
+                  px: 0.875, py: 0.625, borderRadius: "10px",
                   bgcolor: "background.paper",
                   borderLeft: "3px solid", borderColor: it.color,
                   minWidth: 0,
@@ -86,9 +87,6 @@ export function CompactSourcePanel({ source }) {
                 </Typography>
                 <Typography variant="body2" sx={{
                   fontSize: "0.74rem", lineHeight: 1.35, color: "text.secondary",
-                  // Clamp so a long insight doesn't blow up the banner (the
-                  // full text is on the native `title` tooltip). Full-width
-                  // items get a 3rd line since they have the room.
                   display: "-webkit-box",
                   WebkitLineClamp: spanFull ? 3 : 2,
                   WebkitBoxOrient: "vertical",
@@ -113,7 +111,7 @@ export function VoiceRow({ voice, selected, onClick, onPreview, isPlayingPreview
         cursor: "pointer",
         height: 50,
         px: 0.875,
-        borderRadius: 1.5,
+        borderRadius: "12px",
         display: "flex", alignItems: "center", gap: 1,
         position: "relative",
         transition: "background .12s ease, transform .12s ease",
@@ -121,11 +119,11 @@ export function VoiceRow({ voice, selected, onClick, onPreview, isPlayingPreview
         borderColor: selected ? "primary.main" : "transparent",
         background: selected
           ? (theme.palette.mode === "dark"
-              ? "linear-gradient(90deg, rgba(99,179,237,0.16), rgba(99,179,237,0.04))"
-              : "linear-gradient(90deg, rgba(99,179,237,0.18), rgba(99,179,237,0.05))")
+              ? "linear-gradient(90deg, rgba(139,92,246,0.18), rgba(139,92,246,0.05))"
+              : "linear-gradient(90deg, rgba(139,92,246,0.20), rgba(139,92,246,0.06))")
           : "transparent",
         ...(selected && {
-          boxShadow: "0 0 14px rgba(99,179,237,0.30), inset 0 0 8px rgba(99,179,237,0.10)",
+          boxShadow: "0 0 14px rgba(139,92,246,0.30), inset 0 0 8px rgba(139,92,246,0.10)",
         }),
         "&:hover": {
           background: selected ? undefined
@@ -139,6 +137,7 @@ export function VoiceRow({ voice, selected, onClick, onPreview, isPlayingPreview
         onClick={(e) => { e.stopPropagation(); onPreview?.(voice) }}
         sx={{
           p: 0.25, width: 30, height: 30, flexShrink: 0,
+          borderRadius: "10px",
           bgcolor: selected ? "primary.main" : "action.hover",
           color: selected ? "#fff" : "text.primary",
           "&:hover": { bgcolor: selected ? "primary.dark" : "action.selected" },
@@ -146,7 +145,7 @@ export function VoiceRow({ voice, selected, onClick, onPreview, isPlayingPreview
       >
         {isPlayingPreview
           ? <CircularProgress size={14} sx={{ color: "inherit" }} />
-          : <PlayArrowIcon sx={{ fontSize: 17 }} />}
+          : <IconPlayerPlay size={16} stroke={1.8} />}
       </IconButton>
       <Typography
         variant="body2"

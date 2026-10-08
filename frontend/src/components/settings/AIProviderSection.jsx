@@ -4,12 +4,14 @@ import {
   Select, MenuItem, IconButton, InputAdornment, Chip, Dialog, DialogTitle,
   DialogContent, DialogActions,
 } from "@mui/material"
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined"
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOffOutlined"
-import SaveIcon from "@mui/icons-material/SaveOutlined"
-import EditIcon from "@mui/icons-material/EditOutlined"
-import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined"
-import CheckCircleIcon from "@mui/icons-material/CheckCircleOutline"
+import {
+  IconEye,
+  IconEyeOff,
+  IconDeviceFloppy,
+  IconEdit,
+  IconTrash,
+  IconCircleCheck,
+} from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 
@@ -118,7 +120,8 @@ export default function AIProviderSection({ settings, updateSettings }) {
         <Alert
           severity="success"
           variant="outlined"
-          icon={<CheckCircleIcon fontSize="small" />}
+          icon={<IconCircleCheck size={18} stroke={2} />}
+          sx={{ borderRadius: "14px" }}
         >
           <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
             <Typography variant="body2" sx={{ fontWeight: 600 }}>
@@ -129,13 +132,14 @@ export default function AIProviderSection({ settings, updateSettings }) {
               label={PROVIDER_LABEL[settings.ai_provider] || settings.ai_provider}
               color="primary"
               variant="outlined"
-              sx={{ fontWeight: 500 }}
+              sx={{ fontWeight: 500, borderRadius: "10px" }}
             />
             {settings.ai_model && (
               <Chip
                 size="small"
                 label={`model: ${settings.ai_model}`}
                 variant="outlined"
+                sx={{ borderRadius: "10px" }}
               />
             )}
           </Stack>
@@ -146,18 +150,20 @@ export default function AIProviderSection({ settings, updateSettings }) {
         <Stack direction="row" spacing={1.5}>
           <Button
             variant="contained"
-            startIcon={<EditIcon />}
+            startIcon={<IconEdit size={16} stroke={1.8} />}
             onClick={() => { setEditing(true); setApiKey("") }}
             disabled={saving}
+            sx={{ borderRadius: "20px", textTransform: "none", fontWeight: 600 }}
           >
             Update
           </Button>
           <Button
             variant="outlined"
             color="error"
-            startIcon={<DeleteIcon />}
+            startIcon={<IconTrash size={16} stroke={1.8} />}
             onClick={() => setConfirmRemove(true)}
             disabled={saving}
+            sx={{ borderRadius: "20px", textTransform: "none" }}
           >
             Remove
           </Button>
@@ -238,11 +244,16 @@ export default function AIProviderSection({ settings, updateSettings }) {
         helperText={KEY_HINT[provider]}
         disabled={saving}
         autoComplete="off"
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "14px",
+          },
+        }}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
               <IconButton size="small" onClick={() => setShowKey((v) => !v)} edge="end" tabIndex={-1}>
-                {showKey ? <VisibilityOffIcon fontSize="small" /> : <VisibilityIcon fontSize="small" />}
+                {showKey ? <IconEyeOff size={16} stroke={1.8} /> : <IconEye size={16} stroke={1.8} />}
               </IconButton>
             </InputAdornment>
           ),
@@ -252,9 +263,10 @@ export default function AIProviderSection({ settings, updateSettings }) {
       <Stack direction="row" spacing={1.5}>
         <Button
           variant="contained"
-          startIcon={<SaveIcon />}
+          startIcon={<IconDeviceFloppy size={16} stroke={1.8} />}
           onClick={handleSave}
           disabled={saving || (!apiKey.trim() && !keyIsSet)}
+          sx={{ borderRadius: "20px", textTransform: "none", fontWeight: 600 }}
         >
           {saving ? "Saving…" : "Save"}
         </Button>
@@ -263,6 +275,7 @@ export default function AIProviderSection({ settings, updateSettings }) {
             variant="outlined"
             onClick={() => { setEditing(false); setApiKey("") }}
             disabled={saving}
+            sx={{ borderRadius: "20px", textTransform: "none" }}
           >
             Cancel
           </Button>

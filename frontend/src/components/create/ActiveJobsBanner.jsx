@@ -1,8 +1,6 @@
 import { useState } from "react"
 import { Box, Stack, Paper, Typography, LinearProgress, CircularProgress, IconButton, Chip, Collapse, alpha } from "@mui/material"
-import CancelIcon from "@mui/icons-material/Cancel"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import ExpandLessIcon from "@mui/icons-material/ExpandLess"
+import { IconCircleX, IconChevronDown, IconChevronUp } from "@tabler/icons-react"
 import useAppStore from "../../store/appStore"
 
 /**
@@ -35,9 +33,9 @@ export default function ActiveJobsBanner({ filter, onCancel, fallbackLabel = "Pr
             label={`${runningJobs.length} active jobs`}
             size="small"
             color="primary"
-            sx={{ fontWeight: 600, fontSize: "0.75rem" }}
+            sx={{ fontWeight: 600, fontSize: "0.75rem", borderRadius: "10px" }}
           />
-          {expanded ? <ExpandLessIcon fontSize="small" sx={{ color: "text.secondary" }} /> : <ExpandMoreIcon fontSize="small" sx={{ color: "text.secondary" }} />}
+          {expanded ? <IconChevronUp size={16} stroke={1.8} /> : <IconChevronDown size={16} stroke={1.8} />}
         </Stack>
       )}
 
@@ -65,7 +63,7 @@ export default function ActiveJobsBanner({ filter, onCancel, fallbackLabel = "Pr
 function JobCard({ job, fallbackLabel, onCancel }) {
   return (
     <Paper elevation={0} sx={{
-      p: 2, borderRadius: 2.5,
+      p: 2, borderRadius: "14px",
       border: 1, borderColor: "primary.main",
       bgcolor: (t) => alpha(t.palette.primary.main, 0.04),
     }}>
@@ -82,9 +80,9 @@ function JobCard({ job, fallbackLabel, onCancel }) {
               </Typography>
               {onCancel && (
                 <IconButton size="small" onClick={() => onCancel(job.jobId)}
-                  sx={{ p: 0.25, color: "text.disabled", "&:hover": { color: "error.main" } }}
+                  sx={{ p: 0.25, color: "text.disabled", "&:hover": { color: "error.main" }, borderRadius: "10px" }}
                   title="Cancel job">
-                  <CancelIcon sx={{ fontSize: 16 }} />
+                  <IconCircleX size={16} stroke={1.8} />
                 </IconButton>
               )}
             </Stack>

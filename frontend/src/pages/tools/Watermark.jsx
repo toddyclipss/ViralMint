@@ -4,9 +4,7 @@ import {
   Stack, IconButton,
 } from "@mui/material"
 import { GlassPanel } from "../../utils/glassFx"
-import BrandingWatermarkOutlinedIcon from "@mui/icons-material/BrandingWatermarkOutlined"
-import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined"
-import CloseIcon from "@mui/icons-material/Close"
+import { IconBadge, IconUpload, IconX } from "@tabler/icons-react"
 import ToolRunner from "../../components/tools/ToolRunner"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
 
@@ -39,7 +37,7 @@ export default function ToolWatermark() {
     <ToolRunner
       title="Add Watermark"
       description="Brand every export with your logo"
-      icon={<BrandingWatermarkOutlinedIcon fontSize="large" />}
+      icon={<IconBadge size={28} stroke={1.8} />}
       endpoint="/api/tools/watermark"
       extraFiles={{ logo }}
       canSubmit={!!logo}
@@ -73,14 +71,14 @@ export default function ToolWatermark() {
                   {(logo.size / 1024).toFixed(0)} KB
                 </Typography>
               </Box>
-              <IconButton size="small" onClick={() => setLogo(null)}><CloseIcon fontSize="small" /></IconButton>
+              <IconButton size="small" onClick={() => setLogo(null)}><IconX size={16} stroke={1.8} /></IconButton>
             </GlassPanel>
           ) : (
             <Button
               variant="outlined"
-              startIcon={<UploadFileOutlinedIcon />}
+              startIcon={<IconUpload size={18} stroke={1.8} />}
               onClick={() => logoInputRef.current?.click()}
-              sx={{ textTransform: "none" }}
+              sx={{ textTransform: "none", borderRadius: "20px" }}
             >
               Choose logo
             </Button>

@@ -3,8 +3,7 @@ import {
   Box, Typography, Stack, Slider, Alert, IconButton, Tooltip,
 } from "@mui/material"
 import { GlassPanel } from "../../utils/glassFx"
-import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered"
-import ContentCopyIcon from "@mui/icons-material/ContentCopy"
+import { IconListNumbers, IconCopy } from "@tabler/icons-react"
 import ToolRunner from "../../components/tools/ToolRunner"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
 import useAppStore from "../../store/appStore"
@@ -58,7 +57,7 @@ function ResultPreview({ jobId }) {
         </Typography>
         <Tooltip title="Copy all chapters">
           <IconButton size="small" onClick={() => copy(plainText)}>
-            <ContentCopyIcon sx={{ fontSize: "1rem" }} />
+            <IconCopy size={16} stroke={1.8} />
           </IconButton>
         </Tooltip>
       </Stack>
@@ -80,7 +79,7 @@ export default function ToolAutoChapters() {
     <ToolRunner
       title="Auto Chapters"
       description="AI-generated YouTube chapter markers from your long-form video"
-      icon={<FormatListNumberedIcon fontSize="large" />}
+      icon={<IconListNumbers size={28} stroke={1.8} />}
       endpoint="/api/tools/auto-chapters"
       processLabel="Generate Chapters"
       downloadLabel="Download .txt"

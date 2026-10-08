@@ -4,18 +4,20 @@ import {
   CircularProgress, Divider, Alert, Link, Dialog, DialogTitle, DialogContent,
   DialogActions, IconButton, Grid, Tooltip,
 } from "@mui/material"
-import ContentCopyIcon from "@mui/icons-material/ContentCopyOutlined"
-import CheckIcon from "@mui/icons-material/Check"
-import CloseIcon from "@mui/icons-material/CloseOutlined"
-import TelegramIcon from "@mui/icons-material/Telegram"
-import WhatsAppIcon from "@mui/icons-material/WhatsApp"
-import CheckCircleIcon from "@mui/icons-material/CheckCircleOutline"
-import SendIcon from "@mui/icons-material/SendOutlined"
-import LogoutIcon from "@mui/icons-material/LogoutOutlined"
-import QrCodeIcon from "@mui/icons-material/QrCode2Outlined"
-import ChatBubbleIcon from "@mui/icons-material/ChatBubbleOutlined"
-import TagIcon from "@mui/icons-material/TagOutlined"
-import PhoneIphoneIcon from "@mui/icons-material/PhoneIphoneOutlined"
+import {
+  IconCopy,
+  IconCheck,
+  IconX,
+  IconBrandTelegram,
+  IconBrandWhatsapp,
+  IconCircleCheck,
+  IconSend,
+  IconLogout,
+  IconQrcode,
+  IconMessageDots,
+  IconHash,
+  IconDeviceMobile,
+} from "@tabler/icons-react"
 import { QRCodeCanvas } from "qrcode.react"
 import http from "../api/http"
 import { ws } from "../api/websocket"
@@ -86,7 +88,7 @@ function PairCode({ code }) {
       </Box>
       <Tooltip title={copied ? "Copied" : "Copy code"}>
         <IconButton size="small" onClick={copy} aria-label="Copy pairing code">
-          {copied ? <CheckIcon fontSize="small" /> : <ContentCopyIcon fontSize="small" />}
+          {copied ? <IconCheck size={16} stroke={2} /> : <IconCopy size={16} stroke={1.8} />}
         </IconButton>
       </Tooltip>
     </Stack>
@@ -489,7 +491,7 @@ export default function Messaging() {
   }
 
   const statusChip = () => {
-    if (tgState === STATE.CONNECTED) return <Chip icon={<CheckCircleIcon />} label="Connected" color="success" size="small" />
+    if (tgState === STATE.CONNECTED) return <Chip icon={<IconCircleCheck size={16} stroke={2} />} label="Connected" color="success" size="small" />
     if (tgState === STATE.AWAITING_START) return <Chip label="Needs pairing" color="warning" size="small" />
     if (tgState === STATE.RECONNECTING) return <Chip label="Reconnecting…" color="warning" size="small" />
     if (tgState === STATE.CONNECTING) return <Chip label="Connecting…" size="small" />
@@ -497,7 +499,7 @@ export default function Messaging() {
   }
 
   const waStatusChip = () => {
-    if (waState === WA_STATE.CONNECTED) return <Chip icon={<CheckCircleIcon />} label="Connected" color="success" size="small" />
+    if (waState === WA_STATE.CONNECTED) return <Chip icon={<IconCircleCheck size={16} stroke={2} />} label="Connected" color="success" size="small" />
     if (waState === WA_STATE.PAIRING) return <Chip label="Scan QR code" color="warning" size="small" />
     if (waState === WA_STATE.RECONNECTING) return <Chip label="Reconnecting…" color="warning" size="small" />
     if (waState === WA_STATE.UNAVAILABLE) return <Chip label="Unavailable" size="small" />
@@ -505,7 +507,7 @@ export default function Messaging() {
   }
 
   const dcStatusChip = () => {
-    if (dcState === DC_STATE.CONNECTED) return <Chip icon={<CheckCircleIcon />} label="Connected" color="success" size="small" />
+    if (dcState === DC_STATE.CONNECTED) return <Chip icon={<IconCircleCheck size={16} stroke={2} />} label="Connected" color="success" size="small" />
     if (dcState === DC_STATE.AWAITING_DM) return <Chip label="Needs pairing" color="warning" size="small" />
     if (dcState === DC_STATE.RECONNECTING) return <Chip label="Reconnecting…" color="warning" size="small" />
     if (dcState === DC_STATE.CONNECTING) return <Chip label="Connecting…" size="small" />
@@ -514,7 +516,7 @@ export default function Messaging() {
   }
 
   const slStatusChip = () => {
-    if (slState === SL_STATE.CONNECTED) return <Chip icon={<CheckCircleIcon />} label="Connected" color="success" size="small" />
+    if (slState === SL_STATE.CONNECTED) return <Chip icon={<IconCircleCheck size={16} stroke={2} />} label="Connected" color="success" size="small" />
     if (slState === SL_STATE.AWAITING_DM) return <Chip label="Needs pairing" color="warning" size="small" />
     if (slState === SL_STATE.CONNECTING) return <Chip label="Connecting…" size="small" />
     if (slState === SL_STATE.UNAVAILABLE) return <Chip label="Unavailable" size="small" />
@@ -528,11 +530,11 @@ export default function Messaging() {
         px: 3, py: 2, flexShrink: 0,
         borderBottom: 1, borderColor: "divider",
         background: (t) => t.palette.mode === "dark"
-          ? "linear-gradient(135deg, rgba(88,101,242,0.12) 0%, rgba(30,28,26,1) 100%)"
-          : "linear-gradient(135deg, rgba(88,101,242,0.08) 0%, rgba(255,255,255,1) 100%)",
+          ? "linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(18, 18, 22, 1) 100%)"
+          : "linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(255, 255, 255, 1) 100%)",
       }}>
         <Stack direction="row" spacing={1.5} alignItems="center">
-          <PhoneIphoneIcon sx={{ color: "#5865F2", fontSize: 26 }} />
+          <IconDeviceMobile size={26} stroke={1.8} style={{ color: "#a78bfa" }} />
           <Box>
             <Typography variant="h5" sx={{ fontWeight: 700, letterSpacing: -0.3 }}>
               Messaging
@@ -554,10 +556,10 @@ export default function Messaging() {
       <Grid container spacing={3} alignItems="stretch">
       {/* Telegram */}
       <Grid size={{ xs: 12, md: 6 }} sx={{ display: "flex" }}>
-      <Card sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
+      <Card sx={{ width: "100%", display: "flex", flexDirection: "column", borderRadius: "18px" }}>
         <CardContent sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
           <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
-            <TelegramIcon sx={{ fontSize: 32, color: "#229ED9" }} />
+            <IconBrandTelegram size={32} stroke={1.5} style={{ color: "#229ED9" }} />
             <Box sx={{ flex: 1 }}>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>Telegram</Typography>
               <Typography variant="caption" color="text.secondary">
@@ -572,7 +574,7 @@ export default function Messaging() {
           {(tgState === STATE.CONNECTED || tgState === STATE.RECONNECTING) && (
             <Stack spacing={2}>
               {tgState === STATE.RECONNECTING ? <ReconnectingNote /> : (
-              <Alert severity="success" variant="outlined">
+              <Alert severity="success" variant="outlined" sx={{ borderRadius: "14px" }}>
                 Connected to{" "}
                 {tgInfo.bot_url ? (
                   <Link href={tgInfo.bot_url} target="_blank" rel="noreferrer" sx={{ fontWeight: 600 }}>
@@ -587,17 +589,19 @@ export default function Messaging() {
               <Stack direction="row" spacing={1.5}>
                 <Button
                   variant="contained"
-                  startIcon={testing ? <CircularProgress size={16} color="inherit" /> : <SendIcon />}
+                  startIcon={testing ? <CircularProgress size={16} color="inherit" /> : <IconSend size={16} stroke={1.8} />}
                   onClick={handleTest}
                   disabled={testing}
+                  sx={{ borderRadius: "20px" }}
                 >
                   Send test message
                 </Button>
                 <Button
                   variant="outlined"
                   color="error"
-                  startIcon={<LogoutIcon />}
+                  startIcon={<IconLogout size={16} stroke={1.8} />}
                   onClick={handleDisconnect}
+                  sx={{ borderRadius: "20px" }}
                 >
                   Disconnect
                 </Button>
@@ -607,7 +611,7 @@ export default function Messaging() {
 
           {tgState === STATE.AWAITING_START && (
             <Stack spacing={2}>
-              <Alert severity="info" variant="outlined" icon={false}>
+              <Alert severity="info" variant="outlined" icon={false} sx={{ borderRadius: "14px" }}>
                 <Stack spacing={1.25}>
                   <Typography variant="body2">
                     Bot ready. Open{" "}
@@ -627,8 +631,8 @@ export default function Messaging() {
                 </Stack>
               </Alert>
               <Stack direction="row" spacing={1.5}>
-                <Button variant="outlined" onClick={fetchStatus}>Refresh status</Button>
-                <Button variant="outlined" color="error" startIcon={<LogoutIcon />} onClick={handleDisconnect}>
+                <Button variant="outlined" onClick={fetchStatus} sx={{ borderRadius: "20px" }}>Refresh status</Button>
+                <Button variant="outlined" color="error" startIcon={<IconLogout size={16} stroke={1.8} />} onClick={handleDisconnect} sx={{ borderRadius: "20px" }}>
                   Cancel
                 </Button>
               </Stack>
@@ -652,6 +656,7 @@ export default function Messaging() {
                 onChange={(e) => setBotToken(e.target.value)}
                 disabled={saving}
                 autoComplete="off"
+                sx={{ "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
               />
               <Box>
                 <Button
@@ -659,6 +664,7 @@ export default function Messaging() {
                   onClick={handleConnect}
                   disabled={saving || !botToken.trim()}
                   startIcon={saving ? <CircularProgress size={16} color="inherit" /> : null}
+                  sx={{ borderRadius: "20px" }}
                 >
                   {saving ? "Connecting…" : "Connect"}
                 </Button>
@@ -671,10 +677,10 @@ export default function Messaging() {
 
       {/* WhatsApp */}
       <Grid size={{ xs: 12, md: 6 }} sx={{ display: "flex" }}>
-      <Card sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
+      <Card sx={{ width: "100%", display: "flex", flexDirection: "column", borderRadius: "18px" }}>
         <CardContent sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
           <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
-            <WhatsAppIcon sx={{ fontSize: 32, color: "#25D366" }} />
+            <IconBrandWhatsapp size={32} stroke={1.5} style={{ color: "#25D366" }} />
             <Box sx={{ flex: 1 }}>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>WhatsApp</Typography>
               <Typography variant="caption" color="text.secondary">
@@ -687,7 +693,7 @@ export default function Messaging() {
           <Divider sx={{ my: 2 }} />
 
           {waState === WA_STATE.UNAVAILABLE && (
-            <Alert severity="warning" variant="outlined">
+            <Alert severity="warning" variant="outlined" sx={{ borderRadius: "14px" }}>
               WhatsApp support requires the <code>neonize</code> Python package, which ships a
               native library. Install dependencies with <code>pip install -r requirements.txt</code>,
               then restart the app.
@@ -702,7 +708,7 @@ export default function Messaging() {
           {(waState === WA_STATE.CONNECTED || waState === WA_STATE.RECONNECTING) && (
             <Stack spacing={2}>
               {waState === WA_STATE.RECONNECTING ? <ReconnectingNote /> : (
-              <Alert severity="success" variant="outlined">
+              <Alert severity="success" variant="outlined" sx={{ borderRadius: "14px" }}>
                 WhatsApp paired. To chat with the planner, write in your own <strong>Message
                 yourself</strong> chat; job notifications arrive there too. Messages in any other
                 chat are never read.
@@ -711,18 +717,19 @@ export default function Messaging() {
               <Stack direction="row" spacing={1.5}>
                 <Button
                   variant="contained"
-                  startIcon={waTesting ? <CircularProgress size={16} color="inherit" /> : <SendIcon />}
+                  startIcon={waTesting ? <CircularProgress size={16} color="inherit" /> : <IconSend size={16} stroke={1.8} />}
                   onClick={handleWATest}
                   disabled={waTesting}
-                  sx={{ bgcolor: "#25D366", "&:hover": { bgcolor: "#128C7E" } }}
+                  sx={{ bgcolor: "#25D366", "&:hover": { bgcolor: "#128C7E" }, borderRadius: "20px" }}
                 >
                   Send test message
                 </Button>
                 <Button
                   variant="outlined"
                   color="error"
-                  startIcon={<LogoutIcon />}
+                  startIcon={<IconLogout size={16} stroke={1.8} />}
                   onClick={handleWADisconnect}
+                  sx={{ borderRadius: "20px" }}
                 >
                   Disconnect
                 </Button>
@@ -746,11 +753,11 @@ export default function Messaging() {
                   startIcon={
                     (waSaving || waState === WA_STATE.PAIRING)
                       ? <CircularProgress size={16} color="inherit" />
-                      : <QrCodeIcon />
+                      : <IconQrcode size={18} stroke={1.8} />
                   }
                   onClick={handleWAConnect}
                   disabled={waSaving || waState === WA_STATE.PAIRING}
-                  sx={{ bgcolor: "#25D366", "&:hover": { bgcolor: "#128C7E" } }}
+                  sx={{ bgcolor: "#25D366", "&:hover": { bgcolor: "#128C7E" }, borderRadius: "20px" }}
                 >
                   {waState === WA_STATE.PAIRING
                     ? "Waiting for scan…"
@@ -765,10 +772,10 @@ export default function Messaging() {
 
       {/* Discord */}
       <Grid size={{ xs: 12, md: 6 }} sx={{ display: "flex" }}>
-      <Card sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
+      <Card sx={{ width: "100%", display: "flex", flexDirection: "column", borderRadius: "18px" }}>
         <CardContent sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
           <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
-            <ChatBubbleIcon sx={{ fontSize: 32, color: "#5865F2" }} />
+            <IconMessageDots size={32} stroke={1.5} style={{ color: "#5865F2" }} />
             <Box sx={{ flex: 1 }}>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>Discord</Typography>
               <Typography variant="caption" color="text.secondary">
@@ -781,7 +788,7 @@ export default function Messaging() {
           <Divider sx={{ my: 2 }} />
 
           {dcState === DC_STATE.UNAVAILABLE && (
-            <Alert severity="warning" variant="outlined">
+            <Alert severity="warning" variant="outlined" sx={{ borderRadius: "14px" }}>
               Discord support requires the <code>discord.py</code> Python package. Install
               dependencies with <code>pip install -r requirements.txt</code>, then restart the app.
               {dcInfo.error && (
@@ -795,7 +802,7 @@ export default function Messaging() {
           {(dcState === DC_STATE.CONNECTED || dcState === DC_STATE.RECONNECTING) && (
             <Stack spacing={2}>
               {dcState === DC_STATE.RECONNECTING ? <ReconnectingNote /> : (
-              <Alert severity="success" variant="outlined">
+              <Alert severity="success" variant="outlined" sx={{ borderRadius: "14px" }}>
                 Connected as <strong>{dcInfo.bot_username}</strong>. DM your bot on Discord to
                 chat with the planner — notifications arrive in the same thread.
               </Alert>
@@ -803,18 +810,19 @@ export default function Messaging() {
               <Stack direction="row" spacing={1.5}>
                 <Button
                   variant="contained"
-                  startIcon={dcTesting ? <CircularProgress size={16} color="inherit" /> : <SendIcon />}
+                  startIcon={dcTesting ? <CircularProgress size={16} color="inherit" /> : <IconSend size={16} stroke={1.8} />}
                   onClick={handleDCTest}
                   disabled={dcTesting}
-                  sx={{ bgcolor: "#5865F2", "&:hover": { bgcolor: "#4752C4" } }}
+                  sx={{ bgcolor: "#5865F2", "&:hover": { bgcolor: "#4752C4" }, borderRadius: "20px" }}
                 >
                   Send test message
                 </Button>
                 <Button
                   variant="outlined"
                   color="error"
-                  startIcon={<LogoutIcon />}
+                  startIcon={<IconLogout size={16} stroke={1.8} />}
                   onClick={handleDCDisconnect}
+                  sx={{ borderRadius: "20px" }}
                 >
                   Disconnect
                 </Button>
@@ -824,7 +832,7 @@ export default function Messaging() {
 
           {dcState === DC_STATE.AWAITING_DM && (
             <Stack spacing={2}>
-              <Alert severity="info" variant="outlined" icon={false}>
+              <Alert severity="info" variant="outlined" icon={false} sx={{ borderRadius: "14px" }}>
                 <Stack spacing={1.25}>
                   <Typography variant="body2">
                     Bot online as <strong>{dcInfo.bot_username}</strong>.
@@ -844,8 +852,8 @@ export default function Messaging() {
                 </Stack>
               </Alert>
               <Stack direction="row" spacing={1.5}>
-                <Button variant="outlined" onClick={fetchStatus}>Refresh status</Button>
-                <Button variant="outlined" color="error" startIcon={<LogoutIcon />} onClick={handleDCDisconnect}>
+                <Button variant="outlined" onClick={fetchStatus} sx={{ borderRadius: "20px" }}>Refresh status</Button>
+                <Button variant="outlined" color="error" startIcon={<IconLogout size={16} stroke={1.8} />} onClick={handleDCDisconnect} sx={{ borderRadius: "20px" }}>
                   Cancel
                 </Button>
               </Stack>
@@ -872,6 +880,7 @@ export default function Messaging() {
                 onChange={(e) => setDcToken(e.target.value)}
                 disabled={dcSaving}
                 autoComplete="off"
+                sx={{ "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
               />
               <Box>
                 <Button
@@ -879,7 +888,7 @@ export default function Messaging() {
                   onClick={handleDCConnect}
                   disabled={dcSaving || !dcToken.trim()}
                   startIcon={dcSaving ? <CircularProgress size={16} color="inherit" /> : null}
-                  sx={{ bgcolor: "#5865F2", "&:hover": { bgcolor: "#4752C4" } }}
+                  sx={{ bgcolor: "#5865F2", "&:hover": { bgcolor: "#4752C4" }, borderRadius: "20px" }}
                 >
                   {dcSaving ? "Connecting…" : "Connect"}
                 </Button>
@@ -892,10 +901,10 @@ export default function Messaging() {
 
       {/* Slack */}
       <Grid size={{ xs: 12, md: 6 }} sx={{ display: "flex" }}>
-      <Card sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
+      <Card sx={{ width: "100%", display: "flex", flexDirection: "column", borderRadius: "18px" }}>
         <CardContent sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
           <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
-            <TagIcon sx={{ fontSize: 32, color: "#611F69" }} />
+            <IconHash size={32} stroke={1.5} style={{ color: "#a78bfa" }} />
             <Box sx={{ flex: 1 }}>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>Slack</Typography>
               <Typography variant="caption" color="text.secondary">
@@ -908,7 +917,7 @@ export default function Messaging() {
           <Divider sx={{ my: 2 }} />
 
           {slState === SL_STATE.UNAVAILABLE && (
-            <Alert severity="warning" variant="outlined">
+            <Alert severity="warning" variant="outlined" sx={{ borderRadius: "14px" }}>
               Slack support requires the <code>slack-sdk</code> Python package. Install
               dependencies with <code>pip install -r requirements.txt</code>, then restart the app.
               {slInfo.error && (
@@ -921,25 +930,26 @@ export default function Messaging() {
 
           {slState === SL_STATE.CONNECTED && (
             <Stack spacing={2}>
-              <Alert severity="success" variant="outlined">
+              <Alert severity="success" variant="outlined" sx={{ borderRadius: "14px" }}>
                 Connected to <strong>{slInfo.team_name || "your Slack workspace"}</strong>. DM
                 your bot in Slack to chat with the planner — notifications arrive in the same thread.
               </Alert>
               <Stack direction="row" spacing={1.5}>
                 <Button
                   variant="contained"
-                  startIcon={slTesting ? <CircularProgress size={16} color="inherit" /> : <SendIcon />}
+                  startIcon={slTesting ? <CircularProgress size={16} color="inherit" /> : <IconSend size={16} stroke={1.8} />}
                   onClick={handleSLTest}
                   disabled={slTesting}
-                  sx={{ bgcolor: "#611F69", "&:hover": { bgcolor: "#4A154B" } }}
+                  sx={{ bgcolor: "#7c3aed", "&:hover": { bgcolor: "#6d28d9" }, borderRadius: "20px" }}
                 >
                   Send test message
                 </Button>
                 <Button
                   variant="outlined"
                   color="error"
-                  startIcon={<LogoutIcon />}
+                  startIcon={<IconLogout size={16} stroke={1.8} />}
                   onClick={handleSLDisconnect}
+                  sx={{ borderRadius: "20px" }}
                 >
                   Disconnect
                 </Button>
@@ -949,7 +959,7 @@ export default function Messaging() {
 
           {slState === SL_STATE.AWAITING_DM && (
             <Stack spacing={2}>
-              <Alert severity="info" variant="outlined" icon={false}>
+              <Alert severity="info" variant="outlined" icon={false} sx={{ borderRadius: "14px" }}>
                 <Stack spacing={1.25}>
                   <Typography variant="body2">
                     Bot online{slInfo.team_name ? ` in ${slInfo.team_name}` : ""}. Open Slack, find
@@ -960,8 +970,8 @@ export default function Messaging() {
                 </Stack>
               </Alert>
               <Stack direction="row" spacing={1.5}>
-                <Button variant="outlined" onClick={fetchStatus}>Refresh status</Button>
-                <Button variant="outlined" color="error" startIcon={<LogoutIcon />} onClick={handleSLDisconnect}>
+                <Button variant="outlined" onClick={fetchStatus} sx={{ borderRadius: "20px" }}>Refresh status</Button>
+                <Button variant="outlined" color="error" startIcon={<IconLogout size={16} stroke={1.8} />} onClick={handleSLDisconnect} sx={{ borderRadius: "20px" }}>
                   Cancel
                 </Button>
               </Stack>
@@ -989,6 +999,7 @@ export default function Messaging() {
                 onChange={(e) => setSlBotToken(e.target.value)}
                 disabled={slSaving}
                 autoComplete="off"
+                sx={{ "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
               />
               <TextField
                 label="App-level token (xapp-…)"
@@ -1000,6 +1011,7 @@ export default function Messaging() {
                 onChange={(e) => setSlAppToken(e.target.value)}
                 disabled={slSaving}
                 autoComplete="off"
+                sx={{ "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
               />
               <Box>
                 <Button
@@ -1007,7 +1019,7 @@ export default function Messaging() {
                   onClick={handleSLConnect}
                   disabled={slSaving || !slBotToken.trim() || !slAppToken.trim()}
                   startIcon={slSaving ? <CircularProgress size={16} color="inherit" /> : null}
-                  sx={{ bgcolor: "#611F69", "&:hover": { bgcolor: "#4A154B" } }}
+                  sx={{ bgcolor: "#7c3aed", "&:hover": { bgcolor: "#6d28d9" }, borderRadius: "20px" }}
                 >
                   {slSaving ? "Connecting…" : "Connect"}
                 </Button>
@@ -1027,6 +1039,7 @@ export default function Messaging() {
         onClose={handleWADisconnect}
         maxWidth="xs"
         fullWidth
+        PaperProps={{ sx: { borderRadius: "18px" } }}
       >
         <DialogTitle sx={{ pr: 6 }}>
           Scan to pair WhatsApp
@@ -1036,7 +1049,7 @@ export default function Messaging() {
             sx={{ position: "absolute", right: 8, top: 8 }}
             aria-label="Close"
           >
-            <CloseIcon fontSize="small" />
+            <IconX size={18} stroke={1.8} />
           </IconButton>
         </DialogTitle>
         <DialogContent>
@@ -1046,7 +1059,7 @@ export default function Messaging() {
               then scan this code.
             </Typography>
             {waQr ? (
-              <Box sx={{ p: 2, bgcolor: "#fff", borderRadius: 2, boxShadow: 1 }}>
+              <Box sx={{ p: 2, bgcolor: "#fff", borderRadius: "14px", boxShadow: 1 }}>
                 <QRCodeCanvas value={waQr} size={240} level="M" includeMargin={false} />
               </Box>
             ) : (
@@ -1061,7 +1074,7 @@ export default function Messaging() {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleWADisconnect} color="error" startIcon={<LogoutIcon />}>
+          <Button onClick={handleWADisconnect} color="error" startIcon={<IconLogout size={16} stroke={1.8} />} sx={{ borderRadius: "20px" }}>
             Cancel pairing
           </Button>
         </DialogActions>

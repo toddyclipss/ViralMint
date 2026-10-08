@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Box, Typography, ToggleButtonGroup, ToggleButton, Stack } from "@mui/material"
-import GraphicEqIcon from "@mui/icons-material/GraphicEq"
+import { IconMusic } from "@tabler/icons-react"
 import ToolRunner from "../../components/tools/ToolRunner"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
 
@@ -27,7 +27,7 @@ export default function ToolMusicVisualizer() {
     <ToolRunner
       title="Music Visualizer"
       description="Turn an audio file into an animated visualizer video synced to the sound"
-      icon={<GraphicEqIcon fontSize="large" />}
+      icon={<IconMusic size={28} stroke={1.8} />}
       endpoint="/api/tools/music-visualizer"
       acceptExts=".mp3,.wav,.m4a,.aac,.ogg,.flac"
       fieldBuilder={() => ({ style, palette, aspect })}

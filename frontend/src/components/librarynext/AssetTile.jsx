@@ -14,22 +14,24 @@
  */
 import { useState } from "react"
 import { Box, Typography, Stack, IconButton, Tooltip, alpha, useTheme } from "@mui/material"
-import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded"
-import MoreHorizRoundedIcon from "@mui/icons-material/MoreHorizRounded"
-import CheckRoundedIcon from "@mui/icons-material/CheckRounded"
-import MovieRoundedIcon from "@mui/icons-material/MovieRounded"
-import ImageRoundedIcon from "@mui/icons-material/ImageRounded"
-import GraphicEqRoundedIcon from "@mui/icons-material/GraphicEqRounded"
-import DescriptionRoundedIcon from "@mui/icons-material/DescriptionRounded"
-import BoltRoundedIcon from "@mui/icons-material/BoltRounded"
+import {
+  IconPlayerPlay,
+  IconDots,
+  IconCheck,
+  IconMovie,
+  IconPhoto,
+  IconMusic,
+  IconFileText,
+  IconBolt,
+} from "@tabler/icons-react"
 import { ORIGINS, originColor, originTextColor, fmtDay, waveformBars } from "./assetModel"
 import { formatClock } from "../../utils/format"
 
 const MEDIA_ICON = {
-  video: MovieRoundedIcon,
-  image: ImageRoundedIcon,
-  audio: GraphicEqRoundedIcon,
-  doc: DescriptionRoundedIcon,
+  video: IconMovie,
+  image: IconPhoto,
+  audio: IconMusic,
+  doc: IconFileText,
 }
 
 // The app's motion tokens, read defensively: `customMotion` is ours, not a MUI
@@ -64,7 +66,7 @@ export default function AssetTile({
   const oc = originColor(item.origin, isDark)
   const ocText = originTextColor(item.origin, isDark)
   const frameH = dense ? 112 : 148
-  const MediaIcon = MEDIA_ICON[item.media] || MovieRoundedIcon
+  const MediaIcon = MEDIA_ICON[item.media] || IconMovie
   const showPoster = (item.media === "video" || item.media === "image") && item.thumb_url && !broken
   const badge = item.aspect || (item.ext ? item.ext.toUpperCase() : null)
   const dur = formatClock(item.duration_seconds)
@@ -116,14 +118,7 @@ export default function AssetTile({
       {/* ── Frame ── */}
       <Box sx={{ position: "relative", height: frameH, bgcolor: "background.subtle", overflow: "hidden" }}>
         {showPoster ? (
-          /* Letterboxed poster over a quiet plate. This USED to sit on a
-             blurred cover-copy of the same image (filter: blur(16px) on a
-             background-image) — measured 2026-08-18, that meant a second
-             full-res decode per tile plus a blur re-raster on every scroll
-             frame; a fast flick froze the grid ~1s while ~100 blur layers
-             re-rastered. Killing the glass (here and the backdrop-filter
-             pills below) took the post-flick stall from ~0.9s to ~0.16s.
-             Don't reintroduce filter/backdrop-filter inside the tile grid. */
+          /* Letterboxed poster over a quiet plate. */
           <Box component="img" src={item.thumb_url} alt=""
             loading="lazy" decoding="async"
             onError={() => setBroken(true)}
@@ -158,7 +153,7 @@ export default function AssetTile({
             height: "100%", display: "flex", alignItems: "center", justifyContent: "center",
             background: `linear-gradient(135deg, ${alpha(oc, isDark ? 0.22 : 0.16)}, ${alpha(oc, 0.03)})`,
           }}>
-            <MediaIcon sx={{ fontSize: 30, color: alpha(oc, 0.55) }} />
+            <MediaIcon size={30} stroke={1.5} style={{ color: alpha(oc, 0.55) }} />
           </Box>
         )}
 
@@ -173,10 +168,7 @@ export default function AssetTile({
           </Box>
         )}
 
-        {/* Select control — visible on hover or focus, or whenever a selection
-            is live. role="checkbox" + tabIndex, because an aria-label alone on
-            a <Box> announces nothing and cannot be tabbed to: selecting items
-            in the Library was mouse-only. */}
+        {/* Select control */}
         {(active || selected || anySelected) && (
           <Box
             role="checkbox"
@@ -186,7 +178,7 @@ export default function AssetTile({
             onKeyDown={(e) => {
               if (e.key !== "Enter" && e.key !== " ") return
               e.preventDefault()
-              e.stopPropagation()   // or the tile behind it also acts
+              e.stopPropagation()
               onToggleSelect?.(item)
             }}
             aria-label={selected ? "Deselect" : "Select"}
@@ -197,11 +189,11 @@ export default function AssetTile({
               border: 1, borderColor: selected ? "primary.main" : "rgba(255,255,255,0.5)",
               zIndex: 4, cursor: "pointer",
             }}>
-            {selected && <CheckRoundedIcon sx={{ fontSize: 14, color: "#fff" }} />}
+            {selected && <IconCheck size={14} stroke={2.5} style={{ color: "#fff" }} />}
           </Box>
         )}
 
-        {/* Bottom strip: duration / score / status, and hover actions */}
+        {/* Bottom strip */}
         <Box sx={{
           position: "absolute", left: 0, right: 0, bottom: 0,
           px: 0.75, py: 0.5, display: "flex", alignItems: "center", gap: 0.5,
@@ -215,17 +207,17 @@ export default function AssetTile({
             {item.status === "failed" && <Pill tone="error">Failed</Pill>}
             {item.status === "draft" && <Pill>Draft</Pill>}
             {item.hook_score != null && (
-              <Pill><BoltRoundedIcon sx={{ fontSize: 11, mr: 0.2, mb: "-1px" }} />{item.hook_score}</Pill>
+              <Pill><IconBolt size={11} stroke={1.8} style={{ marginRight: 2, marginBottom: -1 }} />{item.hook_score}</Pill>
             )}
           </Stack>
           {active && (
             <Stack direction="row" spacing={0.25} sx={{ flexShrink: 0 }}>
               <FrameAction title={item.media === "image" || item.media === "doc" ? "Open" : "Play"}
                 onClick={(e) => { e.stopPropagation(); onOpen?.(item) }}>
-                <PlayArrowRoundedIcon sx={{ fontSize: 16 }} />
+                <IconPlayerPlay size={16} stroke={1.8} />
               </FrameAction>
               <FrameAction title="More" onClick={(e) => { e.stopPropagation(); onMore?.(item, e) }}>
-                <MoreHorizRoundedIcon sx={{ fontSize: 16 }} />
+                <IconDots size={16} stroke={1.8} />
               </FrameAction>
             </Stack>
           )}

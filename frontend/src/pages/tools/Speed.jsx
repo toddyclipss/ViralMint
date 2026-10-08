@@ -2,7 +2,7 @@ import { useState } from "react"
 import {
   Box, Typography, Stack, Slider, FormControlLabel, Switch, Button,
 } from "@mui/material"
-import SpeedOutlinedIcon from "@mui/icons-material/SpeedOutlined"
+import { IconGauge } from "@tabler/icons-react"
 import ToolRunner from "../../components/tools/ToolRunner"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
 
@@ -32,7 +32,7 @@ export default function ToolSpeed() {
     <ToolRunner
       title="Speed up / Slow down"
       description="Adjust video playback speed from 0.25× to 4× with optional pitch preservation"
-      icon={<SpeedOutlinedIcon fontSize="large" />}
+      icon={<IconGauge size={28} stroke={1.8} />}
       endpoint="/api/tools/speed"
       processLabel="Apply speed"
       canSubmit={!isNoOp}

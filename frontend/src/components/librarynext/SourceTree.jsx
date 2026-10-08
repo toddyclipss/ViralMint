@@ -17,19 +17,21 @@
  */
 import { useState } from "react"
 import { Box, Typography, Stack, Tooltip, Collapse, alpha, useTheme } from "@mui/material"
-import MovieRoundedIcon from "@mui/icons-material/MovieRounded"
-import ImageRoundedIcon from "@mui/icons-material/ImageRounded"
-import GraphicEqRoundedIcon from "@mui/icons-material/GraphicEqRounded"
-import DescriptionRoundedIcon from "@mui/icons-material/DescriptionRounded"
-import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded"
+import {
+  IconMovie,
+  IconPhoto,
+  IconMusic,
+  IconFileText,
+  IconChevronDown,
+} from "@tabler/icons-react"
 import { ORIGINS, originColor, originTextColor, fmtDay } from "./assetModel"
 import { formatClock } from "../../utils/format"
 
 const MEDIA_ICON = {
-  video: MovieRoundedIcon,
-  image: ImageRoundedIcon,
-  audio: GraphicEqRoundedIcon,
-  doc: DescriptionRoundedIcon,
+  video: IconMovie,
+  image: IconPhoto,
+  audio: IconMusic,
+  doc: IconFileText,
 }
 
 export default function SourceTree({ families, loners, onOpen, dimmedIds }) {
@@ -46,8 +48,7 @@ export default function SourceTree({ families, loners, onOpen, dimmedIds }) {
           <Stack direction="row" alignItems="center" spacing={0.75}
             onClick={() => setShowLoners((v) => !v)}
             sx={{ cursor: "pointer", py: 1, color: "text.secondary", "&:hover": { color: "text.primary" } }}>
-            <ExpandMoreRoundedIcon sx={{
-              fontSize: 18,
+            <IconChevronDown size={18} stroke={1.8} style={{
               transform: showLoners ? "none" : "rotate(-90deg)",
               transition: "transform .15s ease",
             }} />
@@ -104,7 +105,7 @@ function Family({ root, nodes, onOpen, dimmedIds }) {
         }}>
           {root.thumb_url
             ? <Box component="img" src={root.thumb_url} alt="" sx={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            : <RootIcon sx={{ fontSize: 20, color: alpha(oc, 0.6) }} />}
+            : <RootIcon size={20} stroke={1.8} style={{ color: alpha(oc, 0.6) }} />}
         </Box>
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Typography noWrap sx={{ fontSize: "0.88rem", fontWeight: 700, letterSpacing: "-0.01em" }}>
@@ -173,7 +174,7 @@ function ChildRow({ item, onOpen, dimmed }) {
       }}>
         {item.thumb_url
           ? <Box component="img" src={item.thumb_url} alt="" sx={{ width: "100%", height: "100%", objectFit: "cover" }} />
-          : <Icon sx={{ fontSize: 13, color: alpha(oc, 0.7) }} />}
+          : <Icon size={14} stroke={1.8} style={{ color: alpha(oc, 0.7) }} />}
       </Box>
       <Typography noWrap sx={{ fontSize: "0.78rem", fontWeight: 500, maxWidth: 420 }}>
         {item.title}
@@ -209,7 +210,7 @@ function LonerRow({ item, onOpen, dimmed }) {
       }}>
         {item.thumb_url
           ? <Box component="img" src={item.thumb_url} alt="" sx={{ width: "100%", height: "100%", objectFit: "cover" }} />
-          : <Icon sx={{ fontSize: 12, color: alpha(oc, 0.7) }} />}
+          : <Icon size={13} stroke={1.8} style={{ color: alpha(oc, 0.7) }} />}
       </Box>
       <Typography noWrap sx={{ fontSize: "0.76rem", fontWeight: 500, flex: 1, minWidth: 0 }}>
         {item.title}

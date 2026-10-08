@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import { Box, TextField, IconButton, Paper, Typography, List, ListItemButton, ListItemText } from "@mui/material"
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward"
-import SearchIcon from "@mui/icons-material/Search"
+import { IconArrowUp, IconSearch } from "@tabler/icons-react"
 import http from "../../api/http"
 
 // Debounce helper
@@ -157,13 +156,13 @@ export default function ChatInput({ onSend, disabled }) {
             left: 8,
             right: 8,
             mb: 0.5,
-            borderRadius: 2,
+            borderRadius: "14px",
             overflow: "hidden",
             zIndex: 10,
           }}
         >
-          <Box sx={{ px: 1.5, py: 0.75, borderBottom: 1, borderColor: "divider", display: "flex", alignItems: "center", gap: 0.5 }}>
-            <SearchIcon sx={{ fontSize: 14, color: "text.secondary" }} />
+          <Box sx={{ px: 1.5, py: 0.75, borderBottom: 1, borderColor: "divider", display: "flex", alignItems: "center", gap: 0.75 }}>
+            <IconSearch size={14} stroke={1.8} color="#94a3b8" />
             <Typography variant="caption" color="text.secondary" fontWeight={600}>
               YouTube Search Suggestions
             </Typography>
@@ -174,7 +173,7 @@ export default function ChatInput({ onSend, disabled }) {
                 key={i}
                 selected={i === selectedIndex}
                 onClick={() => handleSelectSuggestion(s)}
-                sx={{ py: 0.5, px: 1.5, borderRadius: 1, mx: 0.5 }}
+                sx={{ py: 0.5, px: 1.5, borderRadius: "10px", mx: 0.5 }}
               >
                 <ListItemText
                   primary={s}
@@ -194,7 +193,7 @@ export default function ChatInput({ onSend, disabled }) {
           bgcolor: "background.paper",
           border: 2,
           borderColor: "divider",
-          borderRadius: 4,
+          borderRadius: "16px",
           px: 2,
           py: 1,
           transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -231,17 +230,17 @@ export default function ChatInput({ onSend, disabled }) {
           disabled={!canSend}
           size="small"
           sx={{
-            background: canSend ? "linear-gradient(135deg, #c96442, #e88a5a)" : undefined,
+            background: canSend ? "linear-gradient(135deg, #8b5cf6, #a78bfa)" : undefined,
             bgcolor: canSend ? undefined : "action.hover",
             color: canSend ? "#fff" : "text.disabled",
-            borderRadius: 2.5,
+            borderRadius: "20px",
             width: 36,
             height: 36,
             mb: 0.25,
             transition: "all 0.15s ease",
             boxShadow: canSend ? (theme) => theme.customShadows?.sm : "none",
             "&:hover": {
-              background: canSend ? "linear-gradient(135deg, #b85838, #d47a4e)" : undefined,
+              background: canSend ? "linear-gradient(135deg, #7c3aed, #8b5cf6)" : undefined,
               boxShadow: canSend ? (theme) => `${theme.customShadows?.md}, ${theme.customShadows?.glow}` : "none",
               transform: canSend ? "scale(1.05)" : "none",
             },
@@ -250,7 +249,7 @@ export default function ChatInput({ onSend, disabled }) {
             },
           }}
         >
-          <ArrowUpwardIcon sx={{ fontSize: 18 }} />
+          <IconArrowUp size={18} stroke={1.8} />
         </IconButton>
       </Box>
     </Box>

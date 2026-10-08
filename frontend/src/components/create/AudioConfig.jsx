@@ -4,9 +4,7 @@ import {
   FormControlLabel, Checkbox, Box, Stack, Paper, Collapse,
   IconButton, Tooltip, TextField, Button, CircularProgress,
 } from "@mui/material"
-import AddIcon from "@mui/icons-material/Add"
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome"
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
+import { IconSparkles, IconTrash } from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 
@@ -51,6 +49,7 @@ function CaptionPreviewCard({ styleKey, label, isSelected, onClick, preview, onD
       onClick={onClick}
       sx={{
         minWidth: 120, p: 0, cursor: "pointer", overflow: "hidden", position: "relative",
+        borderRadius: "14px",
         borderColor: isSelected ? "primary.main" : "divider",
         borderWidth: isSelected ? 2 : 1,
         bgcolor: isSelected ? "action.selected" : "background.paper",
@@ -69,10 +68,11 @@ function CaptionPreviewCard({ styleKey, label, isSelected, onClick, preview, onD
             position: "absolute", top: 2, right: 2, zIndex: 2, p: 0.25,
             opacity: 0, transition: "opacity 0.15s",
             bgcolor: "rgba(0,0,0,0.5)", color: "#fff",
+            borderRadius: "8px",
             "&:hover": { bgcolor: "error.main" },
           }}
         >
-          <DeleteOutlineIcon sx={{ fontSize: 14 }} />
+          <IconTrash size={14} stroke={1.8} />
         </IconButton>
       )}
       {/* Visual preview area */}
@@ -181,8 +181,8 @@ export default function AudioConfig({
         <Stack direction="row" spacing={0.5}>
           <Tooltip title="Generate with AI" arrow>
             <IconButton size="small" onClick={() => setShowAiInput(!showAiInput)}
-              sx={{ color: showAiInput ? "primary.main" : "text.secondary" }}>
-              <AutoAwesomeIcon sx={{ fontSize: 16 }} />
+              sx={{ color: showAiInput ? "primary.main" : "text.secondary", borderRadius: "10px" }}>
+              <IconSparkles size={16} stroke={1.8} />
             </IconButton>
           </Tooltip>
         </Stack>
@@ -206,7 +206,7 @@ export default function AudioConfig({
             variant="contained" size="small"
             onClick={handleAiGenerate}
             disabled={aiLoading || !aiPrompt.trim()}
-            sx={{ minWidth: 80, fontSize: "0.75rem" }}
+            sx={{ minWidth: 80, fontSize: "0.75rem", borderRadius: "20px" }}
           >
             {aiLoading ? <CircularProgress size={16} /> : "Create"}
           </Button>

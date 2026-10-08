@@ -1,7 +1,6 @@
 import ReactMarkdown from "react-markdown"
 import { Box, Typography, Avatar } from "@mui/material"
-import SmartToyIcon from "@mui/icons-material/AutoAwesome"
-import PersonIcon from "@mui/icons-material/PersonOutline"
+import { IconSparkles, IconUser } from "@tabler/icons-react"
 
 const markdownComponents = {
   p: ({ children }) => (
@@ -104,7 +103,7 @@ export default function ChatMessage({ role, content }) {
             boxShadow: isSystem ? "none" : (theme) => theme.customShadows?.sm,
           }}
         >
-          <SmartToyIcon sx={{ fontSize: 16 }} />
+          <IconSparkles size={16} stroke={1.8} />
         </Avatar>
       )}
 
@@ -181,7 +180,7 @@ export default function ChatMessage({ role, content }) {
             flexShrink: 0,
           }}
         >
-          <PersonIcon sx={{ fontSize: 16 }} />
+          <IconUser size={16} stroke={1.8} />
         </Avatar>
       )}
     </Box>

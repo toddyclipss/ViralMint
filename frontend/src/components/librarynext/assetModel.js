@@ -37,14 +37,10 @@ export const ORIGINS = {
   created: {
     label: "Created",
     hint: "Made in ViralMint from a prompt, script or brief",
-    light: "#c96442",   // brand terracotta — the app's own act of making
-    // Text-only step-down. Decoration and text have different contrast floors
-    // — 3:1 vs 4.5:1 — and the brand terracotta falls between them: measured
-    // 3.44:1 on the light canvas. Fine for the rail and the dot, too faint for
-    // the word "CREATED" at 10px. Same hue, 15% less luminance, 4.56:1.
-    // Used ONLY by `originTextColor`; the rail keeps the brand colour.
-    textLight: "#aa5538",
-    dark: "#e88a5a",
+    light: "#7c3aed",   // brand purple — the app's own act of making
+    // Text-only step-down for high contrast on light canvas.
+    textLight: "#6d28d9",
+    dark: "#a78bfa",
   },
   imported: {
     // Label, not key: `imported` stays on the wire (URLs, API, picker payloads).

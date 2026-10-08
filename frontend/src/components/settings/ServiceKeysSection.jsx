@@ -3,13 +3,15 @@ import {
   Box, Stack, Typography, Alert, TextField, Button, IconButton, InputAdornment,
   Chip, Dialog, DialogTitle, DialogContent, DialogActions, Link,
 } from "@mui/material"
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined"
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOffOutlined"
-import SaveIcon from "@mui/icons-material/SaveOutlined"
-import EditIcon from "@mui/icons-material/EditOutlined"
-import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined"
-import CheckCircleIcon from "@mui/icons-material/CheckCircleOutline"
-import YouTubeIcon from "@mui/icons-material/YouTube"
+import {
+  IconEye,
+  IconEyeOff,
+  IconDeviceFloppy,
+  IconEdit,
+  IconTrash,
+  IconCircleCheck,
+  IconBrandYoutube,
+} from "@tabler/icons-react"
 import useAppStore from "../../store/appStore"
 
 /**
@@ -21,7 +23,7 @@ const SERVICES = [
     id: "youtube",
     label: "YouTube Data API",
     description: "Powers YouTube trends discovery, channel reader, and comment analysis",
-    icon: <YouTubeIcon sx={{ color: "#FF0000", fontSize: 28 }} />,
+    icon: <IconBrandYoutube size={28} stroke={1.8} style={{ color: "#ef4444" }} />,
     settingsKey: "youtube_api_key",      // POST /api/settings field
     setFlag: "youtube_api_key_set",       // GET response flag (masked)
     placeholder: "AIzaSy...",
@@ -90,7 +92,7 @@ function ServiceKeyRow({ service, settings, updateSettings }) {
         p: 2,
         border: 1,
         borderColor: "divider",
-        borderRadius: 2,
+        borderRadius: "16px",
         "&:not(:last-of-type)": { mb: 2 },
       }}
     >
@@ -106,9 +108,9 @@ function ServiceKeyRow({ service, settings, updateSettings }) {
                 size="small"
                 color="success"
                 variant="outlined"
-                icon={<CheckCircleIcon fontSize="small" />}
+                icon={<IconCircleCheck size={14} stroke={2} />}
                 label="key set"
-                sx={{ fontWeight: 500 }}
+                sx={{ fontWeight: 500, borderRadius: "10px" }}
               />
             )}
           </Stack>
@@ -123,9 +125,10 @@ function ServiceKeyRow({ service, settings, updateSettings }) {
           <Button
             variant="outlined"
             size="small"
-            startIcon={<EditIcon />}
+            startIcon={<IconEdit size={16} stroke={1.8} />}
             onClick={() => { setEditing(true); setApiKey("") }}
             disabled={saving}
+            sx={{ borderRadius: "20px", textTransform: "none" }}
           >
             Update
           </Button>
@@ -133,9 +136,10 @@ function ServiceKeyRow({ service, settings, updateSettings }) {
             variant="outlined"
             color="error"
             size="small"
-            startIcon={<DeleteIcon />}
+            startIcon={<IconTrash size={16} stroke={1.8} />}
             onClick={() => setConfirmRemove(true)}
             disabled={saving}
+            sx={{ borderRadius: "20px", textTransform: "none" }}
           >
             Remove
           </Button>
@@ -159,11 +163,16 @@ function ServiceKeyRow({ service, settings, updateSettings }) {
             }
             disabled={saving}
             autoComplete="off"
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "14px",
+              },
+            }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton size="small" onClick={() => setShowKey((v) => !v)} edge="end" tabIndex={-1}>
-                    {showKey ? <VisibilityOffIcon fontSize="small" /> : <VisibilityIcon fontSize="small" />}
+                    {showKey ? <IconEyeOff size={16} stroke={1.8} /> : <IconEye size={16} stroke={1.8} />}
                   </IconButton>
                 </InputAdornment>
               ),
@@ -173,9 +182,10 @@ function ServiceKeyRow({ service, settings, updateSettings }) {
             <Button
               variant="contained"
               size="small"
-              startIcon={<SaveIcon />}
+              startIcon={<IconDeviceFloppy size={16} stroke={1.8} />}
               onClick={handleSave}
               disabled={saving || !apiKey.trim()}
+              sx={{ borderRadius: "20px", textTransform: "none", fontWeight: 600 }}
             >
               {saving ? "Saving…" : "Save"}
             </Button>
@@ -185,6 +195,7 @@ function ServiceKeyRow({ service, settings, updateSettings }) {
                 size="small"
                 onClick={() => { setEditing(false); setApiKey("") }}
                 disabled={saving}
+                sx={{ borderRadius: "20px", textTransform: "none" }}
               >
                 Cancel
               </Button>

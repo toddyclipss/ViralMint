@@ -1,16 +1,18 @@
 import { useState, useCallback } from "react"
 import { Box, Card, CardMedia, CardContent, Typography, Chip, Checkbox, Tooltip, Button, IconButton, Stack } from "@mui/material"
-import CheckCircleIcon from "@mui/icons-material/CheckCircle"
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline"
-import VideocamOffOutlinedIcon from "@mui/icons-material/VideocamOffOutlined"
-import DownloadIcon from "@mui/icons-material/Download"
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
-import LaunchIcon from "@mui/icons-material/Launch"
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined"
-import ThumbUpIcon from "@mui/icons-material/ThumbUpOutlined"
-import NewspaperIcon from "@mui/icons-material/Newspaper"
-import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd"
-import BookmarkAddedIcon from "@mui/icons-material/BookmarkAdded"
+import {
+  IconCircleCheck,
+  IconPlayerPlayFilled,
+  IconVideoOff,
+  IconDownload,
+  IconTrash,
+  IconExternalLink,
+  IconEye,
+  IconThumbUp,
+  IconNews,
+  IconBookmarkPlus,
+  IconBookmarkFilled,
+} from "@tabler/icons-react"
 
 function ViralityChip({ score }) {
   const num = typeof score === "number" ? score : parseFloat(score) || 0
@@ -96,9 +98,10 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
             sx={{
               cursor: "pointer",
               position: "relative",
-              borderColor: isSelected ? "secondary.main" : "divider",
-              transition: "border-color 0.2s, box-shadow 0.2s",
-              "&:hover": { borderColor: "primary.main", boxShadow: "0 0 0 1px rgba(201,100,66,0.2)" },
+              borderRadius: "18px",
+              borderColor: isSelected ? "primary.main" : "divider",
+              transition: "border-color 0.2s, box-shadow 0.2s, transform 0.2s",
+              "&:hover": { borderColor: "primary.main", boxShadow: "0 4px 14px rgba(139, 92, 246, 0.2)", transform: "translateY(-2px)" },
             }}
           >
             {onToggle && (
@@ -107,13 +110,13 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
                 onChange={(e) => { e.stopPropagation(); onToggle(r.id, e) }}
                 onClick={(e) => e.stopPropagation()}
                 size="small"
-                sx={{ position: "absolute", top: 4, left: 4, zIndex: 2, p: 0, "& .MuiSvgIcon-root": { filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.8)) drop-shadow(0 0 6px rgba(0,0,0,0.5))" } }}
+                sx={{ position: "absolute", top: 6, left: 6, zIndex: 2, p: 0, bgcolor: "background.paper", borderRadius: "6px" }}
               />
             )}
 
             {r.is_downloaded && (
               <Chip
-                icon={isNews ? <BookmarkAddedIcon /> : <CheckCircleIcon />}
+                icon={isNews ? <IconBookmarkFilled size={14} /> : <IconCircleCheck size={14} stroke={1.8} />}
                 label={isNews ? "Saved" : "Downloaded"}
                 size="small"
                 color="success"
@@ -124,7 +127,7 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
             {isNews ? (
               <Box sx={{
                 position: "relative", width: "100%", aspectRatio: "16 / 9",
-                bgcolor: (t) => t.palette.mode === "dark" ? "rgba(255,152,0,0.08)" : "rgba(255,152,0,0.05)",
+                bgcolor: (t) => t.palette.mode === "dark" ? "rgba(139,92,246,0.08)" : "rgba(139,92,246,0.05)",
                 display: "flex", flexDirection: "column", justifyContent: "center", px: 2,
                 overflow: "hidden",
               }}>
@@ -134,7 +137,7 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
                       onError={() => markThumbBroken(r.id)}
                       sx={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.15 }} />
                     <Box sx={{ position: "relative", zIndex: 1 }}>
-                      <NewspaperIcon sx={{ fontSize: 28, color: "warning.main", mb: 0.5 }} />
+                      <IconNews size={28} stroke={1.8} style={{ color: "#8b5cf6", marginBottom: 4 }} />
                       <Typography variant="caption" sx={{ color: "text.secondary", display: "block", fontWeight: 600 }}>
                         {r.author || newsDesc?.source || "News"}
                       </Typography>
@@ -151,7 +154,7 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
                   </>
                 ) : (
                   <>
-                    <NewspaperIcon sx={{ fontSize: 28, color: "warning.main", mb: 0.5 }} />
+                    <IconNews size={28} stroke={1.8} style={{ color: "#8b5cf6", marginBottom: 4 }} />
                     <Typography variant="caption" sx={{ color: "text.secondary", display: "block", fontWeight: 600 }}>
                       {r.author || newsDesc?.source || "News"}
                     </Typography>
@@ -198,7 +201,7 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
                     justifyContent: "center",
                     bgcolor: "action.hover",
                   }}>
-                    <VideocamOffOutlinedIcon sx={{ fontSize: 30, color: "text.disabled" }} />
+                    <IconVideoOff size={30} stroke={1.5} />
                   </Box>
                 )}
                 {watchUrl && (
@@ -207,8 +210,8 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
                     display: "flex", alignItems: "center", justifyContent: "center",
                     cursor: "pointer",
                   }}>
-                    <PlayCircleOutlineIcon className="play-icon" sx={{
-                      fontSize: 52, color: "rgba(255,255,255,0.85)",
+                    <IconPlayerPlayFilled className="play-icon" style={{
+                      width: 48, height: 48, color: "rgba(255,255,255,0.9)",
                       filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.5))",
                       opacity: 0.8, transition: "transform 0.15s, opacity 0.15s",
                     }} />
@@ -221,7 +224,7 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
               <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 0.5, flexWrap: "wrap", gap: 0.5 }}>
                 <Box sx={{ display: "flex", gap: 0.5, alignItems: "center", flexWrap: "wrap" }}>
                   <Chip label={isNews ? "NEWS" : r.platform} size="small" variant="outlined"
-                    icon={isNews ? <NewspaperIcon sx={{ fontSize: "14px !important" }} /> : undefined}
+                    icon={isNews ? <IconNews size={13} stroke={1.8} /> : undefined}
                     sx={{ textTransform: "uppercase", fontSize: "0.65rem", height: 22,
                       ...(isNews && { borderColor: "warning.main", color: "warning.main" }) }} />
                   {!isNews && <VPHChip vph={r.views_per_hour} />}
@@ -251,8 +254,14 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
                   {newsDesc?.engagement > 0 && ` · ${formatViews(newsDesc.engagement)} engagement`}
                 </Typography>
               ) : (
-                <Typography variant="caption" sx={{ color: "text.secondary", display: "block", mb: 1 }}>
-                  {r.author} · <VisibilityIcon sx={{ fontSize: 12, verticalAlign: "middle", mr: 0.3 }} />{formatViews(r.views)} · <ThumbUpIcon sx={{ fontSize: 12, verticalAlign: "middle", mr: 0.3 }} />{formatViews(r.likes || 0)}
+                <Typography variant="caption" sx={{ color: "text.secondary", display: "flex", alignItems: "center", flexWrap: "wrap", gap: 0.5, mb: 1 }}>
+                  <span>{r.author}</span> ·
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 2 }}>
+                    <IconEye size={12} stroke={1.8} />{formatViews(r.views)}
+                  </span> ·
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 2 }}>
+                    <IconThumbUp size={12} stroke={1.8} />{formatViews(r.likes || 0)}
+                  </span>
                   {r.upload_date && ` · ${new Date(r.upload_date).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" })}`}
                 </Typography>
               )}
@@ -263,10 +272,11 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
                   <Button
                     size="small"
                     variant="contained"
-                    startIcon={isNews ? <BookmarkAddIcon /> : <DownloadIcon />}
+                    startIcon={isNews ? <IconBookmarkPlus size={16} stroke={1.8} /> : <IconDownload size={16} stroke={1.8} />}
                     onClick={(e) => handleDownload(e, r.id)}
                     disabled={loadingId === r.id}
                     color={isNews ? "warning" : "primary"}
+                    sx={{ borderRadius: "20px", textTransform: "none", fontWeight: 600 }}
                   >
                     {loadingId === r.id ? "Saving..." : isNews ? "Save to Library" : "Download & Analyze"}
                   </Button>
@@ -277,9 +287,9 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
                     <IconButton
                       size="small"
                       onClick={(e) => { e.stopPropagation(); window.open(r.video_url, "_blank", "noopener") }}
-                      sx={{ p: 0.5, color: "text.secondary", "&:hover": { color: "primary.main" } }}
+                      sx={{ p: 0.5, color: "text.secondary", borderRadius: "10px", "&:hover": { color: "primary.main" } }}
                     >
-                      <LaunchIcon sx={{ fontSize: "1.1rem" }} />
+                      <IconExternalLink size={16} stroke={1.8} />
                     </IconButton>
                   </Tooltip>
                 )}
@@ -287,9 +297,9 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
                   <IconButton
                     size="small"
                     onClick={(e) => { e.stopPropagation(); onDelete(r.id) }}
-                    sx={{ p: 0.5, color: "text.secondary", "&:hover": { color: "error.main" } }}
+                    sx={{ p: 0.5, color: "text.secondary", borderRadius: "10px", "&:hover": { color: "error.main" } }}
                   >
-                    <DeleteOutlineIcon sx={{ fontSize: "1.1rem" }} />
+                    <IconTrash size={16} stroke={1.8} />
                   </IconButton>
                 </Tooltip>
               </Stack>
@@ -300,7 +310,7 @@ export default function CardGrid({ results, onSelect, onDownload, onDelete, sele
     </Box>
     {visibleCount < results.length && (
       <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
-        <Button variant="outlined" onClick={showMore}>
+        <Button variant="outlined" onClick={showMore} sx={{ borderRadius: "20px" }}>
           Show more ({results.length - visibleCount} remaining)
         </Button>
       </Box>

@@ -17,24 +17,26 @@
 import { keyframes } from "@mui/system"
 import { forwardRef } from "react"
 import { Paper, Box, IconButton } from "@mui/material"
-import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined"
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline"
-import WarningAmberIcon from "@mui/icons-material/WarningAmber"
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
-import CloseIcon from "@mui/icons-material/Close"
+import {
+  IconCircleCheck,
+  IconAlertCircle,
+  IconAlertTriangle,
+  IconInfoCircle,
+  IconX,
+} from "@tabler/icons-react"
 
 // ── Keyframes ──────────────────────────────────────────────────────────
 
-/** Cool-tone (cyan/blue) selection pulse — used by Smart Video, etc. */
+/** Cool-tone (violet/indigo) selection pulse — used by Smart Video, etc. */
 export const pulseGlow = keyframes`
-  0%, 100% { box-shadow: 0 0 0 1px rgba(99,179,237,0.6),  0 0 18px rgba(99,179,237,0.35), inset 0 0 14px rgba(99,179,237,0.10); }
-  50%      { box-shadow: 0 0 0 1px rgba(99,179,237,0.9),  0 0 32px rgba(99,179,237,0.55), inset 0 0 22px rgba(99,179,237,0.18); }
+  0%, 100% { box-shadow: 0 0 0 1px rgba(139,92,246,0.6),  0 0 18px rgba(139,92,246,0.35), inset 0 0 14px rgba(139,92,246,0.10); }
+  50%      { box-shadow: 0 0 0 1px rgba(139,92,246,0.9),  0 0 32px rgba(139,92,246,0.55), inset 0 0 22px rgba(139,92,246,0.18); }
 `
 
-/** Warm-brand (terracotta) selection pulse — used by sidebar active nav. */
+/** Electric violet selection pulse — used by active nav and cards. */
 export const pulseGlowWarm = keyframes`
-  0%, 100% { box-shadow: 0 0 0 1px rgba(201,100,66,0.50), 0 0 14px rgba(201,100,66,0.28), inset 0 0 10px rgba(201,100,66,0.08); }
-  50%      { box-shadow: 0 0 0 1px rgba(201,100,66,0.85), 0 0 24px rgba(201,100,66,0.46), inset 0 0 18px rgba(201,100,66,0.14); }
+  0%, 100% { box-shadow: 0 0 0 1px rgba(139,92,246,0.50), 0 0 14px rgba(139,92,246,0.28), inset 0 0 10px rgba(139,92,246,0.08); }
+  50%      { box-shadow: 0 0 0 1px rgba(139,92,246,0.85), 0 0 24px rgba(139,92,246,0.46), inset 0 0 18px rgba(139,92,246,0.14); }
 `
 
 /** Diagonal sheen sweep for primary CTAs (Generate, Submit, etc.). */
@@ -199,17 +201,17 @@ export const GlassCard = forwardRef(function GlassCard(
  *             (typically a Button — e.g. "Install" deep-link from snackbar)
  */
 const SEVERITY_ICONS = {
-  success: CheckCircleOutlinedIcon,
-  error: ErrorOutlineIcon,
-  warning: WarningAmberIcon,
-  info: InfoOutlinedIcon,
+  success: IconCircleCheck,
+  error: IconAlertCircle,
+  warning: IconAlertTriangle,
+  info: IconInfoCircle,
 }
 
 export const GlassAlert = forwardRef(function GlassAlert(
   { severity = "info", onClose, action, children, sx, ...rest },
   ref,
 ) {
-  const Icon = SEVERITY_ICONS[severity] || InfoOutlinedIcon
+  const Icon = SEVERITY_ICONS[severity] || IconInfoCircle
   return (
     <Paper
       ref={ref}
@@ -218,7 +220,7 @@ export const GlassAlert = forwardRef(function GlassAlert(
       {...rest}
       sx={(theme) => ({
         ...glassPanelSx(theme),
-        borderRadius: 2.5,
+        borderRadius: "16px",
         borderLeft: `3px solid ${theme.palette[severity]?.main || theme.palette.info.main}`,
         display: "flex",
         alignItems: "center",
@@ -229,7 +231,7 @@ export const GlassAlert = forwardRef(function GlassAlert(
         ...(typeof sx === "function" ? sx(theme) : sx),
       })}
     >
-      <Icon sx={{ color: `${severity}.main`, fontSize: 22, flexShrink: 0 }} />
+      <Icon size={20} stroke={1.8} style={{ flexShrink: 0, color: "var(--color-primary, #8b5cf6)" }} />
       <Box sx={{ flex: 1, minWidth: 0, fontSize: "0.88rem", lineHeight: 1.5 }}>
         {children}
       </Box>
@@ -241,7 +243,7 @@ export const GlassAlert = forwardRef(function GlassAlert(
           aria-label="Close"
           sx={{ ml: 0.25, color: "text.secondary", "&:hover": { color: "text.primary" } }}
         >
-          <CloseIcon sx={{ fontSize: 18 }} />
+          <IconX size={16} stroke={1.8} />
         </IconButton>
       )}
     </Paper>
@@ -255,12 +257,12 @@ export const GlassAlert = forwardRef(function GlassAlert(
  * Uses ::before / ::after, so do NOT use this on an element that already
  * relies on those pseudo-elements.
  *
- * Defaults to the brand palette (warm terracotta + mint). Override for
+ * Defaults to the brand palette (electric violet + soft indigo/cyan). Override for
  * page-specific accents by passing { a, b } colors.
  */
 export const auroraBackgroundSx = (theme, opts = {}) => {
-  const a = opts.a || "#C96442"   // warm terracotta (brand)
-  const b = opts.b || "#0D9F6E"   // mint green (brand)
+  const a = opts.a || "#8b5cf6"   // electric violet (brand)
+  const b = opts.b || "#6366f1"   // soft indigo (brand)
   return {
     "&::before, &::after": {
       content: '""',

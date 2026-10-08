@@ -1,9 +1,6 @@
-// SPDX-License-Identifier: AGPL-3.0-only
-// Copyright (c) 2025-2026 ViralMint Contributors
 import { Box, Typography } from "@mui/material"
 import { onActivate } from "../../../utils/a11y"
-import CloseIcon from "@mui/icons-material/Close"
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesomeOutlined"
+import { IconX, IconSparkles } from "@tabler/icons-react"
 
 /* ── One pending cut, drawn on the timeline ────────────────────
    Three hit zones, and their widths are the whole ergonomics of the
@@ -115,8 +112,8 @@ export default function RangeBlock({
           {index + 1}
         </Box>
         {range.meta && (
-          <AutoAwesomeIcon sx={{
-            flexShrink: 0, fontSize: 11, color: "#ffd479",
+          <IconSparkles size={11} stroke={1.8} color="#ffd479" style={{
+            flexShrink: 0,
             filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.9))",
           }} />
         )}
@@ -131,16 +128,11 @@ export default function RangeBlock({
         )}
       </Box>
 
-      {/* Remove — only on the selected block, so a dense timeline isn't a
-          field of ✕ buttons waiting for a misclick. */}
+      {/* Remove — only on the selected block */}
       {selected && width >= 56 && (
         <Box
           onPointerDown={(e) => e.stopPropagation()}
           onClick={(e) => { e.stopPropagation(); onRemove() }}
-          // Reachable and pressable: it was a role="button" with no tabIndex
-          // and no key handler, so a keyboard user could neither land on it
-          // nor fire it. (⌫ on the selected range is the faster path; this is
-          // the one that matches what the mouse sees.)
           role="button" tabIndex={0}
           onKeyDown={onActivate((e) => { e.stopPropagation(); onRemove() })}
           aria-label={`Remove range ${index + 1}`}
@@ -153,7 +145,7 @@ export default function RangeBlock({
             "&:hover": { bgcolor: "error.main" },
           }}
         >
-          <CloseIcon sx={{ fontSize: 11 }} />
+          <IconX size={11} stroke={1.8} />
         </Box>
       )}
     </Box>

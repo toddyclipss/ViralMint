@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { TextField, Box, Button, CircularProgress, Tooltip } from "@mui/material"
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesomeOutlined"
-import UndoIcon from "@mui/icons-material/UndoOutlined"
+import { IconSparkles, IconArrowBackUp } from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 
@@ -103,9 +102,10 @@ export default function PromptField({
               <Button
                 size="small"
                 onClick={undo}
-                startIcon={<UndoIcon sx={{ fontSize: "16px !important" }} />}
+                startIcon={<IconArrowBackUp size={15} stroke={1.8} />}
                 sx={{
                   minWidth: 0, px: 1, py: 0.25, fontSize: "0.72rem",
+                  borderRadius: "14px",
                   color: "text.secondary",
                   bgcolor: (t) => t.palette.mode === "dark" ? "rgba(0,0,0,0.35)" : "rgba(255,255,255,0.75)",
                   backdropFilter: "blur(4px)",
@@ -123,9 +123,10 @@ export default function PromptField({
                 disabled={loading}
                 startIcon={loading
                   ? <CircularProgress size={13} color="inherit" />
-                  : <AutoAwesomeIcon sx={{ fontSize: "16px !important" }} />}
+                  : <IconSparkles size={15} stroke={1.8} />}
                 sx={{
                   minWidth: 0, px: 1, py: 0.25, fontSize: "0.72rem", fontWeight: 700,
+                  borderRadius: "14px",
                   color: "primary.main",
                   bgcolor: (t) => t.palette.mode === "dark" ? "rgba(0,0,0,0.35)" : "rgba(255,255,255,0.75)",
                   backdropFilter: "blur(4px)",

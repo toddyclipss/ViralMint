@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react"
 import {
   Box, Typography, Stack, Button, ToggleButton, ToggleButtonGroup,
 } from "@mui/material"
-import CropOutlinedIcon from "@mui/icons-material/CropOutlined"
+import { IconCrop } from "@tabler/icons-react"
 import ToolRunner from "../../components/tools/ToolRunner"
 import { useToolInput } from "../../components/tools/ToolInputContext"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
@@ -170,7 +170,7 @@ export default function ToolCrop() {
     <ToolRunner
       title="Crop Video"
       description="Drag a box over the frame and keep just that part."
-      icon={<CropOutlinedIcon fontSize="large" />}
+      icon={<IconCrop size={28} stroke={1.8} />}
       endpoint="/api/tools/crop"
       processLabel="Crop"
       downloadLabel="Download cropped"

@@ -3,8 +3,7 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions,
   IconButton, Typography, Box, Button, LinearProgress, Stack,
 } from "@mui/material"
-import CloseIcon from "@mui/icons-material/Close"
-import CheckCircleIcon from "@mui/icons-material/CheckCircle"
+import { IconX, IconCircleCheck } from "@tabler/icons-react"
 import { ws } from "../../api/websocket"
 import useAppStore from "../../store/appStore"
 import WizardStep from "./WizardStep"
@@ -54,25 +53,25 @@ export default function SetupWizard() {
   }
 
   return (
-    <Dialog open maxWidth="sm" fullWidth onClose={handleClose} slotProps={{ paper: { sx: { bgcolor: "background.paper" } } }}>
+    <Dialog open maxWidth="sm" fullWidth onClose={handleClose} slotProps={{ paper: { sx: { bgcolor: "background.paper", borderRadius: "20px" } } }}>
       <DialogTitle sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", pb: 1 }}>
         <Box>
           <Typography variant="h6">{activeWizard.title}</Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>{activeWizard.description}</Typography>
         </Box>
-        <IconButton onClick={handleClose} size="small" sx={{ color: "text.secondary" }}>
-          <CloseIcon />
+        <IconButton onClick={handleClose} size="small" sx={{ color: "text.secondary", borderRadius: "10px" }}>
+          <IconX size={18} stroke={1.8} />
         </IconButton>
       </DialogTitle>
 
-      <LinearProgress variant="determinate" value={isComplete ? 100 : progress} color="primary" sx={{ mx: 3 }} />
+      <LinearProgress variant="determinate" value={isComplete ? 100 : progress} color="primary" sx={{ mx: 3, borderRadius: 2 }} />
 
       <DialogContent sx={{ pt: 2 }}>
         {isComplete ? (
           <Stack alignItems="center" spacing={2} sx={{ py: 4 }}>
-            <CheckCircleIcon sx={{ fontSize: 48, color: "primary.main" }} />
+            <IconCircleCheck size={48} stroke={1.8} color="#8b5cf6" />
             <Typography variant="h6" sx={{ color: "primary.main" }}>Setup complete!</Typography>
-            <Button variant="contained" onClick={() => setActiveWizard(null)}>Done</Button>
+            <Button variant="contained" onClick={() => setActiveWizard(null)} sx={{ borderRadius: "20px" }}>Done</Button>
           </Stack>
         ) : (
           <>

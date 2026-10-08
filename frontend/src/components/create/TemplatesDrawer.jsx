@@ -5,8 +5,7 @@
 // "pick a starting point" gallery out of the main studio's vertical space —
 // it slides out on demand and closes once a template is applied.
 import { Box, Typography, IconButton, Drawer, Divider } from "@mui/material"
-import CloseIcon from "@mui/icons-material/Close"
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome"
+import { IconX, IconSparkles } from "@tabler/icons-react"
 import TemplateGallery from "./TemplateGallery"
 
 export default function TemplatesDrawer({ open, onClose, mode = "stock", onApply }) {
@@ -19,13 +18,13 @@ export default function TemplatesDrawer({ open, onClose, mode = "stock", onApply
     >
       <Box sx={{ px: 2, py: 1.5, display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <AutoAwesomeIcon sx={{ fontSize: 20, color: "primary.main" }} />
+          <IconSparkles size={20} stroke={1.8} color="#8b5cf6" />
           <Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 700, lineHeight: 1.1 }}>Templates</Typography>
             <Typography variant="caption" sx={{ color: "text.secondary" }}>Pick a starting point</Typography>
           </Box>
         </Box>
-        <IconButton onClick={onClose} size="small"><CloseIcon /></IconButton>
+        <IconButton onClick={onClose} size="small" sx={{ borderRadius: "10px" }}><IconX size={18} stroke={1.8} /></IconButton>
       </Box>
       <Divider />
       <Box sx={{ flex: 1, overflowY: "auto" }}>

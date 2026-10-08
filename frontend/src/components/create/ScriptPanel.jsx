@@ -1,6 +1,5 @@
 import { Box, Typography, Button, Stack, Paper, TextField } from "@mui/material"
-import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh"
-import EditNoteIcon from "@mui/icons-material/EditNote"
+import { IconSparkles, IconNotes } from "@tabler/icons-react"
 import SourcePanel from "./SourcePanel"
 
 /**
@@ -39,10 +38,10 @@ export default function ScriptPanel({
       {children}
 
       {/* Script editor */}
-      <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
+      <Paper variant="outlined" sx={{ p: 2, borderRadius: "16px" }}>
         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 1 }}>
-          <Typography variant="subtitle2" sx={{ fontWeight: 600, color: "text.secondary" }}>
-            <EditNoteIcon sx={{ fontSize: 18, verticalAlign: "text-bottom", mr: 0.5 }} />
+          <Typography variant="subtitle2" sx={{ fontWeight: 600, color: "text.secondary", display: "flex", alignItems: "center", gap: 0.75 }}>
+            <IconNotes size={18} stroke={1.8} />
             Script
           </Typography>
         </Stack>
@@ -62,14 +61,14 @@ export default function ScriptPanel({
                   onGenerateScript()
                 }
               }}
-              sx={{ "& .MuiOutlinedInput-root": { fontSize: "0.85rem" } }}
+              sx={{ "& .MuiOutlinedInput-root": { fontSize: "0.85rem", borderRadius: "12px" } }}
             />
             <Button
               size="small" variant="contained"
               onClick={onGenerateScript}
               disabled={scriptLoading}
-              startIcon={<AutoFixHighIcon />}
-              sx={{ whiteSpace: "nowrap", minWidth: 140 }}
+              startIcon={<IconSparkles size={16} stroke={1.8} />}
+              sx={{ whiteSpace: "nowrap", minWidth: 140, borderRadius: "20px" }}
             >
               {scriptLoading ? "Generating..." : scriptGenerated ? "Regenerate" : "Generate with AI"}
             </Button>
@@ -89,7 +88,7 @@ export default function ScriptPanel({
           value={script}
           onChange={e => setScript(e.target.value)}
           placeholder={placeholderScript}
-          sx={{ "& .MuiOutlinedInput-root": { fontSize: "0.9rem", lineHeight: 1.7 } }}
+          sx={{ "& .MuiOutlinedInput-root": { fontSize: "0.9rem", lineHeight: 1.7, borderRadius: "14px" } }}
         />
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mt: 0.5 }}>
@@ -103,8 +102,8 @@ export default function ScriptPanel({
             <Button
               size="small" onClick={onPolishScript}
               disabled={scriptLoading}
-              startIcon={<AutoFixHighIcon />}
-              sx={{ fontSize: "0.75rem", textTransform: "none" }}
+              startIcon={<IconSparkles size={14} stroke={1.8} />}
+              sx={{ fontSize: "0.75rem", textTransform: "none", borderRadius: "20px" }}
             >
               Polish Script
             </Button>

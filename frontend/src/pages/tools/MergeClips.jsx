@@ -6,14 +6,16 @@ import {
 } from "@mui/material"
 import { GlassPanel, GlassCard } from "../../utils/glassFx"
 import { alpha } from "@mui/material/styles"
-import MovieFilterOutlinedIcon from "@mui/icons-material/MovieFilterOutlined"
-import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined"
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined"
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline"
-import CloseIcon from "@mui/icons-material/Close"
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"
-import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
-import WarningAmberIcon from "@mui/icons-material/WarningAmber"
+import {
+  IconMovie,
+  IconUpload,
+  IconDownload,
+  IconPlayerPlay,
+  IconX,
+  IconArrowLeft,
+  IconGripVertical,
+  IconAlertTriangle,
+} from "@tabler/icons-react"
 import http from "../../api/http"
 import { toolJobTypeFor } from "../../components/tools/toolJobType"
 import useAppStore from "../../store/appStore"
@@ -243,15 +245,15 @@ export default function ToolMergeClips() {
         display: "flex", alignItems: "center", justifyContent: "space-between",
         gap: 2,
         background: (t) => t.palette.mode === "dark"
-          ? "linear-gradient(135deg, rgba(201,100,66,0.08) 0%, rgba(30,28,26,1) 100%)"
-          : "linear-gradient(135deg, rgba(201,100,66,0.06) 0%, rgba(255,255,255,1) 100%)",
+          ? "linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(18, 18, 26, 1) 100%)"
+          : "linear-gradient(135deg, rgba(139, 92, 246, 0.06) 0%, rgba(255, 255, 255, 1) 100%)",
       }}>
         <Stack direction="row" spacing={1.5} alignItems="center" sx={{ minWidth: 0 }}>
           <IconButton size="small" onClick={() => navigate("/tools")}>
-            <ArrowBackIcon />
+            <IconArrowLeft size={20} stroke={1.8} />
           </IconButton>
           <Box sx={{ color: "primary.main", display: "flex", alignItems: "center" }}>
-            <MovieFilterOutlinedIcon fontSize="large" />
+            <IconMovie size={28} stroke={1.8} />
           </Box>
           <Box sx={{ minWidth: 0 }}>
             <Typography variant="h5" sx={{ fontWeight: 700, letterSpacing: -0.3 }}>
@@ -268,7 +270,7 @@ export default function ToolMergeClips() {
             variant="contained"
             onClick={submit}
             disabled={clips.length < MIN_CLIPS}
-            sx={{ flexShrink: 0, px: 3 }}
+            sx={{ flexShrink: 0, px: 3, borderRadius: "20px" }}
           >
             Merge {clips.length >= MIN_CLIPS ? `${clips.length} clips` : "clips"}
           </Button>
@@ -313,7 +315,9 @@ export default function ToolMergeClips() {
                 onChange={(e) => { addFiles(e.target.files); e.target.value = "" }}
               />
               <Stack spacing={1} alignItems="center">
-                <CloudUploadOutlinedIcon sx={{ fontSize: 40, color: "text.secondary" }} />
+                <Box sx={{ color: "text.secondary", display: "flex", alignItems: "center" }}>
+                  <IconUpload size={40} stroke={1.8} />
+                </Box>
                 <Typography variant="body2" sx={{ fontWeight: 600 }}>
                   {clips.length === 0
                     ? "Drop clips here or click to browse"
@@ -440,7 +444,7 @@ export default function ToolMergeClips() {
             <>
               <Alert
                 severity="warning"
-                icon={<WarningAmberIcon />}
+                icon={<IconAlertTriangle size={20} stroke={1.8} />}
                 sx={{ "& .MuiAlert-message": { fontWeight: 500 } }}
               >
                 Don't leave or refresh this page — clips merging is in progress.
@@ -465,14 +469,15 @@ export default function ToolMergeClips() {
                 <Button
                   size="small"
                   variant="contained"
-                  startIcon={<DownloadOutlinedIcon />}
+                  startIcon={<IconDownload size={18} stroke={1.8} />}
                   href={`/api/tools/download/${jobId}`}
                   target="_blank"
                   rel="noopener"
+                  sx={{ borderRadius: "20px" }}
                 >
                   Download
                 </Button>
-                <Button size="small" onClick={reset}>Merge more</Button>
+                <Button size="small" onClick={reset} sx={{ borderRadius: "20px" }}>Merge more</Button>
               </Stack>
             }>
               Done. Your merged video is ready.
@@ -481,7 +486,7 @@ export default function ToolMergeClips() {
 
           {/* Failed */}
           {jobFailed && (
-            <Alert severity="error" action={<Button size="small" onClick={reset}>Try again</Button>}>
+            <Alert severity="error" action={<Button size="small" onClick={reset} sx={{ borderRadius: "20px" }}>Try again</Button>}>
               {job?.step || terminal?.step || "Job failed"}
             </Alert>
           )}
@@ -573,7 +578,7 @@ export default function ToolMergeClips() {
             onClick={() => setPreviewClip(null)}
             sx={{ position: "absolute", top: 8, right: 8, color: "#fff", bgcolor: "rgba(0,0,0,0.5)", "&:hover": { bgcolor: "rgba(0,0,0,0.7)" } }}
           >
-            <CloseIcon />
+            <IconX size={20} stroke={1.8} />
           </IconButton>
         </DialogContent>
       </Dialog>
@@ -643,12 +648,15 @@ function FilmstripCard({
 
         {/* Drag handle hint — bottom-left */}
         {!disabled && (
-          <DragIndicatorIcon sx={{
+          <Box sx={{
             position: "absolute", bottom: 4, left: 4,
-            fontSize: 18, color: "rgba(255,255,255,0.7)",
+            display: "flex", alignItems: "center",
+            color: "rgba(255,255,255,0.7)",
             filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.6))",
             pointerEvents: "none",
-          }} />
+          }}>
+            <IconGripVertical size={18} stroke={1.8} />
+          </Box>
         )}
 
         {/* Hover overlay with centered play button. */}
@@ -663,7 +671,7 @@ function FilmstripCard({
             cursor: "pointer",
           }}
         >
-          <PlayCircleOutlineIcon sx={{ fontSize: 40, color: "#fff" }} />
+          <IconPlayerPlay size={36} stroke={1.8} color="#fff" />
         </Box>
 
         {/* Remove button — top-right. */}
@@ -680,7 +688,7 @@ function FilmstripCard({
               "&:hover": { bgcolor: "rgba(0,0,0,0.85)" },
             }}
           >
-            <CloseIcon sx={{ fontSize: 20 }} />
+            <IconX size={16} stroke={1.8} />
           </IconButton>
         )}
       </Box>

@@ -1,36 +1,38 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Box, Typography, Stack, CardActionArea, Divider, TextField, InputAdornment } from "@mui/material"
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined"
 import useDocumentTitle from "../hooks/useDocumentTitle"
 import PageHero from "../components/PageHero"
 import { alpha } from "@mui/material/styles"
 import { GlassCard } from "../utils/glassFx"
-import BuildOutlinedIcon from "@mui/icons-material/BuildOutlined"
-import SubtitlesOutlinedIcon from "@mui/icons-material/SubtitlesOutlined"
-import AspectRatioOutlinedIcon from "@mui/icons-material/AspectRatioOutlined"
-import GraphicEqOutlinedIcon from "@mui/icons-material/GraphicEqOutlined"
-import BrandingWatermarkOutlinedIcon from "@mui/icons-material/BrandingWatermarkOutlined"
-import FastRewindOutlinedIcon from "@mui/icons-material/FastRewindOutlined"
-import RecordVoiceOverOutlinedIcon from "@mui/icons-material/RecordVoiceOverOutlined"
-import GraphicEqIcon from "@mui/icons-material/GraphicEq"
-import TransformIcon from "@mui/icons-material/Transform"
-import LightbulbOutlinedIcon from "@mui/icons-material/LightbulbOutlined"
-import TranslateOutlinedIcon from "@mui/icons-material/TranslateOutlined"
-import MovieFilterOutlinedIcon from "@mui/icons-material/MovieFilterOutlined"
-import VideocamOutlinedIcon from "@mui/icons-material/VideocamOutlined"
-import HeadphonesOutlinedIcon from "@mui/icons-material/HeadphonesOutlined"
-import ClosedCaptionOutlinedIcon from "@mui/icons-material/ClosedCaptionOutlined"
-import GifOutlinedIcon from "@mui/icons-material/GifOutlined"
-import SpeedOutlinedIcon from "@mui/icons-material/SpeedOutlined"
-import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined"
-import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered"
-import ContentCutOutlinedIcon from "@mui/icons-material/ContentCutOutlined"
-import ZoomInMapOutlinedIcon from "@mui/icons-material/ZoomInMapOutlined"
-import CompressOutlinedIcon from "@mui/icons-material/CompressOutlined"
-import CropOutlinedIcon from "@mui/icons-material/CropOutlined"
-import VolumeOffOutlinedIcon from "@mui/icons-material/VolumeOffOutlined"
-import DownloadForOfflineOutlinedIcon from "@mui/icons-material/DownloadForOfflineOutlined"
+import {
+  IconSearch,
+  IconTool,
+  IconDownload,
+  IconMovie,
+  IconRefresh,
+  IconVolumeOff,
+  IconArrowsMinimize,
+  IconCrop,
+  IconDeviceMobile,
+  IconBadge,
+  IconGif,
+  IconGauge,
+  IconScissors,
+  IconZoomIn,
+  IconMicrophone,
+  IconWaveSine,
+  IconVolume,
+  IconActivity,
+  IconSubtitles,
+  IconFileText,
+  IconLanguage,
+  IconBulb,
+  IconTag,
+  IconListNumbers,
+  IconVideo,
+  IconHeadphones,
+} from "@tabler/icons-react"
 
 // ── Catalog ────────────────────────────────────────────────────────────────
 //
@@ -45,21 +47,21 @@ const TOOLS = [
     id: "video-download",
     title: "Video Download",
     description: "Paste a link and pull the video down — pick the quality, keep or embed subtitles.",
-    icon: <DownloadForOfflineOutlinedIcon />,
+    icon: <IconDownload size={22} stroke={1.8} />,
     category: "video",
   },
   {
     id: "merge-clips",
     title: "Merge Clips",
     description: "Stitch multiple clips into one video. Auto-crop to your target aspect.",
-    icon: <MovieFilterOutlinedIcon />,
+    icon: <IconMovie size={22} stroke={1.8} />,
     category: "video",
   },
   {
     id: "transform",
     title: "Transform",
     description: "Flip, rotate, loop, or change a clip's volume.",
-    icon: <TransformIcon />,
+    icon: <IconRefresh size={22} stroke={1.8} />,
     category: "video",
   },
   {
@@ -68,7 +70,7 @@ const TOOLS = [
     id: "remove-audio",
     title: "Remove Audio",
     description: "Strip the sound from a video and keep the picture untouched.",
-    icon: <VolumeOffOutlinedIcon />,
+    icon: <IconVolumeOff size={22} stroke={1.8} />,
     category: "audio",
     route: "/tools/transform?op=mute",
   },
@@ -76,56 +78,56 @@ const TOOLS = [
     id: "compress",
     title: "Compress Video",
     description: "Shrink a file for email, chat, or an upload limit. Pick a size and a strength.",
-    icon: <CompressOutlinedIcon />,
+    icon: <IconArrowsMinimize size={22} stroke={1.8} />,
     category: "video",
   },
   {
     id: "crop",
     title: "Crop Video",
     description: "Drag a box over the frame and keep just that part. Free-form or a fixed shape.",
-    icon: <CropOutlinedIcon />,
+    icon: <IconCrop size={22} stroke={1.8} />,
     category: "video",
   },
   {
     id: "reframe",
     title: "Reframe to Vertical",
     description: "Convert 16:9 to 9:16 with face-tracking for Shorts/TikTok.",
-    icon: <AspectRatioOutlinedIcon />,
+    icon: <IconDeviceMobile size={22} stroke={1.8} />,
     category: "video",
   },
   {
     id: "watermark",
     title: "Add Watermark",
     description: "Brand every export with your logo. Position, opacity, size.",
-    icon: <BrandingWatermarkOutlinedIcon />,
+    icon: <IconBadge size={22} stroke={1.8} />,
     category: "video",
   },
   {
     id: "gif",
     title: "Video → GIF",
     description: "Convert any clip to an animated GIF. Two-pass palette for clean colors.",
-    icon: <GifOutlinedIcon />,
+    icon: <IconGif size={22} stroke={1.8} />,
     category: "video",
   },
   {
     id: "speed",
     title: "Speed up / Slow down",
     description: "Re-time a video 0.25× to 4×, with optional pitch preservation.",
-    icon: <SpeedOutlinedIcon />,
+    icon: <IconGauge size={22} stroke={1.8} />,
     category: "video",
   },
   {
     id: "trim",
     title: "Trim / Cut",
     description: "Keep just the part you want — set a start and end, drop the rest.",
-    icon: <ContentCutOutlinedIcon />,
+    icon: <IconScissors size={22} stroke={1.8} />,
     category: "video",
   },
   {
     id: "auto-zoom",
     title: "Auto-Zoom",
     description: "Subtle zoom punch-ins on spoken words for extra energy.",
-    icon: <ZoomInMapOutlinedIcon />,
+    icon: <IconZoomIn size={22} stroke={1.8} />,
     category: "video",
   },
 
@@ -134,28 +136,28 @@ const TOOLS = [
     id: "voiceover",
     title: "Voice-over Generator",
     description: "Turn a script into natural TTS audio.",
-    icon: <RecordVoiceOverOutlinedIcon />,
+    icon: <IconMicrophone size={22} stroke={1.8} />,
     category: "audio",
   },
   {
     id: "audio-enhance",
     title: "Enhance Audio",
     description: "Denoise hiss, normalize loudness, polish speech.",
-    icon: <GraphicEqOutlinedIcon />,
+    icon: <IconWaveSine size={22} stroke={1.8} />,
     category: "audio",
   },
   {
     id: "remove-silence",
     title: "Silence Remover",
     description: "Auto-cut pauses, fillers, and dead air.",
-    icon: <FastRewindOutlinedIcon />,
+    icon: <IconVolume size={22} stroke={1.8} />,
     category: "audio",
   },
   {
     id: "music-visualizer",
     title: "Music Visualizer",
     description: "Audio → animated waveform / bars / spectrum video, synced to the sound.",
-    icon: <GraphicEqIcon />,
+    icon: <IconActivity size={22} stroke={1.8} />,
     category: "audio",
   },
 
@@ -164,72 +166,67 @@ const TOOLS = [
     id: "captions",
     title: "Add Captions",
     description: "Burn word-by-word captions. Viral, classic, or bold styles.",
-    icon: <SubtitlesOutlinedIcon />,
+    icon: <IconSubtitles size={22} stroke={1.8} />,
     category: "subtitles",
   },
   {
     id: "subtitles",
     title: "Export Subtitles",
     description: "Transcribe to a downloadable .srt / .vtt file or plain transcript.",
-    icon: <ClosedCaptionOutlinedIcon />,
+    icon: <IconFileText size={22} stroke={1.8} />,
     category: "subtitles",
   },
   {
     id: "translate",
     title: "Translate + Dub",
     description: "Translate captions to 19+ languages or dub the audio entirely.",
-    icon: <TranslateOutlinedIcon />,
+    icon: <IconLanguage size={22} stroke={1.8} />,
     category: "subtitles",
   },
   {
     id: "hook-analysis",
     title: "Hook Detector",
     description: "Score the first 10s of any video + get stronger opening alternatives.",
-    icon: <LightbulbOutlinedIcon />,
+    icon: <IconBulb size={22} stroke={1.8} />,
     category: "subtitles",
   },
   {
     id: "metadata",
     title: "Title / Tags / Description",
     description: "SEO metadata for any video, transcript, or topic — YT + TikTok ready.",
-    icon: <LabelOutlinedIcon />,
+    icon: <IconTag size={22} stroke={1.8} />,
     category: "subtitles",
   },
   {
     id: "auto-chapters",
     title: "Auto Chapters",
     description: "AI-generated YouTube chapter markers from your long-form video.",
-    icon: <FormatListNumberedIcon />,
+    icon: <IconListNumbers size={22} stroke={1.8} />,
     category: "subtitles",
   },
 ]
 
 // ── Category metadata ──────────────────────────────────────────────────────
-//
-// `accent` keys map to MUI theme palette slots — used for the section
-// header's icon background tint and the colored left-border on each card,
-// so each section reads at a glance even when scrolling fast.
-
 const CATEGORIES = [
   {
     id: "video",
     label: "Video",
     description: "Visual and structural edits to finished footage.",
-    icon: <VideocamOutlinedIcon />,
+    icon: <IconVideo size={20} stroke={1.8} />,
     accent: "info",
   },
   {
     id: "audio",
     label: "Audio",
     description: "Voice, cleanup, and polish for the soundtrack.",
-    icon: <HeadphonesOutlinedIcon />,
+    icon: <IconHeadphones size={20} stroke={1.8} />,
     accent: "success",
   },
   {
     id: "subtitles",
     label: "Subtitles & Insights",
     description: "Captions, translation, and analysis overlays.",
-    icon: <ClosedCaptionOutlinedIcon />,
+    icon: <IconSubtitles size={20} stroke={1.8} />,
     accent: "warning",
   },
 ]
@@ -238,11 +235,12 @@ const CATEGORIES = [
 
 function ToolCard({ tool, onClick }) {
   return (
-    <GlassCard sx={{ borderRadius: 2 }}>
+    <GlassCard sx={{ borderRadius: "18px", transition: "all 0.2s", "&:hover": { borderColor: "primary.main", transform: "translateY(-2px)", boxShadow: "0 4px 16px rgba(139,92,246,0.15)" } }}>
       <CardActionArea
         onClick={onClick}
         sx={{
-          p: 1.25,
+          borderRadius: "18px",
+          p: 1.5,
           height: "100%",
           display: "flex",
           flexDirection: "column",
@@ -348,7 +346,7 @@ export default function Tools() {
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <PageHero
-        icon={<BuildOutlinedIcon sx={{ fontSize: 22 }} />}
+        icon={<IconTool size={22} stroke={1.8} />}
         title="Tools"
         subtitle="Single-purpose utilities to refine finished videos"
       />
@@ -364,12 +362,18 @@ export default function Tools() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search tools — e.g. caption, reframe, speed, translate…"
-            sx={{ mb: 2.5 }}
+            sx={{
+              mb: 2.5,
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "20px",
+                bgcolor: "background.paper",
+              },
+            }}
             slotProps={{
               input: {
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchOutlinedIcon fontSize="small" sx={{ color: "text.secondary" }} />
+                    <IconSearch size={18} stroke={1.8} style={{ color: "var(--muted-foreground, #888)" }} />
                   </InputAdornment>
                 ),
               },

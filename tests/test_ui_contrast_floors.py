@@ -79,7 +79,7 @@ def test_the_origin_RAIL_keeps_the_brand_colour():
     `textLight`, the Library lost its brand terracotta to an a11y fix that
     should not have touched it."""
     created = _origin_colors()["created"]
-    assert created["light"] == "#c96442", "the provenance rail must stay brand terracotta"
+    assert created["light"] == "#7c3aed", "the provenance rail must stay brand violet"
     assert created["textLight"] != created["light"]
     assert contrast(created["light"], LIGHT_CANVAS) >= DECORATION_FLOOR
 

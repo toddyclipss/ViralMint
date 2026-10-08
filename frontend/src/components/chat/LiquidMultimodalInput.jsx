@@ -131,7 +131,7 @@ export function LiquidMultimodalInput({
           transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
           style={{
             background:
-              "conic-gradient(from 0deg, #c96442, #f59e0b, #c96442, #b85838, #c96442)",
+              "conic-gradient(from 0deg, #8b5cf6, #c084fc, #8b5cf6, #7c3aed, #8b5cf6)",
             willChange: "opacity",
           }}
         />
@@ -146,7 +146,7 @@ export function LiquidMultimodalInput({
             "dark:border-white/[0.06] dark:bg-[radial-gradient(ellipse_90%_70%_at_50%_-10%,#1a1918_0%,#121110_72%)]",
             "dark:shadow-[0_1px_2px_rgba(0,0,0,.4),0_8px_24px_-12px_rgba(0,0,0,.6)]",
             "dark:hover:border-white/[0.12] dark:focus-within:border-white/[0.16]",
-            dragOver && "border-amber-600/45 dark:border-amber-600/45"
+            dragOver && "border-purple-500/45 dark:border-purple-500/45"
           )}
           style={{
             padding: "14px 16px 12px 16px",
@@ -183,7 +183,7 @@ export function LiquidMultimodalInput({
               WebkitMaskComposite: "xor",
               maskComposite: "exclude",
               background:
-                "conic-gradient(from var(--lmi-angle, 0deg), transparent 65%, rgba(201,100,66,0.6) 80%, #f59e0b 95%, transparent 100%)",
+                "conic-gradient(from var(--lmi-angle, 0deg), transparent 65%, rgba(139,92,246,0.6) 80%, #c084fc 95%, transparent 100%)",
             }}
           />
           <style>{`
@@ -226,7 +226,7 @@ export function LiquidMultimodalInput({
                           <button
                             type="button"
                             onClick={() => window.open(f.preview, "_blank")}
-                            className="relative h-14 w-14 overflow-hidden rounded-lg border border-black/5 shadow-sm dark:border-white/10 cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-amber-600/50"
+                            className="relative h-14 w-14 overflow-hidden rounded-lg border border-black/5 shadow-sm dark:border-white/10 cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-violet-500/50"
                           >
                             <img
                               src={f.preview}
@@ -256,8 +256,8 @@ export function LiquidMultimodalInput({
                           aria-label={`Remove ${f.file.name}`}
                           className={cn(
                             "absolute -right-1.5 -top-1.5 grid h-5 w-5 place-items-center rounded-full bg-slate-800 text-white shadow-md transition-all duration-200",
-                            "opacity-75 hover:bg-amber-600 hover:opacity-100 focus:opacity-100",
-                            "dark:bg-slate-700 dark:hover:bg-amber-600"
+                            "opacity-75 hover:bg-violet-600 hover:opacity-100 focus:opacity-100",
+                            "dark:bg-slate-700 dark:hover:bg-violet-600"
                           )}
                         >
                           <IconX size={12} stroke={2.5} />
@@ -347,8 +347,8 @@ export function LiquidMultimodalInput({
                 transition={{ type: "spring", stiffness: 400, damping: 22 }}
                 className={cn(
                   "grid h-7 w-7 place-items-center rounded-full transition-all shrink-0 cursor-pointer",
-                  "bg-gradient-to-br from-[#c96442] to-[#e88a5a] text-white shadow-[0_2px_8px_-2px_rgba(201,100,66,0.4)]",
-                  "hover:opacity-95 hover:shadow-[0_4px_12px_-2px_rgba(201,100,66,0.6)]",
+                  "bg-gradient-to-br from-[#8b5cf6] to-[#a78bfa] text-white shadow-[0_2px_8px_-2px_rgba(139,92,246,0.4)]",
+                  "hover:opacity-95 hover:shadow-[0_4px_12px_-2px_rgba(139,92,246,0.6)]",
                   "disabled:bg-slate-200 disabled:from-slate-200 disabled:to-slate-200 disabled:text-slate-400 disabled:shadow-none",
                   "dark:disabled:bg-white/10 dark:disabled:from-white/10 dark:disabled:to-white/10 dark:disabled:text-white/30"
                 )}
@@ -370,7 +370,7 @@ export function LiquidMultimodalInput({
                 className="pointer-events-none absolute inset-0 z-30 grid place-items-center rounded-[22px] bg-white/50 backdrop-blur-[2px] dark:bg-[#121212]/60"
                 style={{ willChange: "opacity" }}
               >
-                <div className="flex items-center gap-2 rounded-full border border-amber-600/20 bg-white px-4 py-2 text-xs font-semibold text-amber-700 shadow-xl dark:border-amber-600/30 dark:bg-[#1a1a1a] dark:text-amber-500">
+                <div className="flex items-center gap-2 rounded-full border border-purple-500/20 bg-white px-4 py-2 text-xs font-semibold text-purple-700 shadow-xl dark:border-purple-500/30 dark:bg-[#1a1a1a] dark:text-purple-400">
                   <IconPaperclip size={14} />
                   Drop files here
                 </div>
@@ -628,7 +628,7 @@ function ModelSelector() {
                           className={cn(
                             "group/opt relative flex w-full items-center justify-between rounded-xl px-2.5 py-2 text-left outline-none transition-colors cursor-pointer",
                             isSelected
-                              ? "bg-amber-500/10 text-amber-700 dark:bg-amber-400/10 dark:text-amber-400 font-medium"
+                              ? "bg-purple-500/10 text-purple-700 dark:bg-purple-400/10 dark:text-purple-400 font-medium"
                               : "text-[var(--foreground)] hover:bg-black/5 dark:hover:bg-white/5"
                           )}
                         >
@@ -637,7 +637,7 @@ function ModelSelector() {
                               className={cn(
                                 "grid h-7 w-7 shrink-0 place-items-center rounded-lg text-xs",
                                 isSelected
-                                  ? "bg-amber-500/20 text-amber-700 dark:text-amber-400"
+                                  ? "bg-purple-500/20 text-purple-700 dark:text-purple-400"
                                   : "bg-black/5 dark:bg-white/5 text-[var(--muted-foreground)]"
                               )}
                             >
@@ -661,7 +661,7 @@ function ModelSelector() {
                               initial={{ scale: 0, opacity: 0 }}
                               animate={{ scale: 1, opacity: 1 }}
                               exit={{ scale: 0, opacity: 0 }}
-                              className="text-amber-600 dark:text-amber-400 shrink-0 mr-1"
+                              className="text-purple-600 dark:text-purple-400 shrink-0 mr-1"
                             >
                               <IconCheck size={15} stroke={2.5} />
                             </motion.span>
@@ -695,7 +695,7 @@ function ModelSelector() {
           open && "bg-black/5 text-slate-900 dark:bg-white/10 dark:text-white"
         )}
       >
-        <span className="text-amber-600 dark:text-amber-400">
+        <span className="text-purple-600 dark:text-purple-400">
           <IconSparkles size={14} />
         </span>
         <span className="max-w-[160px] truncate">{displayLabel}</span>

@@ -4,8 +4,7 @@ import {
   IconButton, Tooltip, Chip,
 } from "@mui/material"
 import { GlassPanel } from "../../utils/glassFx"
-import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined"
-import ContentCopyIcon from "@mui/icons-material/ContentCopy"
+import { IconTag, IconCopy } from "@tabler/icons-react"
 import ToolRunner from "../../components/tools/ToolRunner"
 import PromptField from "../../components/tools/PromptField"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
@@ -89,7 +88,7 @@ function Field({ label, value, onCopy, multiline }) {
       </Box>
       <Tooltip title="Copy">
         <IconButton size="small" onClick={() => onCopy(value)} sx={{ flexShrink: 0 }}>
-          <ContentCopyIcon sx={{ fontSize: "0.95rem" }} />
+          <IconCopy size={16} stroke={1.8} />
         </IconButton>
       </Tooltip>
     </GlassPanel>
@@ -110,7 +109,7 @@ export default function ToolMetadata() {
     <ToolRunner
       title="Title / Description / Tags"
       description="Generate SEO metadata for a video, transcript, or bare topic"
-      icon={<LabelOutlinedIcon fontSize="large" />}
+      icon={<IconTag size={28} stroke={1.8} />}
       endpoint="/api/tools/metadata"
       processLabel="Generate"
       downloadLabel="Download JSON"

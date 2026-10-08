@@ -3,8 +3,7 @@ import {
   Box, Typography, ToggleButton, ToggleButtonGroup, FormControl, InputLabel,
   Select, MenuItem, Alert,
 } from "@mui/material"
-import SubtitlesOutlinedIcon from "@mui/icons-material/SubtitlesOutlined"
-import RecordVoiceOverOutlinedIcon from "@mui/icons-material/RecordVoiceOverOutlined"
+import { IconSubtitles, IconMicrophone } from "@tabler/icons-react"
 import ToolRunner from "../../components/tools/ToolRunner"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
 // One source for the style list, pinned to the caption engine by
@@ -22,7 +21,7 @@ export default function ToolCaptions() {
     <ToolRunner
       title="Add Captions"
       description="Auto-transcribe your video's speech and burn word-by-word captions in TikTok / Reels style — no typing"
-      icon={<SubtitlesOutlinedIcon fontSize="large" />}
+      icon={<IconSubtitles size={28} stroke={1.8} />}
       endpoint="/api/tools/captions"
       fieldBuilder={() => ({ style, emoji_style: emojiStyle })}
     >
@@ -32,7 +31,7 @@ export default function ToolCaptions() {
           the user to upload, run, and only then see the failure toast. */}
       <Alert
         severity="info"
-        icon={<RecordVoiceOverOutlinedIcon fontSize="small" />}
+        icon={<IconMicrophone size={18} stroke={1.8} />}
         sx={{ mb: 2, py: 0.5, "& .MuiAlert-message": { fontSize: "0.82rem" } }}
       >
         Works on videos with clear spoken audio (talking head, voiceover,

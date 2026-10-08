@@ -12,23 +12,24 @@ import {
   Box, Typography, Stack, Select, MenuItem, IconButton, Tooltip,
   ToggleButton, ToggleButtonGroup, alpha, useTheme,
 } from "@mui/material"
-import ViewComfyRoundedIcon from "@mui/icons-material/ViewComfyRounded"
-import ViewModuleRoundedIcon from "@mui/icons-material/ViewModuleRounded"
-import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded"
-import AccountTreeRoundedIcon from "@mui/icons-material/AccountTreeRounded"
-import MovieRoundedIcon from "@mui/icons-material/MovieRounded"
-import ImageRoundedIcon from "@mui/icons-material/ImageRounded"
-import GraphicEqRoundedIcon from "@mui/icons-material/GraphicEqRounded"
-import DescriptionRoundedIcon from "@mui/icons-material/DescriptionRounded"
-import AppsRoundedIcon from "@mui/icons-material/AppsRounded"
+import {
+  IconLayoutGrid,
+  IconLayoutRows,
+  IconGitFork,
+  IconMovie,
+  IconPhoto,
+  IconMusic,
+  IconFileText,
+  IconApps,
+} from "@tabler/icons-react"
 import { ORIGINS, ORIGIN_KEYS, MEDIA_KEYS, MEDIA, originColor } from "./assetModel"
 
 const MEDIA_ICON = {
-  all: AppsRoundedIcon,
-  video: MovieRoundedIcon,
-  image: ImageRoundedIcon,
-  audio: GraphicEqRoundedIcon,
-  doc: DescriptionRoundedIcon,
+  all: IconApps,
+  video: IconMovie,
+  image: IconPhoto,
+  audio: IconMusic,
+  doc: IconFileText,
 }
 
 export default function FacetBar({
@@ -74,7 +75,7 @@ export default function FacetBar({
                   "&:hover": { color: "text.primary" },
                 }}
               >
-                <Icon sx={{ fontSize: 16, color: active ? "primary.main" : "inherit" }} />
+                <Icon size={16} stroke={1.8} style={{ color: active ? "var(--primary-main, #8b5cf6)" : "inherit" }} />
                 <Typography sx={{ fontSize: "0.79rem", fontWeight: active ? 700 : 500, letterSpacing: "-0.01em" }}>
                   {k === "all" ? "All" : MEDIA[k].label}
                 </Typography>
@@ -176,13 +177,13 @@ export default function FacetBar({
         <ToggleButtonGroup
           size="small" exclusive value={view}
           onChange={(_, v) => v && onViewChange(v)}
-          sx={{ height: 28, "& .MuiToggleButton-root": { px: 1.1, fontSize: "0.72rem", textTransform: "none", gap: 0.5 } }}
+          sx={{ height: 28, borderRadius: "20px", "& .MuiToggleButton-root": { px: 1.1, fontSize: "0.72rem", textTransform: "none", gap: 0.5 } }}
         >
           <ToggleButton value="grid" aria-label="Grid view">
-            <GridViewRoundedIcon sx={{ fontSize: 15 }} /> Grid
+            <IconLayoutGrid size={15} stroke={1.8} /> Grid
           </ToggleButton>
           <ToggleButton value="tree" aria-label="Group by source">
-            <AccountTreeRoundedIcon sx={{ fontSize: 15 }} /> By source
+            <IconGitFork size={15} stroke={1.8} /> By source
           </ToggleButton>
         </ToggleButtonGroup>
 
@@ -190,7 +191,7 @@ export default function FacetBar({
           <IconButton size="small" onClick={() => onDenseChange(!dense)}
             aria-label={dense ? "Comfortable rows" : "Dense rows"}
             sx={{ border: 1, borderColor: "divider", borderRadius: "8px", width: 28, height: 28 }}>
-            {dense ? <ViewModuleRoundedIcon sx={{ fontSize: 16 }} /> : <ViewComfyRoundedIcon sx={{ fontSize: 16 }} />}
+            {dense ? <IconLayoutRows size={16} stroke={1.8} /> : <IconLayoutGrid size={16} stroke={1.8} />}
           </IconButton>
         </Tooltip>
       </Stack>

@@ -2,10 +2,12 @@
 // Copyright (c) 2025-2026 ViralMint Contributors
 import { useEffect, useState } from "react"
 import { Box, Typography, IconButton, Stack } from "@mui/material"
-import OpenInNewIcon from "@mui/icons-material/OpenInNew"
-import PlayArrowIcon from "@mui/icons-material/PlayArrow"
-import MovieOutlinedIcon from "@mui/icons-material/MovieOutlined"
-import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined"
+import {
+  IconExternalLink,
+  IconPlayerPlay,
+  IconMovie,
+  IconArticle,
+} from "@tabler/icons-react"
 
 function extractYouTubeId(url) {
   if (!url) return null
@@ -63,7 +65,7 @@ export default function VideoEmbed({ platform, videoId, videoUrl, thumbnailUrl }
           : vertical
             ? { height: "min(480px, 58vh)", aspectRatio: "9 / 16", mx: "auto", maxWidth: "100%" }
             : { width: "100%", aspectRatio: "16 / 9" }),
-        borderRadius: 1.5,
+        borderRadius: "14px",
         overflow: "hidden",
         cursor: openUrl ? "pointer" : "default",
         bgcolor: "grey.900",
@@ -86,7 +88,7 @@ export default function VideoEmbed({ platform, videoId, videoUrl, thumbnailUrl }
       ) : (
         <Stack alignItems="center" justifyContent="center" spacing={0.75}
           sx={{ position: "absolute", inset: 0, color: "grey.400", px: 2, textAlign: "center" }}>
-          {isNews ? <ArticleOutlinedIcon sx={{ fontSize: 36 }} /> : <MovieOutlinedIcon sx={{ fontSize: 36 }} />}
+          {isNews ? <IconArticle size={36} stroke={1.5} /> : <IconMovie size={36} stroke={1.5} />}
           <Typography variant="caption" sx={{ color: "grey.400" }}>
             {candidates.length ? "Preview no longer available" : "No preview"}
             {openUrl ? " — open the original to watch" : ""}
@@ -102,7 +104,7 @@ export default function VideoEmbed({ platform, videoId, videoUrl, thumbnailUrl }
             bgcolor: "rgba(0,0,0,0.35)", opacity: 0, transition: "opacity 0.2s",
           }}
         >
-          <PlayArrowIcon sx={{ fontSize: 56, color: "common.white" }} />
+          <IconPlayerPlay size={56} stroke={1.5} color="#fff" />
         </Box>
       )}
       {openUrl && (
@@ -114,10 +116,11 @@ export default function VideoEmbed({ platform, videoId, videoUrl, thumbnailUrl }
             position: "absolute", top: 6, right: 6,
             bgcolor: "rgba(0,0,0,0.6)", color: "common.white",
             "&:hover": { bgcolor: "rgba(0,0,0,0.8)" },
+            borderRadius: "8px",
           }}
           onClick={(e) => { e.stopPropagation(); open() }}
         >
-          <OpenInNewIcon sx={{ fontSize: 16 }} />
+          <IconExternalLink size={16} stroke={1.8} />
         </IconButton>
       )}
     </Box>

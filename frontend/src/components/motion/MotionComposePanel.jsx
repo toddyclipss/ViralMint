@@ -1,13 +1,9 @@
-// SPDX-License-Identifier: AGPL-3.0-only
-// Copyright (c) 2025-2026 ViralMint Contributors
 import { useState, useEffect, useRef } from "react"
 import {
   Box, Stack, Typography, TextField, Button, ToggleButton, ToggleButtonGroup,
   LinearProgress, Alert, IconButton, Divider, Chip, Tooltip,
 } from "@mui/material"
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesomeOutlined"
-import CloseIcon from "@mui/icons-material/CloseOutlined"
-import AttachFileIcon from "@mui/icons-material/AttachFileOutlined"
+import { IconSparkles, IconX, IconPaperclip } from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 
@@ -106,10 +102,10 @@ export default function MotionComposePanel({ aspect, setAspect, onComposed, onNe
     }}>
       <Stack direction="row" alignItems="center" spacing={1}
         sx={{ px: 2, py: 1.25, borderBottom: "1px solid", borderColor: "divider" }}>
-        <AutoAwesomeIcon sx={{ fontSize: 18, color: "primary.main" }} />
+        <IconSparkles size={18} stroke={1.8} color="var(--color-primary, #8b5cf6)" />
         <Typography variant="subtitle2" sx={{ fontWeight: 700, flexGrow: 1 }}>AI Compose</Typography>
         <IconButton size="small" onClick={onClose} aria-label="Close AI Compose">
-          <CloseIcon sx={{ fontSize: 18 }} />
+          <IconX size={18} stroke={1.8} />
         </IconButton>
       </Stack>
 
@@ -123,7 +119,7 @@ export default function MotionComposePanel({ aspect, setAspect, onComposed, onNe
           fullWidth multiline minRows={3} size="small" value={topic}
           onChange={(e) => setTopic(e.target.value)} disabled={running}
           placeholder="e.g. a punchy hook about why most side projects stall"
-          sx={{ mb: 1.5 }}
+          sx={{ mb: 1.5, "& .MuiOutlinedInput-root": { borderRadius: "14px" } }}
         />
 
         {!topic && !job && (
@@ -132,6 +128,7 @@ export default function MotionComposePanel({ aspect, setAspect, onComposed, onNe
               <Chip key={s} label={s} size="small" variant="outlined"
                 onClick={() => setTopic(s)}
                 sx={{
+                  borderRadius: "14px",
                   height: "auto", justifyContent: "flex-start",
                   "& .MuiChip-label": { whiteSpace: "normal", py: 0.6, fontSize: "0.74rem" },
                 }} />
@@ -141,17 +138,17 @@ export default function MotionComposePanel({ aspect, setAspect, onComposed, onNe
 
         <Typography variant="caption" sx={{ color: "text.secondary" }}>Format</Typography>
         <ToggleButtonGroup exclusive size="small" value={aspect} disabled={running}
-          onChange={(_, v) => v && setAspect(v)} sx={{ display: "flex", mb: 1.5, mt: 0.5 }}>
+          onChange={(_, v) => v && setAspect(v)} sx={{ display: "flex", mb: 1.5, mt: 0.5, borderRadius: "14px" }}>
           {ASPECTS.map((a) => (
-            <ToggleButton key={a} value={a} sx={{ flex: 1, textTransform: "none" }}>{a}</ToggleButton>
+            <ToggleButton key={a} value={a} sx={{ flex: 1, textTransform: "none", borderRadius: "14px" }}>{a}</ToggleButton>
           ))}
         </ToggleButtonGroup>
 
         <Typography variant="caption" sx={{ color: "text.secondary" }}>Length</Typography>
         <ToggleButtonGroup exclusive size="small" value={duration} disabled={running}
-          onChange={(_, v) => v && setDuration(v)} sx={{ display: "flex", mb: 1.5, mt: 0.5 }}>
+          onChange={(_, v) => v && setDuration(v)} sx={{ display: "flex", mb: 1.5, mt: 0.5, borderRadius: "14px" }}>
           {DURATIONS.map((d) => (
-            <ToggleButton key={d} value={d} sx={{ flex: 1, textTransform: "none" }}>{d}s</ToggleButton>
+            <ToggleButton key={d} value={d} sx={{ flex: 1, textTransform: "none", borderRadius: "14px" }}>{d}s</ToggleButton>
           ))}
         </ToggleButtonGroup>
 
@@ -163,8 +160,9 @@ export default function MotionComposePanel({ aspect, setAspect, onComposed, onNe
           <Box sx={{ flexGrow: 1 }} />
           <Tooltip title="Attach an image, video or audio file to build in">
             <span>
-              <Button size="small" startIcon={<AttachFileIcon sx={{ fontSize: 16 }} />}
-                disabled={running} onClick={() => fileRef.current?.click()}>
+              <Button size="small" startIcon={<IconPaperclip size={16} stroke={1.8} />}
+                disabled={running} onClick={() => fileRef.current?.click()}
+                sx={{ borderRadius: "20px" }}>
                 Attach
               </Button>
             </span>
@@ -176,13 +174,14 @@ export default function MotionComposePanel({ aspect, setAspect, onComposed, onNe
         {staged.length > 0 && (
           <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap sx={{ mb: 2 }}>
             {staged.map((a) => (
-              <Chip key={a.file} size="small" variant="outlined" label={`${a.file} · ${a.type}`} />
+              <Chip key={a.file} size="small" variant="outlined" label={`${a.file} · ${a.type}`} sx={{ borderRadius: "12px" }} />
             ))}
           </Stack>
         )}
 
-        <Button fullWidth variant="contained" startIcon={<AutoAwesomeIcon />}
-          disabled={running || !topic.trim()} onClick={() => compose(null)}>
+        <Button fullWidth variant="contained" startIcon={<IconSparkles size={18} stroke={1.8} />}
+          disabled={running || !topic.trim()} onClick={() => compose(null)}
+          sx={{ borderRadius: "20px" }}>
           {running ? "Composing…" : "Compose"}
         </Button>
 
@@ -228,8 +227,10 @@ function RefineBox({ onSubmit, disabled }) {
     <Stack spacing={1}>
       <TextField fullWidth multiline minRows={2} size="small" value={text} disabled={disabled}
         onChange={(e) => setText(e.target.value)}
-        placeholder="e.g. make the headline bigger and slow the exit" />
-      <Button variant="outlined" size="small" disabled={disabled || !text.trim()} onClick={send}>
+        placeholder="e.g. make the headline bigger and slow the exit"
+        sx={{ "& .MuiOutlinedInput-root": { borderRadius: "14px" } }} />
+      <Button variant="outlined" size="small" disabled={disabled || !text.trim()} onClick={send}
+        sx={{ borderRadius: "20px" }}>
         Apply change
       </Button>
     </Stack>

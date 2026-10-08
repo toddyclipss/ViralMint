@@ -1,10 +1,10 @@
-// SPDX-License-Identifier: AGPL-3.0-only
-// Copyright (c) 2025-2026 ViralMint Contributors
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { Box, IconButton, Stack, Tooltip, Typography } from "@mui/material"
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
-import ChevronRightIcon from "@mui/icons-material/ChevronRight"
-import MyLocationIcon from "@mui/icons-material/MyLocation"
+import {
+  IconChevronLeft,
+  IconChevronRight,
+  IconCurrentLocation,
+} from "@tabler/icons-react"
 
 /* ── IN / OUT frame previews ───────────────────────────────────
    The answer to "what am I actually cutting?" — the first frame the clip
@@ -147,7 +147,7 @@ function FramePane({
           <span>
             <IconButton size="small" disabled={disabled} aria-label={`${label} back one frame`}
               onClick={() => onNudge(-FRAME_STEP)} sx={{ p: 0.15 }}>
-              <ChevronLeftIcon sx={{ fontSize: 15 }} />
+              <IconChevronLeft size={15} stroke={1.8} />
             </IconButton>
           </span>
         </Tooltip>
@@ -155,7 +155,7 @@ function FramePane({
           <span>
             <IconButton size="small" disabled={disabled} aria-label={`Snap ${label} to the playhead`}
               onClick={onSetToPlayhead} sx={{ p: 0.15 }}>
-              <MyLocationIcon sx={{ fontSize: 13 }} />
+              <IconCurrentLocation size={13} stroke={1.8} />
             </IconButton>
           </span>
         </Tooltip>
@@ -163,7 +163,7 @@ function FramePane({
           <span>
             <IconButton size="small" disabled={disabled} aria-label={`${label} forward one frame`}
               onClick={() => onNudge(FRAME_STEP)} sx={{ p: 0.15 }}>
-              <ChevronRightIcon sx={{ fontSize: 15 }} />
+              <IconChevronRight size={15} stroke={1.8} />
             </IconButton>
           </span>
         </Tooltip>

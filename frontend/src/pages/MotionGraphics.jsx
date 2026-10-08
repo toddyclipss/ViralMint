@@ -5,9 +5,11 @@ import { useNavigate } from "react-router-dom"
 import {
   Box, Stack, Typography, Button, CircularProgress, useTheme,
 } from "@mui/material"
-import MovieFilterIcon from "@mui/icons-material/MovieFilterOutlined"
-import VideoLibraryIcon from "@mui/icons-material/VideoLibraryOutlined"
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesomeOutlined"
+import {
+  IconMovie,
+  IconFolder,
+  IconSparkles,
+} from "@tabler/icons-react"
 import PageHero from "../components/PageHero"
 import MotionInstallGate from "../components/MotionInstallGate"
 import MotionComposePanel from "../components/motion/MotionComposePanel"
@@ -92,10 +94,6 @@ export default function MotionGraphics() {
   }, [studioUrl])
 
   const restartStudio = useCallback(async () => {
-    // A composition written behind the studio's back does not reliably reach a
-    // running preview client — it can keep showing the previous one. A clean
-    // restart plus an iframe remount is the only reliable way to guarantee the
-    // user sees what was just made.
     try {
       await http.post(`/api/generate/motion/studio/start?mode=${mode}&restart=true`)
     } catch { /* the remount below still reloads the running server */ }
@@ -104,19 +102,21 @@ export default function MotionGraphics() {
 
   const hero = (
     <PageHero
-      icon={<MovieFilterIcon sx={{ fontSize: 22 }} />}
+      icon={<IconMovie size={22} stroke={1.8} />}
       title="Motion Graphics"
       subtitle="Design animated compositions — kinetic type, stat cards, lower thirds — and render them locally"
       dense
       actions={
         installed ? (
           <>
-            <Button size="small" variant="outlined" startIcon={<VideoLibraryIcon />}
-              onClick={() => navigate("/videos")}>
+            <Button size="small" variant="outlined" startIcon={<IconFolder size={18} stroke={1.8} />}
+              onClick={() => navigate("/videos")}
+              sx={{ borderRadius: "20px" }}>
               Library
             </Button>
             <Button size="small" variant={panelOpen ? "outlined" : "contained"}
-              startIcon={<AutoAwesomeIcon />} onClick={() => setPanelOpen((v) => !v)}>
+              startIcon={<IconSparkles size={18} stroke={1.8} />} onClick={() => setPanelOpen((v) => !v)}
+              sx={{ borderRadius: "20px" }}>
               AI Compose
             </Button>
           </>
@@ -155,7 +155,7 @@ export default function MotionGraphics() {
         <Stack alignItems="center" justifyContent="center" spacing={1}
           sx={{ height: "100%", color: "text.secondary" }}>
           <Typography variant="body2">Couldn’t start the studio: {startError}</Typography>
-          <Button size="small" onClick={() => window.location.reload()}>Retry</Button>
+          <Button variant="outlined" size="small" onClick={() => window.location.reload()} sx={{ borderRadius: "20px" }}>Retry</Button>
         </Stack>
       )}
       {studioUrl && (

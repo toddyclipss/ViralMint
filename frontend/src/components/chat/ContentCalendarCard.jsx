@@ -1,6 +1,5 @@
 import { Box, Paper, Typography, Chip, Divider } from "@mui/material"
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
-import TrendingUpIcon from "@mui/icons-material/TrendingUp"
+import { IconCalendar, IconTrendingUp } from "@tabler/icons-react"
 
 const platformColors = {
   youtube_shorts: "error",
@@ -20,10 +19,10 @@ export default function ContentCalendarCard({ calendar }) {
   return (
     <Paper
       variant="outlined"
-      sx={{ p: 2, my: 1, borderRadius: 2, maxWidth: 560 }}
+      sx={{ p: 2, my: 1, borderRadius: "16px", maxWidth: 560 }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.5 }}>
-        <CalendarTodayIcon fontSize="small" color="primary" />
+        <IconCalendar size={18} stroke={1.8} color="#8b5cf6" />
         <Typography variant="subtitle2" fontWeight={700}>
           Content Calendar ({calendar.length} days)
         </Typography>
@@ -51,7 +50,7 @@ export default function ContentCalendarCard({ calendar }) {
                   size="small"
                   color={platformColors[day.platform] || "default"}
                   variant="outlined"
-                  sx={{ height: 20, fontSize: "0.7rem" }}
+                  sx={{ height: 20, fontSize: "0.7rem", borderRadius: "8px" }}
                 />
                 {day.posting_time && (
                   <Typography variant="caption" color="text.secondary">
@@ -60,8 +59,8 @@ export default function ContentCalendarCard({ calendar }) {
                 )}
               </Box>
               {day.why && (
-                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.3 }}>
-                  <TrendingUpIcon sx={{ fontSize: 14, mt: 0.2, color: "success.main" }} />
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 0.5 }}>
+                  <IconTrendingUp size={14} stroke={1.8} color="#10b981" style={{ marginTop: 2, flexShrink: 0 }} />
                   <Typography variant="caption" color="text.secondary" sx={{ fontStyle: "italic" }}>
                     {day.why}
                   </Typography>

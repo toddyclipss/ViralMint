@@ -2,7 +2,7 @@ import { useState } from "react"
 import {
   Box, Typography, Stack, Slider, TextField,
 } from "@mui/material"
-import GifOutlinedIcon from "@mui/icons-material/GifOutlined"
+import { IconGif } from "@tabler/icons-react"
 import ToolRunner from "../../components/tools/ToolRunner"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
 
@@ -21,7 +21,7 @@ export default function ToolGif() {
     <ToolRunner
       title="Video → GIF"
       description="Convert any video clip into an animated GIF with optimal palette"
-      icon={<GifOutlinedIcon fontSize="large" />}
+      icon={<IconGif size={28} stroke={1.8} />}
       endpoint="/api/tools/gif"
       processLabel="Make GIF"
       downloadLabel="Download GIF"

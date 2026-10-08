@@ -21,13 +21,15 @@
  */
 import { useState } from "react"
 import { Box, Typography, Stack, Drawer, IconButton, Button, LinearProgress, Tooltip, alpha, useTheme } from "@mui/material"
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded"
-import ReplayRoundedIcon from "@mui/icons-material/ReplayRounded"
-import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded"
-import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded"
-import RemoveCircleOutlineRoundedIcon from "@mui/icons-material/RemoveCircleOutlineRounded"
-import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded"
-import NorthEastRoundedIcon from "@mui/icons-material/NorthEastRounded"
+import {
+  IconX,
+  IconRefresh,
+  IconAlertCircle,
+  IconCircleCheck,
+  IconCircleMinus,
+  IconTrash,
+  IconArrowUpRight,
+} from "@tabler/icons-react"
 import { fmtDay } from "./assetModel"
 import { formatDuration } from "../../utils/format"
 
@@ -78,7 +80,7 @@ export default function ActivityPanel({
           </Typography>
         </Box>
         <IconButton size="small" onClick={onClose} aria-label="Close">
-          <CloseRoundedIcon fontSize="small" />
+          <IconX size={18} stroke={1.8} />
         </IconButton>
       </Stack>
 
@@ -175,9 +177,9 @@ function JobRow({ job, onToast, onOpenResult, onCancel, onDelete }) {
     : job.state === "running" ? theme.palette.primary.main
     : job.state === "cancelled" ? theme.palette.text.disabled
     : theme.palette.success.main
-  const Icon = job.state === "failed" ? ErrorOutlineRoundedIcon
-    : job.state === "cancelled" ? RemoveCircleOutlineRoundedIcon
-    : CheckCircleOutlineRoundedIcon
+  const Icon = job.state === "failed" ? IconAlertCircle
+    : job.state === "cancelled" ? IconCircleMinus
+    : IconCircleCheck
 
   return (
     <Box data-testid={`job-row-${job.id}`} sx={{
@@ -186,7 +188,7 @@ function JobRow({ job, onToast, onOpenResult, onCancel, onDelete }) {
       bgcolor: job.state === "failed" ? alpha(tone, isDark ? 0.1 : 0.05) : "background.paper",
     }}>
       <Stack direction="row" alignItems="center" spacing={1}>
-        {job.state !== "running" && <Icon sx={{ fontSize: 16, color: tone, flexShrink: 0 }} />}
+        {job.state !== "running" && <Icon size={16} stroke={1.8} style={{ color: tone, flexShrink: 0 }} />}
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Typography noWrap sx={{ fontSize: "0.8rem", fontWeight: 600 }}>{job.label}</Typography>
           <Typography sx={{ fontSize: "0.68rem", color: "text.secondary" }}>
@@ -197,14 +199,14 @@ function JobRow({ job, onToast, onOpenResult, onCancel, onDelete }) {
           </Typography>
         </Box>
         {job.state === "running" && (
-          <Button size="small" sx={{ minWidth: 0, fontSize: "0.7rem" }}
+          <Button size="small" sx={{ minWidth: 0, fontSize: "0.7rem", borderRadius: "20px" }}
             onClick={() => onCancel?.(job.id)}>
             Cancel
           </Button>
         )}
         {job.state === "failed" && (
-          <Button size="small" startIcon={<ReplayRoundedIcon sx={{ fontSize: 15 }} />}
-            sx={{ fontSize: "0.7rem" }}
+          <Button size="small" startIcon={<IconRefresh size={15} stroke={1.8} />}
+            sx={{ fontSize: "0.7rem", borderRadius: "20px" }}
             onClick={() => onToast?.("Open the tool that started it to run it again")}>
             Retry
           </Button>
@@ -213,18 +215,15 @@ function JobRow({ job, onToast, onOpenResult, onCancel, onDelete }) {
           <Tooltip title="Open what it made">
             <IconButton size="small" aria-label="Open result"
               onClick={() => onOpenResult?.(job.result_key)}>
-              <NorthEastRoundedIcon sx={{ fontSize: 15 }} />
+              <IconArrowUpRight size={15} stroke={1.8} />
             </IconButton>
           </Tooltip>
         )}
-        {/* Every state can be removed from the log — the old Jobs tab allowed it
-            and losing that was a regression. For a RUNNING job this cancels first
-            and then removes the row (the endpoint cancels a live job rather than
-            deleting it, by design). */}
+        {/* Every state can be removed from the log */}
         <Tooltip title={job.state === "running" ? "Cancel and remove" : "Remove from the log"}>
           <IconButton size="small" aria-label="Remove job"
             onClick={() => onDelete?.(job)}>
-            <DeleteOutlineRoundedIcon sx={{ fontSize: 15 }} />
+            <IconTrash size={15} stroke={1.8} />
           </IconButton>
         </Tooltip>
       </Stack>

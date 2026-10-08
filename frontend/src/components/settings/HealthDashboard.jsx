@@ -3,19 +3,27 @@ import {
   Box, Typography, Button, Stack, LinearProgress, Chip,
   alpha, useTheme, IconButton, Tooltip,
 } from "@mui/material"
-import RefreshIcon from "@mui/icons-material/Refresh"
-import FolderOpenIcon from "@mui/icons-material/FolderOpenOutlined"
-import CheckCircleIcon from "@mui/icons-material/CheckCircle"
-import WarningIcon from "@mui/icons-material/Warning"
-import ErrorIcon from "@mui/icons-material/Error"
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline"
+import {
+  IconRefresh,
+  IconFolder,
+  IconCircleCheck,
+  IconAlertTriangle,
+  IconAlertCircle,
+  IconHelp,
+} from "@tabler/icons-react"
 import http from "../../api/http"
 
-const STATUS_ICON = {
-  running: CheckCircleIcon, ok: CheckCircleIcon, valid: CheckCircleIcon,
-  expiring_soon: WarningIcon, expired: ErrorIcon,
-  not_configured: HelpOutlineIcon, not_running: ErrorIcon, not_found: ErrorIcon,
-  unknown_age: WarningIcon, stuck: ErrorIcon,
+function StatusIcon({ status }) {
+  if (["running", "ok", "valid"].includes(status)) {
+    return <IconCircleCheck size={18} stroke={1.8} style={{ color: "#10b981" }} />
+  }
+  if (["expiring_soon", "unknown_age"].includes(status)) {
+    return <IconAlertTriangle size={18} stroke={1.8} style={{ color: "#f59e0b" }} />
+  }
+  if (["expired", "not_running", "not_found", "stuck"].includes(status)) {
+    return <IconAlertCircle size={18} stroke={1.8} style={{ color: "#ef4444" }} />
+  }
+  return <IconHelp size={18} stroke={1.8} style={{ color: "#888" }} />
 }
 
 const STATUS_COLOR = {
@@ -79,11 +87,11 @@ export default function HealthDashboard() {
         <Stack direction="row" spacing={1}>
           <Tooltip title="Open storage folder">
             <IconButton size="small" onClick={() => openFolder("storage")} sx={{ color: "text.secondary" }}>
-              <FolderOpenIcon sx={{ fontSize: 20 }} />
+              <IconFolder size={20} stroke={1.8} />
             </IconButton>
           </Tooltip>
         </Stack>
-        <Button size="small" variant="outlined" color="inherit" startIcon={<RefreshIcon sx={{ fontSize: 16 }} />} onClick={fetchHealth}>
+        <Button size="small" variant="outlined" color="inherit" startIcon={<IconRefresh size={16} stroke={1.8} />} onClick={fetchHealth} sx={{ borderRadius: "20px" }}>
           Refresh
         </Button>
       </Stack>
@@ -94,7 +102,6 @@ export default function HealthDashboard() {
           const data = view[item.key]
           const status = data?.status || "not_configured"
           const color = STATUS_COLOR[status] || "default"
-          const Icon = STATUS_ICON[status] || HelpOutlineIcon
           const chipColor = color === "default" ? undefined : color
 
           return (
@@ -103,14 +110,14 @@ export default function HealthDashboard() {
               sx={{
                 display: "flex", justifyContent: "space-between", alignItems: "center",
                 px: 2, py: 1.25,
-                borderRadius: 2,
+                borderRadius: "14px",
                 bgcolor: alpha(theme.palette.text.primary, 0.02),
                 border: 1, borderColor: "divider",
                 transition: "all 0.15s",
               }}
             >
               <Stack direction="row" spacing={1.5} alignItems="center">
-                <Icon sx={{ fontSize: 18, color: chipColor ? `${chipColor}.main` : "text.disabled" }} />
+                <StatusIcon status={status} />
                 <Box>
                   <Typography variant="body2" sx={{ fontWeight: 500, fontSize: "0.85rem", lineHeight: 1.3 }}>
                     {item.label}

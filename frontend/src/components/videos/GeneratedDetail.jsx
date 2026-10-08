@@ -3,18 +3,20 @@ import {
   Box, Typography, Button, Chip, Stack, Paper, IconButton, Divider,
   Grid, CircularProgress, TextField, Menu, MenuItem, ListItemText, ListItemIcon,
 } from "@mui/material"
-import EditIcon from "@mui/icons-material/Edit"
-import SaveIcon from "@mui/icons-material/Save"
-import DeleteIcon from "@mui/icons-material/Delete"
-import UploadIcon from "@mui/icons-material/Upload"
-import CloseIcon from "@mui/icons-material/Close"
-import AccessTimeIcon from "@mui/icons-material/AccessTime"
-import DownloadIcon from "@mui/icons-material/Download"
-import AspectRatioIcon from "@mui/icons-material/AspectRatio"
-import ContentCutIcon from "@mui/icons-material/ContentCut"
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera"
-import WhatshotIcon from "@mui/icons-material/Whatshot"
-import WarningAmberIcon from "@mui/icons-material/WarningAmber"
+import {
+  IconEdit,
+  IconDeviceFloppy,
+  IconTrash,
+  IconUpload,
+  IconX,
+  IconClock,
+  IconDownload,
+  IconAspectRatio,
+  IconScissors,
+  IconCamera,
+  IconFlame,
+  IconAlertTriangle,
+} from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 import { STATUS_COLOR } from "./constants"
@@ -130,56 +132,57 @@ export default function GeneratedDetail({ video, onUpload, onDelete, onClose, on
           {video.title || "Untitled"}
         </Typography>
         <Stack direction="row" spacing={1} sx={{ flexShrink: 0 }}>
-          <Chip label={video.status} size="small" color={STATUS_COLOR[video.status] || "default"} />
+          <Chip label={video.status} size="small" color={STATUS_COLOR[video.status] || "default"} sx={{ borderRadius: "10px" }} />
           {editing ? (
             <>
-              <Button variant="contained" size="small" startIcon={saving ? <CircularProgress size={16} /> : <SaveIcon />}
-                onClick={handleSave} disabled={saving}>
+              <Button variant="contained" size="small" startIcon={saving ? <CircularProgress size={16} /> : <IconDeviceFloppy size={16} stroke={1.8} />}
+                onClick={handleSave} disabled={saving} sx={{ borderRadius: "20px" }}>
                 Save
               </Button>
-              <Button variant="outlined" size="small" onClick={handleCancel} disabled={saving}>
+              <Button variant="outlined" size="small" onClick={handleCancel} disabled={saving} sx={{ borderRadius: "20px" }}>
                 Cancel
               </Button>
             </>
           ) : (
             <>
-              <Button variant="outlined" size="small" startIcon={<EditIcon />}
-                onClick={startEditing}>
+              <Button variant="outlined" size="small" startIcon={<IconEdit size={16} stroke={1.8} />}
+                onClick={startEditing} sx={{ borderRadius: "20px" }}>
                 Edit
               </Button>
               <Button variant="outlined" size="small"
-                startIcon={regenThumb ? <CircularProgress size={16} /> : <PhotoCameraIcon />}
+                startIcon={regenThumb ? <CircularProgress size={16} /> : <IconCamera size={16} stroke={1.8} />}
                 disabled={regenThumb || !video.video_path}
-                onClick={handleRegenThumbnail}>
+                onClick={handleRegenThumbnail} sx={{ borderRadius: "20px" }}>
                 {regenThumb ? "Generating..." : "Regen Thumbnail"}
               </Button>
               {video.status === "ready" && (
                 <>
-                  <Button variant="contained" size="small" color="error" startIcon={<UploadIcon />}
-                    onClick={() => onUpload(video.id, ["youtube"])}>
+                  <Button variant="contained" size="small" color="error" startIcon={<IconUpload size={16} stroke={1.8} />}
+                    onClick={() => onUpload(video.id, ["youtube"])} sx={{ borderRadius: "20px" }}>
                     YouTube
                   </Button>
-                  <Button variant="contained" size="small" color="info" startIcon={<UploadIcon />}
-                    onClick={() => onUpload(video.id, ["tiktok"])}>
+                  <Button variant="contained" size="small" color="info" startIcon={<IconUpload size={16} stroke={1.8} />}
+                    onClick={() => onUpload(video.id, ["tiktok"])} sx={{ borderRadius: "20px" }}>
                     TikTok
                   </Button>
                 </>
               )}
               {video.video_path && (
                 <Button variant="outlined" size="small" color="success"
-                  startIcon={exporting ? <CircularProgress size={16} /> : <AspectRatioIcon />}
+                  startIcon={exporting ? <CircularProgress size={16} /> : <IconAspectRatio size={16} stroke={1.8} />}
                   onClick={e => setExportAnchor(e.currentTarget)}
-                  disabled={exporting}>
+                  disabled={exporting} sx={{ borderRadius: "20px" }}>
                   {exporting ? "Converting..." : "Export"}
                 </Button>
               )}
               <Menu anchorEl={exportAnchor} open={Boolean(exportAnchor)}
                 onClose={() => setExportAnchor(null)}
-                slotProps={{ paper: { sx: { minWidth: 220, borderRadius: 2 } } }}>
+                slotProps={{ paper: { sx: { minWidth: 220, borderRadius: "16px" } } }}>
                 {EXPORT_FORMATS.map(f => (
                   <MenuItem key={f.aspect} onClick={() => handleExport(f.aspect)}
-                    selected={f.aspect === video.aspect_ratio}>
-                    <ListItemIcon><DownloadIcon fontSize="small" /></ListItemIcon>
+                    selected={f.aspect === video.aspect_ratio}
+                    sx={{ borderRadius: "10px", mx: 0.5 }}>
+                    <ListItemIcon><IconDownload size={18} stroke={1.8} /></ListItemIcon>
                     <ListItemText
                       primary={f.label}
                       secondary={f.aspect === video.aspect_ratio ? "Current — download original" : f.desc}
@@ -188,14 +191,14 @@ export default function GeneratedDetail({ video, onUpload, onDelete, onClose, on
                   </MenuItem>
                 ))}
               </Menu>
-              <Button variant="outlined" size="small" color="inherit" startIcon={<DeleteIcon />}
-                onClick={() => onDelete(video.id)}>
+              <Button variant="outlined" size="small" color="inherit" startIcon={<IconTrash size={16} stroke={1.8} />}
+                onClick={() => onDelete(video.id)} sx={{ borderRadius: "20px" }}>
                 Delete
               </Button>
             </>
           )}
         </Stack>
-        <IconButton size="small" onClick={onClose} sx={{ ml: 1 }}><CloseIcon fontSize="small" /></IconButton>
+        <IconButton size="small" onClick={onClose} sx={{ ml: 1, borderRadius: "10px" }}><IconX size={18} stroke={1.8} /></IconButton>
       </Stack>
 
       {/* Main content */}
@@ -208,14 +211,14 @@ export default function GeneratedDetail({ video, onUpload, onDelete, onClose, on
                 component="video"
                 controls
                 sx={{
-                  width: "100%", borderRadius: 2,
+                  width: "100%", borderRadius: "14px",
                   bgcolor: "#000", display: "block", mx: "auto", objectFit: "contain",
                   maxHeight: 480,
                 }}
                 src={`/api/videos/${video.id}/stream`}
               />
             ) : (
-              <Box sx={{ height: 200, borderRadius: 2, bgcolor: "action.hover", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Box sx={{ height: 200, borderRadius: "14px", bgcolor: "action.hover", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Typography sx={{ color: "text.disabled" }}>Video not yet generated</Typography>
               </Box>
             )}
@@ -226,23 +229,25 @@ export default function GeneratedDetail({ video, onUpload, onDelete, onClose, on
                 label={video.source_type === "clip_extraction" ? "Clip" : "Stock"}
                 size="small" variant={video.source_type === "clip_extraction" ? "filled" : "outlined"}
                 color={video.source_type === "clip_extraction" ? "secondary" : "default"}
-                icon={video.source_type === "clip_extraction" ? <ContentCutIcon /> : undefined} />
-              <Chip label={video.aspect_ratio} size="small" variant="outlined" />
+                icon={video.source_type === "clip_extraction" ? <IconScissors size={14} stroke={1.8} /> : undefined}
+                sx={{ borderRadius: "10px" }} />
+              <Chip label={video.aspect_ratio} size="small" variant="outlined" sx={{ borderRadius: "10px" }} />
               {video.duration_seconds && (
-                <Chip icon={<AccessTimeIcon />} label={`${Math.floor(video.duration_seconds / 60)}m${video.duration_seconds % 60}s`}
-                  size="small" variant="outlined" />
+                <Chip icon={<IconClock size={14} stroke={1.8} />} label={`${Math.floor(video.duration_seconds / 60)}m${video.duration_seconds % 60}s`}
+                  size="small" variant="outlined" sx={{ borderRadius: "10px" }} />
               )}
               {video.clip_virality_score != null && (
-                <Chip icon={<WhatshotIcon />}
+                <Chip icon={<IconFlame size={14} stroke={1.8} />}
                   label={`${video.clip_virality_score.toFixed(1)}/10`}
                   size="small" variant="filled"
-                  color={video.clip_virality_score >= 8 ? "success" : video.clip_virality_score >= 6 ? "warning" : "default"} />
+                  color={video.clip_virality_score >= 8 ? "success" : video.clip_virality_score >= 6 ? "warning" : "default"}
+                  sx={{ borderRadius: "10px" }} />
               )}
               {video.caption_status === "failed" && (
-                <Chip icon={<WarningAmberIcon />} label="Captions failed" size="small" color="warning" variant="filled" />
+                <Chip icon={<IconAlertTriangle size={14} stroke={1.8} />} label="Captions failed" size="small" color="warning" variant="filled" sx={{ borderRadius: "10px" }} />
               )}
               {video.metadata_status === "fallback" && (
-                <Chip icon={<WarningAmberIcon />} label="AI metadata failed" size="small" color="warning" variant="outlined" />
+                <Chip icon={<IconAlertTriangle size={14} stroke={1.8} />} label="AI metadata failed" size="small" color="warning" variant="outlined" sx={{ borderRadius: "10px" }} />
               )}
               {video.estimated_cost_usd > 0 && (
                 <Chip label={`$${video.estimated_cost_usd.toFixed(2)}`} size="small" variant="outlined" />

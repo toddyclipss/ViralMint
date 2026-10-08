@@ -12,9 +12,7 @@
  */
 import { useCallback, useEffect, useState } from "react"
 import { Box, Stack, Button, Tooltip, Skeleton } from "@mui/material"
-import TravelExploreIcon from "@mui/icons-material/TravelExplore"
-import RefreshIcon from "@mui/icons-material/Refresh"
-import ChatBubbleOutlineRoundedIcon from "@mui/icons-material/ChatBubbleOutlineRounded"
+import { IconTrendingUp, IconRefresh, IconSparkles } from "@tabler/icons-react"
 import { useNavigate } from "react-router-dom"
 import http from "../api/http"
 import PageHero from "../components/PageHero"
@@ -55,21 +53,22 @@ export default function Trends() {
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <PageHero
-        icon={<TravelExploreIcon sx={{ fontSize: 22 }} />}
+        icon={<IconTrendingUp size={22} stroke={1.8} />}
         title="Trends"
         subtitle="Trending videos worth borrowing from — leads, not files"
-        accentColor="#0097a7"
+        accentColor="#8b5cf6"
         actions={
           <Stack direction="row" spacing={1}>
             <Tooltip title="Refresh results">
-              <Button size="small" variant="outlined" sx={{ minWidth: 0, px: 1 }}
+              <Button size="small" variant="outlined" sx={{ minWidth: 0, px: 1, borderRadius: "20px" }}
                 aria-label="Refresh results"
                 onClick={() => { setPage(0); fetchResults(null, 0, rowsPerPage) }}>
-                <RefreshIcon fontSize="small" />
+                <IconRefresh size={16} stroke={1.8} />
               </Button>
             </Tooltip>
             <Button size="small" variant="contained"
-              startIcon={<ChatBubbleOutlineRoundedIcon sx={{ fontSize: 17 }} />}
+              startIcon={<IconSparkles size={16} stroke={1.8} />}
+              sx={{ borderRadius: "20px", px: 2, textTransform: "none", fontWeight: 600 }}
               onClick={() => navigate("/")}>
               Explore trends
             </Button>

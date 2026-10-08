@@ -1,8 +1,10 @@
 import { Box, Typography, Stack, Paper, Chip, Button, IconButton, Tooltip } from "@mui/material"
-import MovieCreationIcon from "@mui/icons-material/MovieCreationOutlined"
-import OpenInNewIcon from "@mui/icons-material/OpenInNew"
-import LightbulbIcon from "@mui/icons-material/LightbulbOutlined"
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined"
+import {
+  IconMovie,
+  IconExternalLink,
+  IconBulb,
+  IconEye,
+} from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 import { useNavigate } from "react-router-dom"
@@ -37,17 +39,18 @@ export default function DownloadedListCard({ videos }) {
   }
 
   return (
-    <Paper variant="outlined" sx={{ borderRadius: 2.5, overflow: "hidden", borderColor: "divider" }}>
+    <Paper variant="outlined" sx={{ borderRadius: "16px", overflow: "hidden", borderColor: "divider" }}>
       <Box sx={{ px: 2, py: 1.25, bgcolor: "action.hover", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <Stack direction="row" alignItems="center" spacing={1}>
           <Typography variant="subtitle2" sx={{ fontWeight: 700, fontSize: "0.85rem" }}>
             Downloaded Videos
           </Typography>
           <Chip label={`${videos.length}`} size="small" color="primary" variant="outlined"
-            sx={{ fontSize: "0.65rem", height: 20 }} />
+            sx={{ fontSize: "0.65rem", height: 20, borderRadius: "10px" }} />
         </Stack>
         <Button size="small" variant="text" onClick={() => navigate("/videos")}
-          endIcon={<OpenInNewIcon sx={{ fontSize: 14 }} />}>
+          endIcon={<IconExternalLink size={14} stroke={1.8} />}
+          sx={{ borderRadius: "20px" }}>
           View all
         </Button>
       </Box>
@@ -55,7 +58,7 @@ export default function DownloadedListCard({ videos }) {
       <Stack sx={{ maxHeight: 400, overflowY: "auto", p: 1, gap: 0.75 }}>
         {videos.map((v) => (
           <Paper key={v.id} variant="outlined" sx={{
-            display: "flex", alignItems: "center", gap: 1.5, p: 1, borderRadius: 1.5,
+            display: "flex", alignItems: "center", gap: 1.5, p: 1, borderRadius: "12px",
             borderColor: "divider",
             "&:hover": { bgcolor: "action.hover", borderColor: "primary.light" },
             transition: "all 0.15s",
@@ -64,12 +67,12 @@ export default function DownloadedListCard({ videos }) {
             {v.thumbnail_url ? (
               <Box
                 component="img" src={v.thumbnail_url} alt=""
-                sx={{ width: 72, height: 42, borderRadius: 1, objectFit: "cover", flexShrink: 0, bgcolor: "grey.200" }}
+                sx={{ width: 72, height: 42, borderRadius: "8px", objectFit: "cover", flexShrink: 0, bgcolor: "grey.200" }}
                 onError={(e) => { e.target.style.display = "none" }}
               />
             ) : (
-              <Box sx={{ width: 72, height: 42, borderRadius: 1, bgcolor: "grey.200", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <MovieCreationIcon sx={{ fontSize: 20, color: "text.disabled" }} />
+              <Box sx={{ width: 72, height: 42, borderRadius: "8px", bgcolor: "grey.200", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <IconMovie size={20} stroke={1.8} color="#94a3b8" />
               </Box>
             )}
 
@@ -84,11 +87,11 @@ export default function DownloadedListCard({ videos }) {
               <Stack direction="row" alignItems="center" spacing={0.5} sx={{ mt: 0.25 }}>
                 {v.platform && (
                   <Chip label={v.platform} size="small" variant="outlined"
-                    sx={{ fontSize: "0.55rem", height: 16, textTransform: "uppercase" }} />
+                    sx={{ fontSize: "0.55rem", height: 16, textTransform: "uppercase", borderRadius: "6px" }} />
                 )}
                 {v.views > 0 && (
-                  <Typography variant="caption" sx={{ color: "text.secondary", fontSize: "0.68rem" }}>
-                    <VisibilityIcon sx={{ fontSize: 11, verticalAlign: "middle", mr: 0.3 }} />{formatCount(v.views)}
+                  <Typography variant="caption" sx={{ color: "text.secondary", fontSize: "0.68rem", display: "inline-flex", alignItems: "center", gap: 0.3 }}>
+                    <IconEye size={12} stroke={1.8} />{formatCount(v.views)}
                   </Typography>
                 )}
                 {v.duration_seconds > 0 && (
@@ -97,8 +100,8 @@ export default function DownloadedListCard({ videos }) {
                   </Typography>
                 )}
                 {v.has_insights && (
-                  <Chip icon={<LightbulbIcon sx={{ fontSize: 10 }} />} label="analyzed" size="small" color="success" variant="outlined"
-                    sx={{ fontSize: "0.55rem", height: 16, "& .MuiChip-icon": { ml: 0.3 } }} />
+                  <Chip icon={<IconBulb size={10} stroke={1.8} />} label="analyzed" size="small" color="success" variant="outlined"
+                    sx={{ fontSize: "0.55rem", height: 16, borderRadius: "6px", "& .MuiChip-icon": { ml: 0.3 } }} />
                 )}
               </Stack>
               {v.suggested_angle && (
@@ -111,8 +114,8 @@ export default function DownloadedListCard({ videos }) {
             {/* Generate button */}
             <Tooltip title="Generate video from this" arrow>
               <IconButton size="small" onClick={() => handleGenerate(v.id)}
-                sx={{ color: "primary.main", "&:hover": { bgcolor: "action.hover" } }}>
-                <MovieCreationIcon sx={{ fontSize: "1.1rem" }} />
+                sx={{ color: "primary.main", "&:hover": { bgcolor: "action.hover" }, borderRadius: "8px" }}>
+                <IconMovie size={18} stroke={1.8} />
               </IconButton>
             </Tooltip>
           </Paper>

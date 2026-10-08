@@ -2,8 +2,7 @@ import { useState } from "react"
 import {
   Typography, ToggleButton, ToggleButtonGroup, Alert,
 } from "@mui/material"
-import ClosedCaptionOutlinedIcon from "@mui/icons-material/ClosedCaptionOutlined"
-import RecordVoiceOverOutlinedIcon from "@mui/icons-material/RecordVoiceOverOutlined"
+import { IconSubtitles, IconMicrophone } from "@tabler/icons-react"
 import ToolRunner from "../../components/tools/ToolRunner"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
 
@@ -26,7 +25,7 @@ export default function ToolSubtitles() {
     <ToolRunner
       title="Export Subtitles"
       description="Transcribe a video to a downloadable .srt / .vtt subtitle file or a plain transcript"
-      icon={<ClosedCaptionOutlinedIcon fontSize="large" />}
+      icon={<IconSubtitles size={28} stroke={1.8} />}
       endpoint="/api/tools/subtitles"
       processLabel="Transcribe"
       downloadLabel={`Download .${format}`}
@@ -34,7 +33,7 @@ export default function ToolSubtitles() {
     >
       <Alert
         severity="info"
-        icon={<RecordVoiceOverOutlinedIcon fontSize="small" />}
+        icon={<IconMicrophone size={18} stroke={1.8} />}
         sx={{ mb: 2, py: 0.5, "& .MuiAlert-message": { fontSize: "0.82rem" } }}
       >
         Works on videos with clear spoken audio. Music-only or silent clips

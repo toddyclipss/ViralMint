@@ -5,9 +5,7 @@ import {
   CircularProgress,
 } from "@mui/material"
 import { GlassPanel } from "../../utils/glassFx"
-import TranslateOutlinedIcon from "@mui/icons-material/TranslateOutlined"
-import VolumeUpOutlinedIcon from "@mui/icons-material/VolumeUpOutlined"
-import StopIcon from "@mui/icons-material/Stop"
+import { IconLanguage, IconVolume, IconPlayerStop } from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 import { CAPTION_STYLES } from "../../components/tools/captionOptions"
@@ -120,7 +118,7 @@ export default function ToolTranslate() {
     <ToolRunner
       title="Translate + Dub"
       description={`Translate captions and optionally dub the audio into ${LANGUAGES.length}+ languages`}
-      icon={<TranslateOutlinedIcon fontSize="large" />}
+      icon={<IconLanguage size={28} stroke={1.8} />}
       endpoint="/api/tools/translate"
       fieldBuilder={fieldBuilder}
       processLabel={mode === "full_dub" ? `Translate + dub to ${targetName}` : `Translate captions to ${targetName}`}
@@ -203,8 +201,8 @@ export default function ToolTranslate() {
                         sx={{ p: 0.25, color: isPlaying ? "primary.main" : "text.secondary" }}
                       >
                         {isLoading ? <CircularProgress size={14} />
-                         : isPlaying ? <StopIcon sx={{ fontSize: 18 }} />
-                         : <VolumeUpOutlinedIcon sx={{ fontSize: 18 }} />}
+                         : isPlaying ? <IconPlayerStop size={18} stroke={1.8} />
+                         : <IconVolume size={18} stroke={1.8} />}
                       </IconButton>
                     </Tooltip>
                   </MenuItem>

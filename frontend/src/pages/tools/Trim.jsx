@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Box, Typography, Stack, TextField, Alert } from "@mui/material"
-import ContentCutIcon from "@mui/icons-material/ContentCutOutlined"
+import { IconScissors } from "@tabler/icons-react"
 import ToolRunner from "../../components/tools/ToolRunner"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
 
@@ -35,7 +35,7 @@ export default function ToolTrim() {
     <ToolRunner
       title="Trim / Cut"
       description="Keep just the part you want — set a start and end, drop the rest"
-      icon={<ContentCutIcon fontSize="large" />}
+      icon={<IconScissors size={28} stroke={1.8} />}
       endpoint="/api/tools/trim"
       processLabel="Trim"
       canSubmit={rangeOk}

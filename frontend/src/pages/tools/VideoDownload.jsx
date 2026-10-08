@@ -7,10 +7,12 @@ import {
   FormControlLabel, Checkbox, Select, MenuItem, LinearProgress, Alert,
   Chip, Divider, Tooltip, InputLabel, FormControl,
 } from "@mui/material"
-import DownloadForOfflineOutlinedIcon from "@mui/icons-material/DownloadForOfflineOutlined"
-import VideoLibraryOutlinedIcon from "@mui/icons-material/VideoLibraryOutlined"
-import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined"
-import WarningAmberIcon from "@mui/icons-material/WarningAmber"
+import {
+  IconDownload,
+  IconMovie,
+  IconCircleCheck,
+  IconAlertTriangle,
+} from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
@@ -198,7 +200,7 @@ export default function VideoDownload() {
   return (
     <Box>
       <PageHero
-        icon={<DownloadForOfflineOutlinedIcon />}
+        icon={<IconDownload size={28} stroke={1.8} />}
         title="Video Download"
         subtitle="Paste a link — download from YouTube, TikTok, Bilibili, X and 1,800+ more sites. Runs locally, no watermark."
         backTo="/tools"
@@ -229,7 +231,7 @@ export default function VideoDownload() {
                 )}
                 {invalid.length > 0 && (
                   <Chip size="small" color="warning" variant="outlined"
-                        icon={<WarningAmberIcon />}
+                        icon={<IconAlertTriangle size={16} stroke={1.8} />}
                         label={`${invalid.length} not a valid http(s) link — will be skipped`} />
                 )}
                 {overCap && (
@@ -341,7 +343,8 @@ export default function VideoDownload() {
                 size="large"
                 disabled={!submitCount || busy}
                 onClick={submit}
-                startIcon={<DownloadForOfflineOutlinedIcon />}
+                startIcon={<IconDownload size={18} stroke={1.8} />}
+                sx={{ borderRadius: "20px" }}
               >
                 {busy
                   ? "Downloading…"
@@ -366,9 +369,9 @@ export default function VideoDownload() {
             {done && (
               <Alert
                 severity="success"
-                icon={<CheckCircleOutlinedIcon />}
+                icon={<IconCircleCheck size={20} stroke={1.8} color="#22c55e" />}
                 action={
-                  <Button size="small" onClick={() => navigate("/videos")}>
+                  <Button size="small" onClick={() => navigate("/videos")} sx={{ borderRadius: "20px" }}>
                     Open Library
                   </Button>
                 }
@@ -423,8 +426,8 @@ export default function VideoDownload() {
         </GlassPanel>
 
         <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} sx={{ mt: 2 }}>
-          <Button size="small" variant="outlined" startIcon={<VideoLibraryOutlinedIcon />}
-                  onClick={() => navigate("/videos")}>
+          <Button size="small" variant="outlined" startIcon={<IconMovie size={18} stroke={1.8} />}
+                  onClick={() => navigate("/videos")} sx={{ borderRadius: "20px" }}>
             Library
           </Button>
         </Stack>

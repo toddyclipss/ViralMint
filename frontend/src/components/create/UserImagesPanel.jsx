@@ -10,8 +10,7 @@
 // ingredient. The rail only offers one of them at a time for that reason.
 import { useRef, useState } from "react"
 import { Box, Typography, Button, Stack, IconButton, Tooltip } from "@mui/material"
-import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate"
-import CloseIcon from "@mui/icons-material/Close"
+import { IconPhotoPlus, IconX } from "@tabler/icons-react"
 import http from "../../api/http"
 
 // Mirrors the backend's scene ceiling (pexels_service.MAX_SCENES). Past this
@@ -83,7 +82,7 @@ export default function UserImagesPanel({ images, setImages, onError }) {
                 alt={`Scene ${idx + 1}`}
                 sx={{
                   width: 62, height: 62, objectFit: "cover",
-                  borderRadius: 1.5, border: 1, borderColor: "divider",
+                  borderRadius: "12px", border: 1, borderColor: "divider",
                   display: "block",
                 }}
               />
@@ -92,7 +91,7 @@ export default function UserImagesPanel({ images, setImages, onError }) {
               <Box
                 sx={{
                   position: "absolute", bottom: 2, left: 2,
-                  px: 0.5, borderRadius: 0.75,
+                  px: 0.5, borderRadius: "6px",
                   bgcolor: "rgba(0,0,0,0.65)", color: "#fff",
                   fontSize: "0.6rem", lineHeight: 1.5, fontWeight: 700,
                 }}
@@ -106,12 +105,12 @@ export default function UserImagesPanel({ images, setImages, onError }) {
                   onClick={() => removeAt(idx)}
                   sx={{
                     position: "absolute", top: -6, right: -6,
-                    width: 20, height: 20,
+                    width: 20, height: 20, borderRadius: "6px",
                     bgcolor: "rgba(0,0,0,0.7)", color: "#fff",
                     "&:hover": { bgcolor: "rgba(0,0,0,0.9)" },
                   }}
                 >
-                  <CloseIcon sx={{ fontSize: 12 }} />
+                  <IconX size={12} stroke={1.8} />
                 </IconButton>
               </Tooltip>
             </Box>
@@ -123,10 +122,10 @@ export default function UserImagesPanel({ images, setImages, onError }) {
         size="small"
         variant="outlined"
         fullWidth
-        startIcon={<AddPhotoAlternateIcon />}
+        startIcon={<IconPhotoPlus size={16} stroke={1.8} />}
         disabled={uploading || remaining <= 0}
         onClick={() => inputRef.current?.click()}
-        sx={{ textTransform: "none" }}
+        sx={{ textTransform: "none", borderRadius: "20px" }}
       >
         {uploading
           ? "Uploading…"

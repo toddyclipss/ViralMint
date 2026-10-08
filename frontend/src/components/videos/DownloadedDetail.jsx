@@ -4,19 +4,21 @@ import {
   Box, Typography, Button, Chip, Stack, Paper, IconButton, Divider,
   Grid, CircularProgress, Tooltip, Menu, MenuItem, ListItemText,
 } from "@mui/material"
-import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh"
-import EditIcon from "@mui/icons-material/Edit"
-import MovieCreationIcon from "@mui/icons-material/MovieCreation"
-import CloseIcon from "@mui/icons-material/Close"
-import AccessTimeIcon from "@mui/icons-material/AccessTime"
-import StorageIcon from "@mui/icons-material/Storage"
-import TravelExploreIcon from "@mui/icons-material/TravelExplore"
-import AspectRatioIcon from "@mui/icons-material/AspectRatio"
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline"
-import ContentCutIcon from "@mui/icons-material/ContentCut"
-import WhatshotIcon from "@mui/icons-material/Whatshot"
-import LinkIcon from "@mui/icons-material/Link"
-import NewspaperIcon from "@mui/icons-material/Newspaper"
+import {
+  IconSparkles,
+  IconEdit,
+  IconMovie,
+  IconX,
+  IconClock,
+  IconDatabase,
+  IconWorld,
+  IconAspectRatio,
+  IconPlayerPlay,
+  IconScissors,
+  IconFlame,
+  IconLink,
+  IconNews,
+} from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 import { WHISPER_QUALITIES } from "./constants"
@@ -44,7 +46,7 @@ function AIActionButton({ label, icon, loading, onClick, tooltip }) {
           disabled={loading}
           onClick={onClick}
           sx={{
-            borderRadius: 2, textTransform: "none", fontSize: "0.75rem",
+            borderRadius: "20px", textTransform: "none", fontSize: "0.75rem",
             fontWeight: 600, py: 0.4, px: 1.5, minWidth: 0,
             borderColor: "divider", color: "text.secondary",
             "&:hover": { borderColor: "primary.main", color: "primary.main", bgcolor: "action.hover" },
@@ -149,21 +151,23 @@ export default function DownloadedDetail({ video, onUseAsInspiration, onClose, o
           {video.platform !== "news" && (
             <>
               <Button variant="outlined" size="small"
-                startIcon={reanalyzing ? <CircularProgress size={16} /> : <AutoFixHighIcon />}
+                startIcon={reanalyzing ? <CircularProgress size={16} /> : <IconSparkles size={16} stroke={1.8} />}
                 disabled={reanalyzing}
-                onClick={(e) => setReanalyzeAnchor(e.currentTarget)}>
+                onClick={(e) => setReanalyzeAnchor(e.currentTarget)}
+                sx={{ borderRadius: "20px" }}>
                 {reanalyzing ? "Re-analyzing..." : "Re-analyze"}
               </Button>
               <Menu anchorEl={reanalyzeAnchor} open={Boolean(reanalyzeAnchor)}
-                onClose={() => setReanalyzeAnchor(null)}>
+                onClose={() => setReanalyzeAnchor(null)}
+                slotProps={{ paper: { sx: { borderRadius: "16px" } } }}>
                 {WHISPER_QUALITIES.map((q) => (
-                  <MenuItem key={q.value} onClick={() => handleReanalyze(q.value)}>
+                  <MenuItem key={q.value} onClick={() => handleReanalyze(q.value)} sx={{ borderRadius: "10px", mx: 0.5 }}>
                     <ListItemText primary={q.label} secondary={q.desc} />
                   </MenuItem>
                 ))}
               </Menu>
               <Button variant="contained" color="success" size="small"
-                startIcon={<AutoFixHighIcon />}
+                startIcon={<IconSparkles size={16} stroke={1.8} />}
                 onClick={async () => {
                   try {
                     await http.post(`/api/downloaded/${video.id}/generate`, {
@@ -173,22 +177,24 @@ export default function DownloadedDetail({ video, onUseAsInspiration, onClose, o
                     showSnackbar("Quick video generation started!", "success")
                   } catch (e) { showSnackbar(e.response?.data?.detail || e.message, "error") }
                 }}
-                sx={{ fontWeight: 700 }}>
+                sx={{ fontWeight: 700, borderRadius: "20px" }}>
                 Quick Stock Video
               </Button>
               <Button variant="outlined" size="small"
-                startIcon={<ContentCutIcon />}
-                component={NavLink} to="/clips">
+                startIcon={<IconScissors size={16} stroke={1.8} />}
+                component={NavLink} to="/clips"
+                sx={{ borderRadius: "20px" }}>
                 Clip Studio
               </Button>
             </>
           )}
-          <Button variant="contained" startIcon={<MovieCreationIcon />}
-            onClick={(e) => onUseAsInspiration(video.id, e)}>
+          <Button variant="contained" startIcon={<IconMovie size={16} stroke={1.8} />}
+            onClick={(e) => onUseAsInspiration(video.id, e)}
+            sx={{ borderRadius: "20px" }}>
             {video.platform === "news" ? "Create Video from Article" : "Use as Inspiration"}
           </Button>
         </Stack>
-        <IconButton size="small" onClick={onClose} sx={{ ml: 1 }}><CloseIcon fontSize="small" /></IconButton>
+        <IconButton size="small" onClick={onClose} sx={{ ml: 1, borderRadius: "10px" }}><IconX size={18} stroke={1.8} /></IconButton>
       </Stack>
 
       {/* Main content */}
@@ -201,25 +207,25 @@ export default function DownloadedDetail({ video, onUseAsInspiration, onClose, o
                 component="video"
                 controls
                 sx={{
-                  width: "100%", borderRadius: 2,
+                  width: "100%", borderRadius: "14px",
                   bgcolor: "#000", display: "block", mx: "auto", objectFit: "contain",
                   maxHeight: 480,
                 }}
                 src={`/api/downloaded/${video.id}/stream`}
               />
             ) : video.platform === "news" ? (
-              <Paper variant="outlined" sx={{ p: 2, borderRadius: 2, bgcolor: "action.hover" }}>
+              <Paper variant="outlined" sx={{ p: 2, borderRadius: "14px", bgcolor: "action.hover" }}>
                 <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
-                  <NewspaperIcon sx={{ color: "warning.main" }} />
+                  <IconNews size={20} stroke={1.8} color="#f59e0b" />
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>News Article</Typography>
                   {video.source_url && (
                     <Chip label={(() => { try { return new URL(video.source_url).hostname.replace("www.", "") } catch { return "source" } })()}
-                      size="small" variant="outlined" sx={{ fontSize: "0.65rem", height: 20 }} />
+                      size="small" variant="outlined" sx={{ fontSize: "0.65rem", height: 20, borderRadius: "10px" }} />
                   )}
                 </Stack>
                 {video.source_url && (
                   <Button size="small" variant="outlined" href={video.source_url} target="_blank" rel="noopener"
-                    startIcon={<LinkIcon />} sx={{ textTransform: "none", fontSize: "0.78rem", mb: 1.5 }}>
+                    startIcon={<IconLink size={16} stroke={1.8} />} sx={{ textTransform: "none", fontSize: "0.78rem", mb: 1.5, borderRadius: "20px" }}>
                     Read original article
                   </Button>
                 )}
@@ -273,11 +279,11 @@ export default function DownloadedDetail({ video, onUseAsInspiration, onClose, o
             {/* Meta chips */}
             <Stack direction="row" spacing={1} sx={{ mt: 1.5 }} flexWrap="wrap" useFlexGap>
               {video.platform !== "news" && video.duration_seconds && (
-                <Chip icon={<AccessTimeIcon />} label={`${Math.floor(video.duration_seconds / 60)}m${video.duration_seconds % 60}s`}
-                  size="small" variant="outlined" />
+                <Chip icon={<IconClock size={14} stroke={1.8} />} label={`${Math.floor(video.duration_seconds / 60)}m${video.duration_seconds % 60}s`}
+                  size="small" variant="outlined" sx={{ borderRadius: "10px" }} />
               )}
               {video.platform !== "news" && video.file_size_mb && (
-                <Chip icon={<StorageIcon />} label={`${video.file_size_mb} MB`} size="small" variant="outlined" />
+                <Chip icon={<IconDatabase size={14} stroke={1.8} />} label={`${video.file_size_mb} MB`} size="small" variant="outlined" sx={{ borderRadius: "10px" }} />
               )}
               <Chip
                 label={video.platform === "news"
@@ -285,6 +291,7 @@ export default function DownloadedDetail({ video, onUseAsInspiration, onClose, o
                   : (video.insights ? "Analyzed" : video.transcript ? "Transcribed" : "Downloaded")}
                 size="small"
                 color={video.insights ? "success" : video.transcript ? "warning" : "default"}
+                sx={{ borderRadius: "10px" }}
               />
               {video.created_at && (
                 <Typography variant="caption" sx={{ color: "text.secondary", alignSelf: "center" }}>
@@ -315,42 +322,42 @@ export default function DownloadedDetail({ video, onUseAsInspiration, onClose, o
               <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ gap: 0.75 }}>
                 <AIActionButton
                   label="Stronger Hook"
-                  icon={<WhatshotIcon sx={{ fontSize: 16 }} />}
+                  icon={<IconFlame size={16} stroke={1.8} />}
                   loading={aiActionLoading === "strengthen_hook"}
                   onClick={() => handleAiAction("strengthen_hook")}
                   tooltip="Rewrite the hook to be more attention-grabbing"
                 />
                 <AIActionButton
                   label="Improve Angle"
-                  icon={<AutoFixHighIcon sx={{ fontSize: 16 }} />}
+                  icon={<IconSparkles size={16} stroke={1.8} />}
                   loading={aiActionLoading === "improve_angle"}
                   onClick={() => handleAiAction("improve_angle")}
                   tooltip="Elaborate and strengthen the suggested video angle"
                 />
                 <AIActionButton
                   label="5 Title Ideas"
-                  icon={<EditIcon sx={{ fontSize: 16 }} />}
+                  icon={<IconEdit size={16} stroke={1.8} />}
                   loading={aiActionLoading === "suggest_titles"}
                   onClick={() => handleAiAction("suggest_titles")}
                   tooltip="Generate 5 click-worthy title alternatives"
                 />
                 <AIActionButton
                   label="Make Shorter"
-                  icon={<ContentCutIcon sx={{ fontSize: 16 }} />}
+                  icon={<IconScissors size={16} stroke={1.8} />}
                   loading={aiActionLoading === "rewrite_shorter"}
                   onClick={() => handleAiAction("rewrite_shorter")}
                   tooltip="Shorten the suggested angle to 1-2 punchy sentences"
                 />
                 <AIActionButton
                   label="For TikTok"
-                  icon={<AspectRatioIcon sx={{ fontSize: 16 }} />}
+                  icon={<IconAspectRatio size={16} stroke={1.8} />}
                   loading={aiActionLoading === "rewrite_for_platform"}
                   onClick={() => handleAiAction("rewrite_for_platform", { platform: "TikTok" })}
                   tooltip="Adapt concept specifically for TikTok's format"
                 />
                 <AIActionButton
                   label="Translate"
-                  icon={<TravelExploreIcon sx={{ fontSize: 16 }} />}
+                  icon={<IconWorld size={16} stroke={1.8} />}
                   loading={aiActionLoading === "translate"}
                   onClick={() => handleAiAction("translate", { language: "Chinese" })}
                   tooltip="Translate all insights into Chinese"
@@ -360,16 +367,16 @@ export default function DownloadedDetail({ video, onUseAsInspiration, onClose, o
               {/* ── AI Action Result ──────────────────────────── */}
               {aiActionResult && (
                 <Paper variant="outlined" sx={{
-                  mt: 2, p: 2, borderRadius: 2,
+                  mt: 2, p: 2, borderRadius: "14px",
                   borderColor: "primary.main", borderWidth: 1,
-                  bgcolor: (t) => t.palette.mode === "dark" ? "rgba(25,118,210,0.06)" : "rgba(25,118,210,0.04)",
+                  bgcolor: (t) => t.palette.mode === "dark" ? "rgba(139, 92, 246, 0.08)" : "rgba(139, 92, 246, 0.04)",
                 }}>
                   <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
                     <Typography variant="caption" sx={{ fontWeight: 700, color: "primary.main", textTransform: "uppercase", letterSpacing: 0.5 }}>
                       AI Result — {aiActionResult.action?.replace(/_/g, " ")}
                     </Typography>
-                    <IconButton size="small" onClick={() => setAiActionResult(null)} sx={{ p: 0.25 }}>
-                      <CloseIcon sx={{ fontSize: 14 }} />
+                    <IconButton size="small" onClick={() => setAiActionResult(null)} sx={{ p: 0.25, borderRadius: "10px" }}>
+                      <IconX size={14} stroke={1.8} />
                     </IconButton>
                   </Stack>
                   {aiActionResult.action === "suggest_titles" && Array.isArray(aiActionResult.result) ? (

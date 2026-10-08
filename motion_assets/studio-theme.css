@@ -1,8 +1,8 @@
 /* ViralMint glass-glow re-skin for the embedded HyperFrames Studio.
    Injected into dist/studio/index.html by studio_service. Re-skin, not a
    redesign. Colors mirror frontend/src/theme.js exactly:
-     primary  #c96442 (terracotta)   darks  #141210 / #1a1816 / #1e1c1a
-     divider  rgba(255,255,255,.07)   font   Inter + system
+     primary  #8b5cf6 (electric violet)   darks  #0f0d15 / #171522 / #1c1929
+     divider  rgba(255,255,255,.08)       font   Inter + system
    Studio accent is the hardcoded Tailwind color `studio-accent` (#3ce6ac)
    across a finite, enumerable class set — overridden deterministically below. */
 
@@ -10,53 +10,130 @@
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif !important;
 }
 
-/* ── Accent: HeyGen emerald (#3ce6ac) → ViralMint terracotta (#c96442) ── */
-.bg-studio-accent      { background-color: #c96442   !important; }
-.bg-studio-accent\/5   { background-color: #c964420d !important; }
-.bg-studio-accent\/10  { background-color: #c964421a !important; }
-.bg-studio-accent\/15  { background-color: #c9644226 !important; }
-.bg-studio-accent\/20  { background-color: #c9644233 !important; }
-.bg-studio-accent\/60  { background-color: #c9644299 !important; }
-.bg-studio-accent\/80  { background-color: #c96442cc !important; }
-.bg-studio-accent\/90  { background-color: #c96442e6 !important; }
-.text-studio-accent    { color: #d57a55   !important; }  /* lifted for contrast on dark */
-.text-studio-accent\/50{ color: #d57a5580 !important; }
-.text-studio-accent\/80{ color: #d57a55cc !important; }
-.border-studio-accent     { border-color: #c96442   !important; }
-.border-studio-accent\/25 { border-color: #c9644240 !important; }
-.border-studio-accent\/30 { border-color: #c964424d !important; }
-.border-studio-accent\/50 { border-color: #c9644280 !important; }
-.border-studio-accent\/60 { border-color: #c9644299 !important; }
-.border-studio-accent\/70 { border-color: #c96442b3 !important; }
-.border-studio-accent\/80 { border-color: #c96442cc !important; }
-.ring-studio-accent  { --tw-ring-color: #c96442 !important; }
-.fill-studio-accent  { fill:   #c96442 !important; }
-.stroke-studio-accent{ stroke: #c96442 !important; }
+/* ── Accent: HeyGen emerald (#3ce6ac) → ViralMint electric violet (#8b5cf6) ── */
+.bg-studio-accent             { background-color: #8b5cf6   !important; }
+.bg-studio-accent\/5          { background-color: #8b5cf60d !important; }
+.bg-studio-accent\/10         { background-color: #8b5cf61a !important; }
+.bg-studio-accent\/15         { background-color: #8b5cf626 !important; }
+.bg-studio-accent\/20         { background-color: #8b5cf633 !important; }
+.bg-studio-accent\/25         { background-color: #8b5cf640 !important; }
+.bg-studio-accent\/30         { background-color: #8b5cf64d !important; }
+.bg-studio-accent\/40         { background-color: #8b5cf666 !important; }
+.bg-studio-accent\/50         { background-color: #8b5cf680 !important; }
+.bg-studio-accent\/60         { background-color: #8b5cf699 !important; }
+.bg-studio-accent\/70         { background-color: #8b5cf6b3 !important; }
+.bg-studio-accent\/80         { background-color: #8b5cf6cc !important; }
+.bg-studio-accent\/90         { background-color: #8b5cf6e6 !important; }
+.bg-studio-accent\/\[0\.03\]  { background-color: #8b5cf608 !important; }
+.bg-studio-accent\/\[0\.04\]  { background-color: #8b5cf60a !important; }
+.bg-studio-accent\/\[0\.05\]  { background-color: #8b5cf60d !important; }
+.bg-studio-accent\/\[0\.06\]  { background-color: #8b5cf60f !important; }
 
-/* Solid accent buttons get ViralMint's terracotta gradient + soft glow. */
+.text-studio-accent           { color: #a78bfa   !important; }  /* lifted for contrast on dark */
+.text-studio-accent\/50       { color: #a78bfa80 !important; }
+.text-studio-accent\/80       { color: #a78bfacc !important; }
+
+.border-studio-accent         { border-color: #8b5cf6   !important; }
+.border-studio-accent\/10     { border-color: #8b5cf61a !important; }
+.border-studio-accent\/25     { border-color: #8b5cf640 !important; }
+.border-studio-accent\/30     { border-color: #8b5cf64d !important; }
+.border-studio-accent\/50     { border-color: #8b5cf680 !important; }
+.border-studio-accent\/60     { border-color: #8b5cf699 !important; }
+.border-studio-accent\/70     { border-color: #8b5cf6b3 !important; }
+.border-studio-accent\/80     { border-color: #8b5cf6cc !important; }
+
+.ring-studio-accent           { --tw-ring-color: #8b5cf6 !important; }
+.ring-studio-accent\/40       { --tw-ring-color: #8b5cf666 !important; }
+.ring-studio-accent\/60       { --tw-ring-color: #8b5cf699 !important; }
+.fill-studio-accent           { fill:   #8b5cf6 !important; }
+.stroke-studio-accent         { stroke: #8b5cf6 !important; }
+.accent-panel-accent,
+.accent-studio-accent         { accent-color: #8b5cf6 !important; }
+
+/* ── Panel-accent & bracketed #3CE6AC variants (Inspector / Property inputs) ── */
+.bg-panel-accent                  { background-color: #8b5cf6   !important; }
+.bg-panel-accent\/10              { background-color: #8b5cf61a !important; }
+.bg-panel-accent\/15              { background-color: #8b5cf626 !important; }
+.bg-panel-accent\/35              { background-color: #8b5cf659 !important; }
+.bg-panel-accent\/40              { background-color: #8b5cf666 !important; }
+.bg-panel-accent\/\[0\.06\]       { background-color: #8b5cf60f !important; }
+.bg-\[\#3CE6AC\]\/10              { background-color: #8b5cf61a !important; }
+.bg-\[\#3CE6AC\]\/5               { background-color: #8b5cf60d !important; }
+
+.border-panel-accent              { border-color: #8b5cf6   !important; }
+.border-panel-accent\/30          { border-color: #8b5cf64d !important; }
+.border-panel-accent\/40          { border-color: #8b5cf666 !important; }
+
+.text-panel-accent                { color: #a78bfa   !important; }
+.text-panel-accent\/70            { color: #a78bfab3 !important; }
+.text-\[\#3CE6AC\]                { color: #a78bfa   !important; }
+.text-\[\#5ff0bf\]                { color: #c4b5fd   !important; }
+
+.outline-\[\#3CE6AC\]\/30         { outline-color: #8b5cf64d !important; }
+.outline-\[\#3CE6AC\]\/40         { outline-color: #8b5cf666 !important; }
+.ring-panel-accent\/30            { --tw-ring-color: #8b5cf64d !important; }
+
+/* Hover & Focus states */
+.hover\:border-studio-accent:hover     { border-color: #8b5cf6 !important; }
+.hover\:border-studio-accent\/50:hover { border-color: #8b5cf680 !important; }
+.hover\:bg-studio-accent:hover         { background-color: #8b5cf6 !important; }
+.hover\:bg-studio-accent\/10:hover     { background-color: #8b5cf61a !important; }
+.hover\:bg-studio-accent\/20:hover     { background-color: #8b5cf633 !important; }
+.hover\:bg-studio-accent\/25:hover     { background-color: #8b5cf640 !important; }
+.hover\:bg-studio-accent\/80:hover     { background-color: #8b5cf6cc !important; }
+.hover\:text-studio-accent:hover       { color: #a78bfa !important; }
+
+.focus\:border-studio-accent:focus     { border-color: #8b5cf6 !important; }
+.focus\:border-studio-accent\/40:focus { border-color: #8b5cf666 !important; }
+.focus\:border-studio-accent\/60:focus { border-color: #8b5cf699 !important; }
+.focus\:ring-studio-accent\/30:focus   { --tw-ring-color: #8b5cf64d !important; }
+.focus\:ring-studio-accent\/40:focus   { --tw-ring-color: #8b5cf666 !important; }
+.focus-visible\:bg-studio-accent\/20:focus-visible { background-color: #8b5cf633 !important; }
+.focus-visible\:outline-studio-accent:focus-visible { outline-color: #8b5cf6 !important; }
+.group:focus-visible .group-focus-visible\:bg-studio-accent\/60 { background-color: #8b5cf699 !important; }
+.group:active .group-active\:bg-studio-accent\/70 { background-color: #8b5cf6b3 !important; }
+
+/* Panel-accent hover & focus states */
+.hover\:border-panel-accent\/50:hover { border-color: #8b5cf680 !important; }
+.hover\:text-panel-accent:hover       { color: #a78bfa !important; }
+.hover\:text-panel-accent\/80:hover   { color: #a78bfacc !important; }
+.group-hover\:border-panel-accent\/70 { border-color: #8b5cf6b3 !important; }
+.group-hover\:text-panel-accent       { color: #a78bfa !important; }
+
+.focus\:border-panel-accent:focus     { border-color: #8b5cf6 !important; }
+.focus\:border-panel-accent\/50:focus { border-color: #8b5cf680 !important; }
+.focus\:border-\[\#3CE6AC\]:focus     { border-color: #8b5cf6 !important; }
+.focus\:ring-panel-accent:focus       { --tw-ring-color: #8b5cf6 !important; }
+.focus\:ring-panel-accent\/40:focus   { --tw-ring-color: #8b5cf666 !important; }
+.focus-within\:ring-panel-accent\/30:focus-within { --tw-ring-color: #8b5cf64d !important; }
+.focus-visible\:outline-\[\#3CE6AC\]:focus-visible { outline-color: #8b5cf6 !important; }
+
+/* Solid accent buttons get ViralMint's electric purple gradient + soft glow. */
 button.bg-studio-accent, a.bg-studio-accent {
-  background-image: linear-gradient(135deg, #c96442, #e88a5a) !important;
-  box-shadow: 0 6px 22px rgba(201, 100, 66, 0.32) !important;
+  background-color: #8b5cf6 !important;
+  background-image: linear-gradient(135deg, #7c3aed, #8b5cf6) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 18px rgba(139, 92, 246, 0.35) !important;
 }
 
-/* ── Chrome: cool near-black → warm ViralMint dark (linen-paper) ── */
-html, body, #root { background: #141210 !important; }
-.bg-black, .bg-neutral-950, .bg-zinc-950, .bg-neutral-900, .bg-zinc-900 { background-color: #141210 !important; }
-.bg-neutral-850 { background-color: #1a1816 !important; }
-.bg-neutral-800, .bg-zinc-800, .bg-neutral-800\/50 { background-color: #1e1c1a !important; }
+/* ── Chrome: cool near-black → deep ViralMint dark violet ── */
+html, body, #root { background: #0f0d15 !important; }
+.bg-black, .bg-neutral-950, .bg-zinc-950, .bg-neutral-900, .bg-zinc-900 { background-color: #0f0d15 !important; }
+.bg-neutral-850 { background-color: #171522 !important; }
+.bg-neutral-800, .bg-zinc-800, .bg-neutral-800\/50 { background-color: #1c1929 !important; }
 
 /* Borders → ViralMint divider. */
 .border-neutral-800, .border-zinc-800, .border-neutral-800\/50, .border-neutral-700,
 .border-neutral-700\/50, .border-white\/10, .border-white\/5 {
-  border-color: rgba(255, 255, 255, 0.07) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-/* Text neutrals → ViralMint text tones (subtle warmth). */
-.text-neutral-400, .text-zinc-400 { color: #9c9690 !important; }
-.text-neutral-300, .text-zinc-300 { color: #c7c1ba !important; }
+/* Text neutrals → ViralMint text tones. */
+.text-neutral-400, .text-zinc-400 { color: #94a3b8 !important; }
+.text-neutral-300, .text-zinc-300 { color: #cbd5e1 !important; }
 
-/* Selection in the warm accent. */
-::selection { background: #c9644259; }
+/* Selection in the violet accent. */
+::selection { background: #8b5cf659; }
 
 /* Widen the left Code/Comps/Assets/Catalog panel — the studio hardcodes it to
    240px inline, which is cramped for the file list + tabs. Double it. min-width

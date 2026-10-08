@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { Typography, Menu, MenuItem, ListItemText, ListItemIcon } from "@mui/material"
-import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh"
-import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary"
+import { IconWand, IconPhoto } from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 
@@ -30,10 +29,11 @@ export default function CreateModeMenu({ anchorEl, onClose, sourceId, navigate }
   }
 
   return (
-    <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onClose}>
+    <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={onClose}
+      slotProps={{ paper: { sx: { borderRadius: "16px", border: "1px solid", borderColor: "divider" } } }}>
       <MenuItem onClick={handleQuickGenerate} disabled={quickLoading}
-        sx={{ borderBottom: 1, borderColor: "divider", mb: 0.5 }}>
-        <ListItemIcon><AutoFixHighIcon fontSize="small" color="primary" /></ListItemIcon>
+        sx={{ borderBottom: 1, borderColor: "divider", mb: 0.5, borderRadius: "12px", mx: 0.5 }}>
+        <ListItemIcon><IconWand size={18} stroke={1.8} color="#8b5cf6" /></ListItemIcon>
         <ListItemText
           primary={quickLoading ? "Starting..." : "Quick Stock Video"}
           secondary="One-click: Pexels stock footage + free voice + viral captions"
@@ -44,8 +44,9 @@ export default function CreateModeMenu({ anchorEl, onClose, sourceId, navigate }
       <Typography variant="caption" sx={{ px: 2, py: 0.5, color: "text.disabled", display: "block" }}>
         Or customize in editor:
       </Typography>
-      <MenuItem onClick={() => { onClose(); navigate(`/stock?source=${sourceId}`) }}>
-        <ListItemIcon><PhotoLibraryIcon fontSize="small" /></ListItemIcon>
+      <MenuItem onClick={() => { onClose(); navigate(`/stock?source=${sourceId}`) }}
+        sx={{ borderRadius: "12px", mx: 0.5 }}>
+        <ListItemIcon><IconPhoto size={18} stroke={1.8} /></ListItemIcon>
         <ListItemText>Stock Video</ListItemText>
       </MenuItem>
     </Menu>

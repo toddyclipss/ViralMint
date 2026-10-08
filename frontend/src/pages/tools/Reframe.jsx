@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material"
-import AspectRatioOutlinedIcon from "@mui/icons-material/AspectRatioOutlined"
+import { IconAspectRatio } from "@tabler/icons-react"
 import ToolRunner from "../../components/tools/ToolRunner"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
 
@@ -9,7 +9,7 @@ export default function ToolReframe() {
     <ToolRunner
       title="Reframe to Vertical"
       description="Convert 16:9 landscape to 9:16 with face-tracking"
-      icon={<AspectRatioOutlinedIcon fontSize="large" />}
+      icon={<IconAspectRatio size={28} stroke={1.8} />}
       endpoint="/api/tools/reframe"
     >
       <Typography variant="body2" sx={{ color: "text.secondary" }}>

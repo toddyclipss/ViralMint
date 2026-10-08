@@ -3,13 +3,15 @@ import { useNavigate } from "react-router-dom"
 import {
   Box, Typography, Button, Stack, TextField, Tooltip, Paper, Chip, Fade,
 } from "@mui/material"
-import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary"
-import MovieCreationIcon from "@mui/icons-material/MovieCreation"
-import FolderOpenIcon from "@mui/icons-material/FolderOpen"
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome"
-import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh"
-import DragHandleIcon from "@mui/icons-material/DragHandle"
-import ViewModuleIcon from "@mui/icons-material/ViewModule"
+import {
+  IconPhoto,
+  IconVideo,
+  IconFolder,
+  IconSparkles,
+  IconWand,
+  IconGripHorizontal,
+  IconLayoutGrid,
+} from "@tabler/icons-react"
 import useAppStore from "../store/appStore"
 import useSettings from "../hooks/useSettings"
 import useRemoteConfig from "../hooks/useRemoteConfig"
@@ -170,30 +172,30 @@ export default function StockVideo() {
   return (
     <Box sx={{ height: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}>
       <PageHero
-        icon={<PhotoLibraryIcon />}
+        icon={<IconPhoto size={22} stroke={1.8} />}
         title="Smart Video"
         subtitle="Turn a script into a captioned short — Pexels footage matched to every line"
-        accentColor="#2E9E6B"
+        accentColor="#8b5cf6"
         actions={
           <Stack direction="row" spacing={1} alignItems="center">
             <Button
-              size="small" variant="outlined" startIcon={<ViewModuleIcon />}
+              size="small" variant="outlined" startIcon={<IconLayoutGrid size={16} stroke={1.8} />}
               onClick={() => setTemplatesOpen(true)}
-              sx={{ textTransform: "none", borderRadius: 2 }}
+              sx={{ textTransform: "none", borderRadius: "20px" }}
             >
               Templates
             </Button>
             <Tooltip title="Open generated folder">
-              <Button size="small" variant="outlined" sx={{ minWidth: 0, px: 1 }} onClick={openFolder}>
-                <FolderOpenIcon fontSize="small" />
+              <Button size="small" variant="outlined" sx={{ minWidth: 0, px: 1, borderRadius: "20px" }} onClick={openFolder}>
+                <IconFolder size={18} stroke={1.8} />
               </Button>
             </Tooltip>
             <Button
               variant="contained" size="medium"
               disabled={generating || !script?.trim()}
               onClick={handleGenerate}
-              startIcon={<MovieCreationIcon />}
-              sx={{ borderRadius: 2, fontWeight: 600, textTransform: "none", px: 2.5 }}
+              startIcon={<IconVideo size={18} stroke={1.8} />}
+              sx={{ borderRadius: "20px", fontWeight: 600, textTransform: "none", px: 2.5 }}
             >
               {generating ? "Starting…" : "Generate"}
             </Button>
@@ -220,7 +222,7 @@ export default function StockVideo() {
             <Box sx={{
               position: "relative", height: "100%",
               aspectRatio: aspectRatio === "9:16" ? "9 / 16" : "16 / 9",
-              maxWidth: "100%", borderRadius: 3, overflow: "hidden",
+              maxWidth: "100%", borderRadius: "18px", overflow: "hidden",
               boxShadow: "0 12px 40px rgba(0,0,0,0.35)",
             }}>
               {previewVideoUrl ? (
@@ -237,7 +239,7 @@ export default function StockVideo() {
               <Chip
                 size="small"
                 label={palette.label}
-                sx={{ position: "absolute", top: 8, left: 8, bgcolor: "rgba(0,0,0,0.55)", color: "#fff", fontSize: "0.68rem", height: 22 }}
+                sx={{ position: "absolute", top: 8, left: 8, bgcolor: "rgba(0,0,0,0.55)", color: "#fff", fontSize: "0.68rem", height: 22, borderRadius: "12px" }}
               />
             </Box>
           </Box>
@@ -251,13 +253,13 @@ export default function StockVideo() {
               "&:hover": { color: "text.secondary" },
             }}
           >
-            <DragHandleIcon sx={{ fontSize: 18 }} />
+            <IconGripHorizontal size={18} stroke={1.8} />
           </Box>
 
           {/* Script panel */}
           <Paper elevation={0} sx={(t) => ({
             ...glassPanelSx(t), height: scriptPanelHeight, minHeight: 180, flexShrink: 0,
-            p: 1.75, borderRadius: 3, display: "flex", flexDirection: "column", position: "relative",
+            p: 1.75, borderRadius: "18px", display: "flex", flexDirection: "column", position: "relative",
           })}>
             {source && (
               <Box sx={{ mb: 1 }}>
@@ -267,18 +269,18 @@ export default function StockVideo() {
 
             <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1, flexWrap: "wrap", useFlexGap: true, gap: 1 }}>
               <Button
-                size="small" variant="outlined" startIcon={<AutoAwesomeIcon />}
+                size="small" variant="outlined" startIcon={<IconSparkles size={16} stroke={1.8} />}
                 onClick={() => handleGenerateScript(sourceId, aspectRatio)}
                 disabled={scriptLoading}
-                sx={{ textTransform: "none", borderRadius: 2 }}
+                sx={{ textTransform: "none", borderRadius: "20px" }}
               >
                 {scriptLoading ? "Writing…" : "AI script"}
               </Button>
               <Button
-                size="small" variant="text" startIcon={<AutoFixHighIcon />}
+                size="small" variant="text" startIcon={<IconWand size={16} stroke={1.8} />}
                 onClick={handlePolishScript}
                 disabled={scriptLoading || !script?.trim()}
-                sx={{ textTransform: "none" }}
+                sx={{ textTransform: "none", borderRadius: "20px" }}
               >
                 Polish
               </Button>

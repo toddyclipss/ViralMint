@@ -6,14 +6,16 @@ import {
   DialogContent, DialogTitle, Divider, FormControlLabel, IconButton, MenuItem,
   Popover, Stack, TextField, Tooltip, Typography,
 } from "@mui/material"
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesomeOutlined"
-import ContentCutIcon from "@mui/icons-material/ContentCut"
-import PlayArrowIcon from "@mui/icons-material/PlayArrow"
-import PauseIcon from "@mui/icons-material/Pause"
-import KeyboardIcon from "@mui/icons-material/KeyboardOutlined"
-import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOverOutlined"
-import ContentPasteIcon from "@mui/icons-material/ContentPasteGoOutlined"
-import MagnetIcon from "@mui/icons-material/PushPinOutlined"
+import {
+  IconSparkles,
+  IconScissors,
+  IconPlayerPlay,
+  IconPlayerPause,
+  IconKeyboard,
+  IconMicrophone,
+  IconClipboard,
+  IconMagnet,
+} from "@tabler/icons-react"
 import Timeline from "./Timeline"
 import InOutFrames from "./InOutFrames"
 import RangeRail from "./RangeRail"
@@ -466,8 +468,8 @@ export default function SourceBench({
             onClick={(e) => setAiAnchor(e.currentTarget)}
             startIcon={suggesting
               ? <CircularProgress size={12} color="inherit" />
-              : <AutoAwesomeIcon sx={{ fontSize: 15 }} />}
-            sx={{ textTransform: "none", fontSize: "0.7rem", fontWeight: 700, py: 0.1, px: 0.75, minWidth: 0 }}
+              : <IconSparkles size={15} stroke={1.8} />}
+            sx={{ textTransform: "none", fontSize: "0.7rem", fontWeight: 700, py: 0.1, px: 0.75, minWidth: 0, borderRadius: "20px" }}
           >
             {suggesting ? "Reading…" : "Ask AI"}
           </Button>
@@ -478,6 +480,7 @@ export default function SourceBench({
         open={Boolean(aiAnchor)} anchorEl={aiAnchor} onClose={() => setAiAnchor(null)}
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
+        slotProps={{ paper: { sx: { borderRadius: "16px" } } }}
       >
         <Stack spacing={1.5} sx={{ p: 2, width: 360 }}>
           <Typography variant="caption" sx={{ color: "text.secondary" }}>
@@ -487,19 +490,19 @@ export default function SourceBench({
           </Typography>
           <Stack direction="row" spacing={1.25}>
             <TextField
-              label="How many" type="number" size="small" sx={{ flex: 1 }}
+              label="How many" type="number" size="small" sx={{ flex: 1, "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
               value={ai.max_clips}
               slotProps={{ htmlInput: { min: 1, max: MAX_RANGES } }}
               onChange={(e) => setAi((p) => ({ ...p, max_clips: e.target.value }))}
             />
             <TextField
-              label="Min (s)" type="number" size="small" sx={{ flex: 1 }}
+              label="Min (s)" type="number" size="small" sx={{ flex: 1, "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
               value={ai.min_duration}
               slotProps={{ htmlInput: { min: 10, max: 120 } }}
               onChange={(e) => setAi((p) => ({ ...p, min_duration: e.target.value }))}
             />
             <TextField
-              label="Max (s)" type="number" size="small" sx={{ flex: 1 }}
+              label="Max (s)" type="number" size="small" sx={{ flex: 1, "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
               value={ai.max_duration}
               slotProps={{ htmlInput: { min: 15, max: 180 } }}
               onChange={(e) => setAi((p) => ({ ...p, max_duration: e.target.value }))}
@@ -511,14 +514,15 @@ export default function SourceBench({
             value={ai.user_query}
             slotProps={{ htmlInput: { maxLength: 500 } }}
             onChange={(e) => setAi((p) => ({ ...p, user_query: e.target.value }))}
+            sx={{ "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
           />
           <Stack direction="row" spacing={1.25}>
-            <TextField select label="Target platform" size="small" sx={{ flex: 1 }}
+            <TextField select label="Target platform" size="small" sx={{ flex: 1, "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
               value={ai.target_platform}
               onChange={(e) => setAi((p) => ({ ...p, target_platform: e.target.value }))}>
               {PLATFORMS.map((o) => <MenuItem key={o.v} value={o.v}>{o.label}</MenuItem>)}
             </TextField>
-            <TextField select label="Content genre" size="small" sx={{ flex: 1 }}
+            <TextField select label="Content genre" size="small" sx={{ flex: 1, "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
               value={ai.genre}
               onChange={(e) => setAi((p) => ({ ...p, genre: e.target.value }))}>
               {GENRES.map((o) => <MenuItem key={o.v} value={o.v}>{o.label}</MenuItem>)}
@@ -537,9 +541,9 @@ export default function SourceBench({
             disabled={suggesting || atCap}
             startIcon={suggesting
               ? <CircularProgress size={14} color="inherit" />
-              : <AutoAwesomeIcon sx={{ fontSize: 17 }} />}
+              : <IconSparkles size={17} stroke={1.8} />}
             onClick={() => { setAiAnchor(null); findMoments() }}
-            sx={{ textTransform: "none", fontWeight: 700 }}
+            sx={{ textTransform: "none", fontWeight: 700, borderRadius: "20px" }}
           >
             {suggesting ? "Reading the video…" : "Find moments"}
           </Button>
@@ -556,11 +560,6 @@ export default function SourceBench({
     <Box
       ref={rootRef}
       tabIndex={-1}
-      /* The bench shares the centre column with the clip filmstrip below
-         it. Without minHeight:0 + overflow:hidden here, the bench's own
-         content sets a floor on its height and the footer slides UNDER
-         the filmstrip's toolbar — which is exactly what it did. Only the
-         stage flexes; every other band is fixed and gets its space first. */
       sx={{
         flex: 1, minHeight: 0, overflow: "hidden",
         display: "flex", flexDirection: "column",
@@ -569,7 +568,7 @@ export default function SourceBench({
     >
       {/* ── Header ─────────────────────────────────────────── */}
       <Stack direction="row" alignItems="center" spacing={1} sx={{ flexShrink: 0 }}>
-        <ContentCutIcon sx={{ fontSize: 17, color: "primary.main" }} />
+        <IconScissors size={17} stroke={1.8} color="var(--color-primary, #8b5cf6)" />
         <Typography variant="subtitle2" sx={{ fontWeight: 700, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
           {source.title || "Untitled"}
         </Typography>
@@ -588,14 +587,14 @@ export default function SourceBench({
               aria-pressed={snapEnabled && segments.length > 0}
               onClick={() => setSnapEnabled((v) => !v)}
               sx={{ color: snapEnabled && segments.length ? "success.main" : "text.disabled" }}>
-              <MagnetIcon sx={{ fontSize: 17 }} />
+              <IconMagnet size={17} stroke={1.8} />
             </IconButton>
           </span>
         </Tooltip>
         <Tooltip title="Keyboard shortcuts">
           <IconButton size="small" aria-label="Keyboard shortcuts"
             onClick={(e) => setHelpAnchor(e.currentTarget)} sx={{ color: "text.secondary" }}>
-            <KeyboardIcon sx={{ fontSize: 17 }} />
+            <IconKeyboard size={17} stroke={1.8} />
           </IconButton>
         </Tooltip>
       </Stack>
@@ -704,9 +703,9 @@ export default function SourceBench({
         <Button
           size="small" variant="contained" color="primary"
           disabled={!R.active}
-          startIcon={playing ? <PauseIcon sx={{ fontSize: 17 }} /> : <PlayArrowIcon sx={{ fontSize: 17 }} />}
+          startIcon={playing ? <IconPlayerPause size={17} stroke={1.8} /> : <IconPlayerPlay size={17} stroke={1.8} />}
           onClick={togglePlay}
-          sx={{ textTransform: "none", fontWeight: 700, minWidth: 128 }}
+          sx={{ textTransform: "none", fontWeight: 700, minWidth: 128, borderRadius: "20px" }}
         >
           {playing ? "Pause" : R.active ? `Play clip ${R.ranges.indexOf(R.active) + 1}` : "Play clip"}
         </Button>
@@ -719,6 +718,7 @@ export default function SourceBench({
             color={scoped ? "primary" : "default"}
             variant={scoped ? "filled" : "outlined"}
             onClick={() => setScoped((v) => !v)}
+            sx={{ borderRadius: "12px" }}
           />
         </Tooltip>
         {R.active && (
@@ -743,8 +743,6 @@ export default function SourceBench({
           onSeek={seek}
           onRangeSelect={(id) => {
             R.setActiveId(id)
-            // Selecting a clip should also cue it up — otherwise pressing
-            // play after clicking a block starts wherever you last were.
             const r = R.ranges.find((x) => x.id === id)
             if (r && scoped) seek(r.start)
           }}
@@ -753,9 +751,6 @@ export default function SourceBench({
           onRangeAdd={(a, b) => {
             if (atCap) { showSnackbar(`The bench holds ${MAX_RANGES} ranges — cut or remove some first`, "warning"); return }
             if (R.add(a, b) == null) {
-              // add() refused: the span was clamped away by a pending cut,
-              // or is shorter than the 1s floor. Say so — a drag that lands
-              // nothing with no word reads as a broken timeline.
               showSnackbar("No room there — that stretch is under a pending cut or shorter than 1s", "info")
             }
           }}
@@ -778,7 +773,7 @@ export default function SourceBench({
       <Divider sx={{ flexShrink: 0 }} />
       <Stack direction="row" spacing={1.25} alignItems="center" flexWrap="wrap" useFlexGap sx={{ flexShrink: 0 }}>
         <TextField
-          select size="small" label="Captions" sx={{ width: 132 }}
+          select size="small" label="Captions" sx={{ width: 132, "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
           value={settings.caption_style}
           onChange={(e) => onSettings({ caption_style: e.target.value })}
         >
@@ -786,7 +781,7 @@ export default function SourceBench({
         </TextField>
         {settings.caption_style !== "none" && (
           <TextField
-            select size="small" label="Emoji" sx={{ width: 112 }}
+            select size="small" label="Emoji" sx={{ width: 112, "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
             value={settings.emoji_style}
             onChange={(e) => onSettings({ emoji_style: e.target.value })}
           >
@@ -799,6 +794,7 @@ export default function SourceBench({
             color={settings.force_vertical ? "primary" : "default"}
             variant={settings.force_vertical ? "filled" : "outlined"}
             onClick={() => onSettings({ force_vertical: !settings.force_vertical })}
+            sx={{ borderRadius: "12px" }}
           />
         </Tooltip>
         <Tooltip title="Trim silent gaps and filler words INSIDE each cut — your in/out points don't move">
@@ -807,32 +803,34 @@ export default function SourceBench({
             color={settings.remove_silence ? "primary" : "default"}
             variant={settings.remove_silence ? "filled" : "outlined"}
             onClick={() => onSettings({ remove_silence: !settings.remove_silence })}
+            sx={{ borderRadius: "12px" }}
           />
         </Tooltip>
-        {/* Transcription used to be reachable only through the dialog,
-            which meant one setting forced you onto the other surface. */}
         <Tooltip title={source.has_transcript_segments
           ? "This video already has a transcript — Whisper is skipped unless you ask for a fresh one"
           : "No transcript yet: Whisper runs before captions, silence trimming and Ask AI"}>
           <Chip
             size="small" variant="outlined"
-            icon={<RecordVoiceOverIcon sx={{ fontSize: 14 }} />}
+            icon={<IconMicrophone size={14} stroke={1.8} />}
             label={source.has_transcript_segments && !settings.force_retranscribe
               ? "Transcript cached"
               : `Whisper: ${settings.whisper_quality}`}
             onClick={(e) => setTxAnchor(e.currentTarget)}
+            sx={{ borderRadius: "12px" }}
           />
         </Tooltip>
         <Popover
           open={Boolean(txAnchor)} anchorEl={txAnchor} onClose={() => setTxAnchor(null)}
           anchorOrigin={{ vertical: "top", horizontal: "left" }}
           transformOrigin={{ vertical: "bottom", horizontal: "left" }}
+          slotProps={{ paper: { sx: { borderRadius: "16px" } } }}
         >
           <Stack spacing={1.25} sx={{ p: 2, width: 300 }}>
             <TextField
               select size="small" fullWidth label="Whisper quality"
               value={settings.whisper_quality}
               onChange={(e) => onSettings({ whisper_quality: e.target.value })}
+              sx={{ "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
             >
               {WHISPER_QUALITIES.map((q) => (
                 <MenuItem key={q.v} value={q.v}>{q.label}</MenuItem>
@@ -857,10 +855,6 @@ export default function SourceBench({
             This video is shorter than one second
           </Typography>
         )}
-        {/* Cut lives in the page hero (top-right, before Auto-cut) — the
-            app's convention for a primary action, and it puts the two ways of
-            cutting side by side instead of at opposite corners. This row is
-            purely the per-clip settings that shape whatever it cuts. */}
       </Stack>
       <PasteRangesDialog
         open={pasteOpen}
@@ -882,9 +876,6 @@ export default function SourceBench({
   )
 }
 
-/* Paste-a-list-of-times. Parses as you type so the outcome is visible
-   before you commit, and reports bad lines individually — a paste of
-   twelve ranges with one typo should add the eleven good ones. */
 function PasteRangesDialog({ open, onClose, duration, room, onAdd }) {
   const [text, setText] = useState("")
   useEffect(() => { if (open) setText("") }, [open])
@@ -895,9 +886,9 @@ function PasteRangesDialog({ open, onClose, duration, room, onAdd }) {
   const willAdd = Math.max(0, Math.min(ranges.length, room))
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth PaperProps={{ sx: { borderRadius: "20px" } }}>
       <DialogTitle sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-        <ContentPasteIcon color="primary" /> Paste timestamps
+        <IconClipboard size={20} stroke={1.8} color="var(--color-primary, #8b5cf6)" /> Paste timestamps
       </DialogTitle>
       <DialogContent>
         <Typography variant="caption" sx={{ color: "text.secondary", display: "block", mb: 1.5 }}>
@@ -926,9 +917,10 @@ function PasteRangesDialog({ open, onClose, duration, room, onAdd }) {
         </Stack>
       </DialogContent>
       <DialogActions sx={{ px: 3, pb: 2 }}>
-        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={onClose} sx={{ borderRadius: "20px" }}>Cancel</Button>
         <Button variant="contained" disabled={willAdd === 0}
-          onClick={() => onAdd(ranges.slice(0, willAdd))}>
+          onClick={() => onAdd(ranges.slice(0, willAdd))}
+          sx={{ borderRadius: "20px" }}>
           Add {willAdd || ""} to timeline
         </Button>
       </DialogActions>

@@ -1,16 +1,16 @@
-// SPDX-License-Identifier: AGPL-3.0-only
-// Copyright (c) 2025-2026 ViralMint Contributors
 import { useState, useEffect, useRef } from "react"
 import {
   Box, Stack, Typography, Button, Chip, Alert,
   CircularProgress, LinearProgress, alpha, useTheme,
   Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions,
 } from "@mui/material"
-import MovieFilterIcon from "@mui/icons-material/MovieFilterOutlined"
-import PlayArrowIcon from "@mui/icons-material/PlayArrowOutlined"
-import CheckCircleIcon from "@mui/icons-material/CheckCircle"
-import DownloadIcon from "@mui/icons-material/DownloadOutlined"
-import DeleteIcon from "@mui/icons-material/DeleteOutlineOutlined"
+import {
+  IconMovie,
+  IconPlayerPlay,
+  IconCircleCheck,
+  IconDownload,
+  IconTrash,
+} from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 import useHashHighlight from "../../hooks/useHashHighlight"
@@ -172,7 +172,7 @@ export default function MotionGraphicsSection() {
       ref={anchorRef}
       data-hash-target="motion-graphics"
       sx={{
-        p: 1.5, borderRadius: 2,
+        p: 2, borderRadius: "16px",
         border: "1px solid",
         borderColor: highlight ? "primary.main" : "divider",
         boxShadow: highlight ? `0 0 0 4px ${alpha(theme.palette.primary.main, 0.18)}` : "none",
@@ -180,45 +180,45 @@ export default function MotionGraphicsSection() {
       }}
     >
       <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" sx={{ mb: 1 }}>
-        <MovieFilterIcon sx={{ fontSize: 18, color: "primary.main" }} />
+        <IconMovie size={18} stroke={1.8} color="var(--color-primary, #8b5cf6)" />
         <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>Motion Graphics</Typography>
 
         {installed && (
           <>
-            <Chip size="small" color="success" variant="outlined" icon={<CheckCircleIcon sx={{ fontSize: 14 }} />} label="Installed" />
+            <Chip size="small" color="success" variant="outlined" icon={<IconCircleCheck size={14} stroke={1.8} />} label="Installed" sx={{ borderRadius: "12px" }} />
             <Typography variant="caption" sx={{ color: "text.secondary" }}>
               {status.disk_size_mb || status.approx_download_mb} MB on disk
               {status.engine_cache_mb ? ` · +${status.engine_cache_mb} MB engine cache` : ""}
             </Typography>
           </>
         )}
-        {showInstall && <Chip size="small" variant="outlined" label="Optional" />}
-        {showUpdate && <Chip size="small" color="warning" variant="outlined" label="Update available" />}
-        {installing && <Chip size="small" color="info" variant="outlined" label="Installing…" />}
-        {!platform_supported && <Chip size="small" color="default" variant="outlined" label="Unsupported platform" />}
+        {showInstall && <Chip size="small" variant="outlined" label="Optional" sx={{ borderRadius: "12px" }} />}
+        {showUpdate && <Chip size="small" color="warning" variant="outlined" label="Update available" sx={{ borderRadius: "12px" }} />}
+        {installing && <Chip size="small" color="info" variant="outlined" label="Installing…" sx={{ borderRadius: "12px" }} />}
+        {!platform_supported && <Chip size="small" color="default" variant="outlined" label="Unsupported platform" sx={{ borderRadius: "12px" }} />}
 
         <Box sx={{ flexGrow: 1 }} />
 
         {showInstall && (
-          <Button size="small" variant="contained" startIcon={<DownloadIcon sx={{ fontSize: 16 }} />}
-            disabled={busy} onClick={install}>
+          <Button size="small" variant="contained" startIcon={<IconDownload size={16} stroke={1.8} />}
+            disabled={busy} onClick={install} sx={{ borderRadius: "20px" }}>
             {busy ? "Starting…" : "Install"}
           </Button>
         )}
         {showUpdate && (
-          <Button size="small" variant="contained" color="warning" startIcon={<DownloadIcon sx={{ fontSize: 16 }} />}
-            disabled={busy} onClick={install}>
+          <Button size="small" variant="contained" color="warning" startIcon={<IconDownload size={16} stroke={1.8} />}
+            disabled={busy} onClick={install} sx={{ borderRadius: "20px" }}>
             {busy ? "Updating…" : "Update"}
           </Button>
         )}
         {installed && (
           <>
-            <Button size="small" variant="outlined" startIcon={<PlayArrowIcon sx={{ fontSize: 16 }} />}
-              disabled={testing || busy} onClick={runTest}>
+            <Button size="small" variant="outlined" startIcon={<IconPlayerPlay size={16} stroke={1.8} />}
+              disabled={testing || busy} onClick={runTest} sx={{ borderRadius: "20px" }}>
               {testing ? "Rendering…" : "Test render"}
             </Button>
-            <Button size="small" variant="outlined" color="error" startIcon={<DeleteIcon sx={{ fontSize: 16 }} />}
-              disabled={busy} onClick={() => setUninstallConfirm(true)}>
+            <Button size="small" variant="outlined" color="error" startIcon={<IconTrash size={16} stroke={1.8} />}
+              disabled={busy} onClick={() => setUninstallConfirm(true)} sx={{ borderRadius: "20px" }}>
               Remove
             </Button>
           </>
@@ -276,7 +276,7 @@ export default function MotionGraphicsSection() {
         </Alert>
       )}
 
-      <Dialog open={uninstallConfirm} onClose={() => setUninstallConfirm(false)}>
+      <Dialog open={uninstallConfirm} onClose={() => setUninstallConfirm(false)} PaperProps={{ sx: { borderRadius: "20px" } }}>
         <DialogTitle>Remove Motion Graphics?</DialogTitle>
         <DialogContent>
           <DialogContentText sx={{ fontSize: "0.88rem" }}>
@@ -293,9 +293,9 @@ export default function MotionGraphicsSection() {
             ) : null}
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setUninstallConfirm(false)} disabled={busy}>Cancel</Button>
-          <Button onClick={uninstall} color="error" variant="contained" disabled={busy}>Remove</Button>
+        <DialogActions sx={{ p: 2 }}>
+          <Button onClick={() => setUninstallConfirm(false)} disabled={busy} sx={{ borderRadius: "20px" }}>Cancel</Button>
+          <Button onClick={uninstall} color="error" variant="contained" disabled={busy} sx={{ borderRadius: "20px" }}>Remove</Button>
         </DialogActions>
       </Dialog>
     </Box>

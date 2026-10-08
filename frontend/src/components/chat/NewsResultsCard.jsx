@@ -3,13 +3,15 @@ import {
   Box, Typography, Chip, Button, Stack, Paper, IconButton,
   Collapse, Tooltip,
 } from "@mui/material"
-import NewspaperIcon from "@mui/icons-material/Newspaper"
-import OpenInNewIcon from "@mui/icons-material/OpenInNew"
-import BookmarkAddIcon from "@mui/icons-material/BookmarkAddOutlined"
-import MovieCreationIcon from "@mui/icons-material/MovieCreationOutlined"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import ExpandLessIcon from "@mui/icons-material/ExpandLess"
-import ThumbUpIcon from "@mui/icons-material/ThumbUpOutlined"
+import {
+  IconNews,
+  IconExternalLink,
+  IconBookmark,
+  IconMovie,
+  IconChevronDown,
+  IconChevronUp,
+  IconThumbUp,
+} from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 
@@ -36,7 +38,7 @@ function ArticleCard({ article, onSave, onGenerate }) {
 
   return (
     <Paper variant="outlined" sx={{
-      p: 1.5, borderRadius: 2, borderColor: "divider",
+      p: 1.5, borderRadius: "14px", borderColor: "divider",
       "&:hover": { borderColor: "primary.light", bgcolor: "action.hover" },
       transition: "all 0.15s",
     }}>
@@ -45,7 +47,7 @@ function ArticleCard({ article, onSave, onGenerate }) {
         <Chip
           label={article.source_domain || "Unknown"}
           size="small" variant="outlined"
-          sx={{ fontSize: "0.6rem", height: 18, textTransform: "lowercase" }}
+          sx={{ fontSize: "0.6rem", height: 18, textTransform: "lowercase", borderRadius: "6px" }}
         />
         <ScoreChip score={article.virality_score || 0} />
         {article.published_at && (
@@ -54,16 +56,16 @@ function ArticleCard({ article, onSave, onGenerate }) {
           </Typography>
         )}
         {article.engagement > 0 && (
-          <Typography variant="caption" sx={{ color: "text.secondary", fontSize: "0.65rem" }}>
-            <ThumbUpIcon sx={{ fontSize: 11, verticalAlign: "middle", mr: 0.3 }} />{article.engagement}
+          <Typography variant="caption" sx={{ color: "text.secondary", fontSize: "0.65rem", display: "inline-flex", alignItems: "center", gap: 0.3 }}>
+            <IconThumbUp size={12} stroke={1.8} />{article.engagement}
           </Typography>
         )}
         <Box sx={{ flex: 1 }} />
         {article.url && (
           <Tooltip title="Open article" arrow>
             <IconButton size="small" onClick={() => window.open(article.url, "_blank", "noopener")}
-              sx={{ p: 0.25, color: "text.secondary" }}>
-              <OpenInNewIcon sx={{ fontSize: "0.85rem" }} />
+              sx={{ p: 0.25, color: "text.secondary", borderRadius: "6px" }}>
+              <IconExternalLink size={14} stroke={1.8} />
             </IconButton>
           </Tooltip>
         )}
@@ -91,8 +93,8 @@ function ArticleCard({ article, onSave, onGenerate }) {
         <Button
           size="small" variant="text"
           onClick={() => setExpanded(!expanded)}
-          endIcon={expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          sx={{ fontSize: "0.65rem", color: "text.secondary", p: 0, minHeight: 0, textTransform: "none" }}
+          endIcon={expanded ? <IconChevronUp size={14} stroke={1.8} /> : <IconChevronDown size={14} stroke={1.8} />}
+          sx={{ fontSize: "0.65rem", color: "text.secondary", p: 0, minHeight: 0, textTransform: "none", borderRadius: "10px" }}
         >
           {expanded ? "Less" : `Talking points${a.talking_points ? ` (${a.talking_points.length})` : ""}`}
         </Button>
@@ -133,7 +135,7 @@ function ArticleCard({ article, onSave, onGenerate }) {
             <Stack direction="row" spacing={0.5} flexWrap="wrap" sx={{ mt: 0.5 }}>
               {a.suggested_hashtags.map((tag, i) => (
                 <Chip key={i} label={tag} size="small" variant="outlined"
-                  sx={{ fontSize: "0.55rem", height: 16 }} />
+                  sx={{ fontSize: "0.55rem", height: 16, borderRadius: "6px" }} />
               ))}
             </Stack>
           )}
@@ -142,14 +144,14 @@ function ArticleCard({ article, onSave, onGenerate }) {
 
       {/* Action buttons */}
       <Stack direction="row" spacing={0.75} sx={{ mt: 1 }}>
-        <Button size="small" variant="outlined" startIcon={<BookmarkAddIcon />}
+        <Button size="small" variant="outlined" startIcon={<IconBookmark size={14} stroke={1.8} />}
           onClick={() => onSave(article.id)}
-          sx={{ fontSize: "0.68rem", textTransform: "none" }}>
+          sx={{ fontSize: "0.68rem", textTransform: "none", borderRadius: "20px" }}>
           Save to Library
         </Button>
-        <Button size="small" variant="contained" startIcon={<MovieCreationIcon />}
+        <Button size="small" variant="contained" startIcon={<IconMovie size={14} stroke={1.8} />}
           onClick={() => onGenerate(article.id)}
-          sx={{ fontSize: "0.68rem", textTransform: "none" }}>
+          sx={{ fontSize: "0.68rem", textTransform: "none", borderRadius: "20px" }}>
           Generate Video
         </Button>
       </Stack>
@@ -203,25 +205,25 @@ export default function NewsResultsCard({ results, query }) {
     <Box sx={{
       bgcolor: "background.paper",
       border: 1, borderColor: "divider",
-      borderRadius: 3, p: 2, mb: 0.5,
+      borderRadius: "16px", p: 2, mb: 0.5,
     }}>
       {/* Header */}
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1.5 }}>
         <Stack direction="row" spacing={1} alignItems="center">
-          <NewspaperIcon sx={{ fontSize: 18, color: "primary.main" }} />
+          <IconNews size={18} stroke={1.8} color="#8b5cf6" />
           <Typography variant="body2" sx={{ fontWeight: 700 }}>
             News Research
           </Typography>
           {query && (
-            <Chip label={query} size="small" variant="outlined" sx={{ fontSize: "0.65rem", height: 20 }} />
+            <Chip label={query} size="small" variant="outlined" sx={{ fontSize: "0.65rem", height: 20, borderRadius: "10px" }} />
           )}
           <Typography variant="caption" sx={{ color: "text.secondary" }}>
             {results.length} article{results.length !== 1 ? "s" : ""} found
           </Typography>
         </Stack>
-        <Button size="small" variant="outlined" startIcon={<BookmarkAddIcon />}
+        <Button size="small" variant="outlined" startIcon={<IconBookmark size={14} stroke={1.8} />}
           onClick={handleSaveAll} disabled={saving}
-          sx={{ fontSize: "0.68rem", textTransform: "none" }}>
+          sx={{ fontSize: "0.68rem", textTransform: "none", borderRadius: "20px" }}>
           {saving ? "Saving..." : "Save All"}
         </Button>
       </Stack>
@@ -241,7 +243,7 @@ export default function NewsResultsCard({ results, query }) {
       {/* Show more */}
       {!expanded && results.length > 6 && (
         <Button size="small" variant="text" onClick={() => setExpanded(true)}
-          sx={{ mt: 1, color: "text.secondary", textTransform: "none" }}>
+          sx={{ mt: 1, color: "text.secondary", textTransform: "none", borderRadius: "20px" }}>
           Show all {results.length} articles
         </Button>
       )}

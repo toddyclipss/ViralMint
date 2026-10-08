@@ -1,7 +1,5 @@
 import { Box, Typography, Card, CardContent, Button, Stack, Chip } from "@mui/material"
-import PlayCircleIcon from "@mui/icons-material/PlayCircleOutline"
-import YouTubeIcon from "@mui/icons-material/YouTube"
-import UploadIcon from "@mui/icons-material/UploadOutlined"
+import { IconPlayerPlay, IconBrandYoutube, IconUpload } from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 
@@ -22,7 +20,7 @@ export default function VideoPreviewCard({ video }) {
     <Card elevation={0} sx={{
       maxWidth: 340, mb: 0.5,
       border: 1, borderColor: "divider",
-      borderRadius: 3,
+      borderRadius: "16px",
     }}>
       <Box sx={{
         position: "relative", height: 170, bgcolor: "action.hover",
@@ -35,7 +33,7 @@ export default function VideoPreviewCard({ video }) {
           <Box component="img" src={`/api/videos/${video.id}/thumbnail`} alt={video.title}
             sx={{ width: "100%", height: "100%", objectFit: "cover" }} />
         ) : (
-          <PlayCircleIcon sx={{ fontSize: 48, color: "text.disabled" }} />
+          <IconPlayerPlay size={44} stroke={1.5} color="#94a3b8" />
         )}
         <Box sx={{
           position: "absolute", bottom: 0, left: 0, right: 0,
@@ -50,22 +48,22 @@ export default function VideoPreviewCard({ video }) {
 
       <CardContent sx={{ p: 1.5, "&:last-child": { pb: 1.5 } }}>
         <Stack direction="row" spacing={0.5} sx={{ mb: 1 }}>
-          <Chip label={video.status || "ready"} size="small" color="success" sx={{ height: 20, fontSize: "0.65rem" }} />
-          <Chip label={video.source_type === "clip_extraction" ? "Clip" : "Stock"} size="small" variant="outlined" sx={{ height: 20, fontSize: "0.65rem" }} />
-          <Chip label={video.aspect_ratio || "9:16"} size="small" variant="outlined" sx={{ height: 20, fontSize: "0.65rem" }} />
+          <Chip label={video.status || "ready"} size="small" color="success" sx={{ height: 20, fontSize: "0.65rem", borderRadius: "8px" }} />
+          <Chip label={video.source_type === "clip_extraction" ? "Clip" : "Stock"} size="small" variant="outlined" sx={{ height: 20, fontSize: "0.65rem", borderRadius: "8px" }} />
+          <Chip label={video.aspect_ratio || "9:16"} size="small" variant="outlined" sx={{ height: 20, fontSize: "0.65rem", borderRadius: "8px" }} />
         </Stack>
 
         <Stack direction="row" spacing={1}>
-          <Button size="small" variant="contained" color="error" startIcon={<YouTubeIcon />}
-            onClick={() => handleUpload(["youtube"])}>
+          <Button size="small" variant="contained" color="error" startIcon={<IconBrandYoutube size={16} stroke={1.8} />}
+            onClick={() => handleUpload(["youtube"])} sx={{ borderRadius: "20px" }}>
             YouTube
           </Button>
-          <Button size="small" variant="contained" color="info" startIcon={<UploadIcon />}
-            onClick={() => handleUpload(["tiktok"])}>
+          <Button size="small" variant="contained" color="info" startIcon={<IconUpload size={16} stroke={1.8} />}
+            onClick={() => handleUpload(["tiktok"])} sx={{ borderRadius: "20px" }}>
             TikTok
           </Button>
           <Button size="small" variant="outlined"
-            onClick={() => window.location.href = "/videos"}>
+            onClick={() => window.location.href = "/videos"} sx={{ borderRadius: "20px" }}>
             View
           </Button>
         </Stack>

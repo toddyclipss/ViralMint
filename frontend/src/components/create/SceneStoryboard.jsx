@@ -1,7 +1,5 @@
 import { Box, Typography, Button, Stack, Paper, IconButton } from "@mui/material"
-import AddIcon from "@mui/icons-material/Add"
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
-import SplitscreenIcon from "@mui/icons-material/Splitscreen"
+import { IconPlus, IconTrash, IconLayoutRows } from "@tabler/icons-react"
 
 /**
  * Shared scene storyboard grid used by all 3 studio pages.
@@ -31,11 +29,11 @@ export default function SceneStoryboard({
   }
 
   return (
-    <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
+    <Paper variant="outlined" sx={{ p: 2, borderRadius: "16px" }}>
       {/* Header */}
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 1.5 }}>
-        <Typography variant="subtitle2" sx={{ fontWeight: 600, color: "text.secondary" }}>
-          <SplitscreenIcon sx={{ fontSize: 16, verticalAlign: "text-bottom", mr: 0.5 }} />
+        <Typography variant="subtitle2" sx={{ fontWeight: 600, color: "text.secondary", display: "flex", alignItems: "center", gap: 0.75 }}>
+          <IconLayoutRows size={16} stroke={1.8} />
           Scenes ({scenes.length || "none"})
         </Typography>
         {showSplitButton && (
@@ -43,8 +41,8 @@ export default function SceneStoryboard({
             size="small"
             onClick={onSplitScript}
             disabled={splitLoading}
-            startIcon={<SplitscreenIcon sx={{ fontSize: 14 }} />}
-            sx={{ fontSize: "0.75rem", textTransform: "none" }}
+            startIcon={<IconLayoutRows size={14} stroke={1.8} />}
+            sx={{ fontSize: "0.75rem", textTransform: "none", borderRadius: "20px" }}
           >
             {splitLoading ? "Splitting..." : "Split into Scenes"}
           </Button>
@@ -55,7 +53,7 @@ export default function SceneStoryboard({
       {scenes.length === 0 && (
         <Box sx={{
           py: 4, px: 2, textAlign: "center",
-          border: 1, borderStyle: "dashed", borderColor: "divider", borderRadius: 2,
+          border: 1, borderStyle: "dashed", borderColor: "divider", borderRadius: "14px",
         }}>
           <Typography variant="body2" sx={{ color: "text.secondary", fontSize: "0.85rem" }}>
             {emptyMessage}
@@ -71,7 +69,7 @@ export default function SceneStoryboard({
               key={idx}
               variant="outlined"
               sx={{
-                p: 1.5, borderRadius: 2, position: "relative",
+                p: 1.5, borderRadius: "14px", position: "relative",
                 transition: "border-color 0.15s",
                 "&:hover": { borderColor: "primary.light" },
               }}
@@ -82,8 +80,8 @@ export default function SceneStoryboard({
                   Scene {idx + 1}
                 </Typography>
                 {scenes.length > 1 && (
-                  <IconButton size="small" onClick={() => removeScene(idx)} sx={{ p: 0.25 }}>
-                    <DeleteOutlineIcon sx={{ fontSize: 16, color: "text.secondary" }} />
+                  <IconButton size="small" onClick={() => removeScene(idx)} sx={{ p: 0.25, borderRadius: "8px" }}>
+                    <IconTrash size={16} stroke={1.8} />
                   </IconButton>
                 )}
               </Stack>
@@ -100,8 +98,8 @@ export default function SceneStoryboard({
         size="small"
         onClick={addScene}
         disabled={scenes.length >= maxScenes}
-        startIcon={<AddIcon sx={{ fontSize: 14 }} />}
-        sx={{ mt: 1.5, fontSize: "0.75rem", textTransform: "none" }}
+        startIcon={<IconPlus size={14} stroke={1.8} />}
+        sx={{ mt: 1.5, fontSize: "0.75rem", textTransform: "none", borderRadius: "20px" }}
       >
         Add scene {scenes.length >= maxScenes && `(max ${maxScenes})`}
       </Button>

@@ -1,6 +1,5 @@
 import { Box, Typography, Card, CardContent, Button, Stack } from "@mui/material"
-import MovieCreationIcon from "@mui/icons-material/MovieCreationOutlined"
-import LightbulbIcon from "@mui/icons-material/LightbulbOutlined"
+import { IconMovie, IconBulb } from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 
@@ -21,12 +20,12 @@ export default function InsightsCard({ videos }) {
     <Box sx={{
       bgcolor: "background.paper",
       border: 1, borderColor: "divider",
-      borderRadius: 3, p: 2, mb: 0.5,
+      borderRadius: "16px", p: 2, mb: 0.5,
       boxShadow: (theme) => theme.customShadows?.sm,
       transition: "all 0.2s ease",
     }}>
       <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
-        <LightbulbIcon fontSize="small" sx={{ color: "warning.main" }} />
+        <IconBulb size={18} stroke={1.8} color="#f59e0b" />
         <Typography variant="body2" sx={{ fontWeight: 600, color: "text.primary" }}>
           Analysis Complete — {videos.length} video{videos.length !== 1 ? "s" : ""} analyzed
         </Typography>
@@ -34,7 +33,7 @@ export default function InsightsCard({ videos }) {
 
       <Stack spacing={1}>
         {videos.map((v) => (
-          <Card key={v.id} elevation={0} sx={{ border: 1, borderColor: "divider", borderRadius: 2 }}>
+          <Card key={v.id} elevation={0} sx={{ border: 1, borderColor: "divider", borderRadius: "14px" }}>
             <CardContent sx={{ p: 1.5, "&:last-child": { pb: 1.5 } }}>
               <Typography variant="body2" sx={{ fontWeight: 500, mb: 0.5, color: "text.primary" }}>
                 {v.title || "Untitled"}
@@ -62,8 +61,8 @@ export default function InsightsCard({ videos }) {
                 </Stack>
               )}
 
-              <Button size="small" variant="contained" startIcon={<MovieCreationIcon />}
-                onClick={() => handleGenerate(v.id)}>
+              <Button size="small" variant="contained" startIcon={<IconMovie size={16} stroke={1.8} />}
+                onClick={() => handleGenerate(v.id)} sx={{ borderRadius: "20px" }}>
                 Generate Video
               </Button>
             </CardContent>

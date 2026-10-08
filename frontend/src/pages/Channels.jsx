@@ -4,22 +4,24 @@ import {
   CircularProgress, Alert, Avatar, Divider, Tooltip, FormControl, Select,
   MenuItem, TextField, Card, CardMedia, CardContent, TablePagination,
 } from "@mui/material"
-import YouTubeIcon from "@mui/icons-material/YouTube"
-import LiveTvIcon from "@mui/icons-material/LiveTvOutlined"
-import RefreshIcon from "@mui/icons-material/Refresh"
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline"
-import OpenInNewIcon from "@mui/icons-material/OpenInNew"
-import TravelExploreIcon from "@mui/icons-material/TravelExplore"
-import DownloadIcon from "@mui/icons-material/Download"
-import LinkIcon from "@mui/icons-material/Link"
-import LinkOffIcon from "@mui/icons-material/LinkOff"
-import SearchIcon from "@mui/icons-material/Search"
-import CheckCircleIcon from "@mui/icons-material/CheckCircle"
-import AddIcon from "@mui/icons-material/Add"
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined"
-import ThumbUpIcon from "@mui/icons-material/ThumbUpOutlined"
-import ChatBubbleIcon from "@mui/icons-material/ChatBubbleOutlineOutlined"
+import {
+  IconBrandYoutube,
+  IconBroadcast,
+  IconRefresh,
+  IconPlayerPlay,
+  IconExternalLink,
+  IconWorld,
+  IconDownload,
+  IconLink,
+  IconUnlink,
+  IconSearch,
+  IconCircleCheck,
+  IconPlus,
+  IconArrowLeft,
+  IconEye,
+  IconThumbUp,
+  IconMessageDots,
+} from "@tabler/icons-react"
 import http from "../api/http"
 import useAppStore from "../store/appStore"
 
@@ -115,14 +117,14 @@ function ConnectForm({ platform, onConnected }) {
 
   return (
     <Paper elevation={0} sx={{
-      p: 4, textAlign: "center", borderRadius: 3,
-      border: 2, borderColor: "primary.main", borderStyle: "dashed",
-      bgcolor: (theme) => theme.palette.mode === "dark" ? "rgba(13,159,110,0.06)" : "rgba(13,159,110,0.04)",
+      p: 4, textAlign: "center", borderRadius: "18px",
+      border: "2px dashed", borderColor: "rgba(139, 92, 246, 0.4)",
+      bgcolor: (theme) => theme.palette.mode === "dark" ? "rgba(139, 92, 246, 0.05)" : "rgba(139, 92, 246, 0.03)",
     }}>
       {isYT ? (
-        <YouTubeIcon sx={{ fontSize: 52, color: "primary.main", mb: 1, opacity: 0.8 }} />
+        <IconBrandYoutube size={48} stroke={1.5} style={{ color: "#a78bfa", marginBottom: 8, opacity: 0.9 }} />
       ) : (
-        <LiveTvIcon sx={{ fontSize: 52, color: "primary.main", mb: 1, opacity: 0.8 }} />
+        <IconBroadcast size={48} stroke={1.5} style={{ color: "#a78bfa", marginBottom: 8, opacity: 0.9 }} />
       )}
       <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5 }}>
         Connect a {label} Channel
@@ -138,10 +140,11 @@ function ConnectForm({ platform, onConnected }) {
           value={query} onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           disabled={searching || loading}
+          sx={{ "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
         />
         <Button variant="contained" onClick={handleSearch} disabled={searching || !query.trim() || loading}
-          startIcon={searching ? <CircularProgress size={16} /> : <SearchIcon />}
-          sx={{ whiteSpace: "nowrap", minWidth: 100 }}>
+          startIcon={searching ? <CircularProgress size={16} /> : <IconSearch size={18} stroke={1.8} />}
+          sx={{ whiteSpace: "nowrap", minWidth: 100, borderRadius: "20px" }}>
           Search
         </Button>
       </Stack>
@@ -152,7 +155,7 @@ function ConnectForm({ platform, onConnected }) {
             <Paper key={ch.channel_id || ch.username} elevation={0}
               sx={{
                 display: "flex", alignItems: "center", gap: 1.5, p: 1.5,
-                border: 1, borderColor: "divider", borderRadius: 2, textAlign: "left",
+                border: 1, borderColor: "divider", borderRadius: "14px", textAlign: "left",
                 cursor: "pointer", "&:hover": { borderColor: "primary.main", bgcolor: "action.hover" },
               }}
               onClick={() => handleSelect(ch)}>
@@ -172,7 +175,9 @@ function ConnectForm({ platform, onConnected }) {
               </Box>
               {loading ? <CircularProgress size={20} /> : (
                 <Tooltip title="Select this channel">
-                  <CheckCircleIcon sx={{ color: "primary.main", fontSize: 24 }} />
+                  <IconButton size="small">
+                    <IconCircleCheck size={22} stroke={1.8} style={{ color: "#8b5cf6" }} />
+                  </IconButton>
                 </Tooltip>
               )}
             </Paper>
@@ -190,7 +195,7 @@ function ConnectForm({ platform, onConnected }) {
 
       {!showUrlInput ? (
         <Button size="small" variant="text" onClick={() => setShowUrlInput(true)}
-          startIcon={<LinkIcon />} sx={{ color: "text.secondary" }}>
+          startIcon={<IconLink size={16} stroke={1.8} />} sx={{ color: "text.secondary", borderRadius: "20px" }}>
           Connect with channel URL instead
         </Button>
       ) : (
@@ -201,10 +206,11 @@ function ConnectForm({ platform, onConnected }) {
             value={url} onChange={(e) => setUrl(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleConnectUrl()}
             disabled={loading}
+            sx={{ "& .MuiOutlinedInput-root": { borderRadius: "12px" } }}
           />
           <Button variant="outlined" onClick={handleConnectUrl} disabled={loading || !url.trim()}
-            startIcon={loading ? <CircularProgress size={16} /> : <LinkIcon />}
-            sx={{ whiteSpace: "nowrap", minWidth: 100 }}>
+            startIcon={loading ? <CircularProgress size={16} /> : <IconLink size={16} stroke={1.8} />}
+            sx={{ whiteSpace: "nowrap", minWidth: 100, borderRadius: "20px" }}>
             Connect
           </Button>
         </Stack>
@@ -233,9 +239,9 @@ function VideoCard({ video, platform, onAnalyze, onDownload }) {
   return (
     <Card variant="outlined" sx={{
       position: "relative",
-      borderRadius: 2,
+      borderRadius: "16px",
       transition: "border-color 0.2s, box-shadow 0.2s",
-      "&:hover": { borderColor: "primary.main", boxShadow: "0 0 0 1px rgba(201,100,66,0.2)" },
+      "&:hover": { borderColor: "primary.main", boxShadow: "0 4px 20px rgba(139,92,246,0.2)" },
     }}>
       {/* Video area: thumbnail with play overlay — opens in browser */}
       <Box sx={{ position: "relative", width: "100%", height: 160, bgcolor: "black", cursor: "pointer", "&:hover .play-icon": { transform: "scale(1.15)", opacity: 1 } }}
@@ -258,10 +264,10 @@ function VideoCard({ video, platform, onAnalyze, onDownload }) {
           display: "flex", alignItems: "center", justifyContent: "center",
           bgcolor: "transparent",
         }}>
-          <PlayCircleOutlineIcon className="play-icon" sx={{
-            fontSize: 52, color: "rgba(255,255,255,0.85)",
-            filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.5))",
-            opacity: 0.8, transition: "transform 0.15s, opacity 0.15s",
+          <IconPlayerPlay className="play-icon" size={48} stroke={1.8} style={{
+            color: "rgba(255,255,255,0.85)",
+            filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.6))",
+            opacity: 0.85, transition: "transform 0.15s, opacity 0.15s",
           }} />
         </Box>
       </Box>
@@ -275,8 +281,10 @@ function VideoCard({ video, platform, onAnalyze, onDownload }) {
           {video.title || "Untitled"}
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, flexWrap: "wrap" }}>
-          <Typography variant="caption" sx={{ color: "text.secondary" }}>
-            <VisibilityIcon sx={{ fontSize: 12, verticalAlign: "middle", mr: 0.3 }} />{formatCount(video.view_count)} &middot; <ThumbUpIcon sx={{ fontSize: 12, verticalAlign: "middle", mr: 0.3 }} />{formatCount(video.like_count)} &middot; <ChatBubbleIcon sx={{ fontSize: 12, verticalAlign: "middle", mr: 0.3 }} />{formatCount(video.comment_count)}
+          <Typography variant="caption" sx={{ color: "text.secondary", display: "inline-flex", alignItems: "center" }}>
+            <IconEye size={12} stroke={1.8} style={{ verticalAlign: "middle", marginRight: 3 }} />{formatCount(video.view_count)} &middot;&nbsp;
+            <IconThumbUp size={12} stroke={1.8} style={{ verticalAlign: "middle", marginRight: 3 }} />{formatCount(video.like_count)} &middot;&nbsp;
+            <IconMessageDots size={12} stroke={1.8} style={{ verticalAlign: "middle", marginRight: 3 }} />{formatCount(video.comment_count)}
             {!isYT && video.share_count > 0 && ` \u00B7 ${formatCount(video.share_count)} shares`}
           </Typography>
           {video.outlier_score >= 3 && (
@@ -297,22 +305,23 @@ function VideoCard({ video, platform, onAnalyze, onDownload }) {
           })()}
         </Typography>
         <Stack direction="row" spacing={0.5} alignItems="center" sx={{ mt: 0.75 }}>
-          <Button size="small" variant="contained" startIcon={<DownloadIcon />}
-            onClick={(e) => { e.stopPropagation(); onDownload(video) }}>
+          <Button size="small" variant="contained" startIcon={<IconDownload size={15} stroke={1.8} />}
+            onClick={(e) => { e.stopPropagation(); onDownload(video) }}
+            sx={{ borderRadius: "20px" }}>
             Download & Analyze
           </Button>
           <Box sx={{ flex: 1 }} />
           <Tooltip title="Analyze this video" arrow>
             <IconButton size="small" onClick={(e) => { e.stopPropagation(); onAnalyze(video) }}
               sx={{ p: 0.5, color: "text.secondary", "&:hover": { color: "primary.main" } }}>
-              <TravelExploreIcon sx={{ fontSize: "1.1rem" }} />
+              <IconWorld size={18} stroke={1.8} />
             </IconButton>
           </Tooltip>
           <Tooltip title={`Open on ${isYT ? "YouTube" : "TikTok"}`} arrow>
             <IconButton size="small"
               onClick={(e) => { e.stopPropagation(); window.open(video.url, "_blank", "noopener") }}
               sx={{ p: 0.5, color: "text.secondary", "&:hover": { color: "primary.main" } }}>
-              <OpenInNewIcon sx={{ fontSize: "1.1rem" }} />
+              <IconExternalLink size={18} stroke={1.8} />
             </IconButton>
           </Tooltip>
         </Stack>
@@ -391,8 +400,8 @@ function ChannelDetail({ channel, onBack }) {
     <Box>
       {/* Header */}
       <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2 }}>
-        <IconButton size="small" onClick={onBack}>
-          <ArrowBackIcon />
+        <IconButton size="small" onClick={onBack} sx={{ borderRadius: "10px" }}>
+          <IconArrowLeft size={20} stroke={1.8} />
         </IconButton>
         <Avatar src={channel.thumbnail_url || channelInfo?.thumbnail_url} sx={{ width: 44, height: 44 }} />
         <Box sx={{ flex: 1, minWidth: 0 }}>
@@ -411,8 +420,8 @@ function ChannelDetail({ channel, onBack }) {
           </Stack>
         </Box>
         <Tooltip title="Refresh">
-          <IconButton size="small" onClick={handleRefresh}>
-            <RefreshIcon fontSize="small" />
+          <IconButton size="small" onClick={handleRefresh} sx={{ borderRadius: "10px" }}>
+            <IconRefresh size={18} stroke={1.8} />
           </IconButton>
         </Tooltip>
       </Stack>
@@ -452,7 +461,7 @@ function ChannelDetail({ channel, onBack }) {
             gap: 1.5, mb: 2,
           }}>
             {stats.map(s => (
-              <Paper key={s.label} variant="outlined" sx={{ p: 1.5, borderRadius: 2, textAlign: "center" }}>
+              <Paper key={s.label} variant="outlined" sx={{ p: 1.5, borderRadius: "14px", textAlign: "center" }}>
                 <Typography variant="h6" sx={{ fontWeight: 700, fontSize: "1.1rem", lineHeight: 1.2 }}>
                   {s.value}
                 </Typography>
@@ -470,7 +479,7 @@ function ChannelDetail({ channel, onBack }) {
           <CircularProgress size={32} />
         </Box>
       ) : error ? (
-        <Alert severity="error" sx={{ borderRadius: 2 }}>{error}</Alert>
+        <Alert severity="error" sx={{ borderRadius: "14px" }}>{error}</Alert>
       ) : (
         <>
           {/* Sort control */}
@@ -480,7 +489,7 @@ function ChannelDetail({ channel, onBack }) {
             </Typography>
             <FormControl size="small" sx={{ minWidth: 130 }}>
               <Select value={sortBy} onChange={(e) => { setSortBy(e.target.value); setPage(0) }}
-                sx={{ fontSize: "0.82rem", "& .MuiSelect-select": { py: 0.5 } }}>
+                sx={{ fontSize: "0.82rem", borderRadius: "12px", "& .MuiSelect-select": { py: 0.5 } }}>
                 <MenuItem value="recent">Recent</MenuItem>
                 <MenuItem value="views">Most Views</MenuItem>
                 <MenuItem value="likes">Most Likes</MenuItem>
@@ -490,7 +499,7 @@ function ChannelDetail({ channel, onBack }) {
 
           {/* Video cards grid */}
           {sorted.length === 0 ? (
-            <Paper elevation={0} sx={{ p: 3, textAlign: "center", border: 1, borderColor: "divider", borderRadius: 2 }}>
+            <Paper elevation={0} sx={{ p: 3, textAlign: "center", border: 1, borderColor: "divider", borderRadius: "14px" }}>
               <Typography variant="body2" sx={{ color: "text.secondary" }}>No videos found.</Typography>
             </Paper>
           ) : (
@@ -504,7 +513,7 @@ function ChannelDetail({ channel, onBack }) {
                 component="div"
                 count={sorted.length}
                 page={page}
-                onPageChange={(_, p) => { setPage(p); setPlayingId(null) }}
+                onPageChange={(_, p) => { setPage(p) }}
                 rowsPerPage={rowsPerPage}
                 onRowsPerPageChange={(e) => { setRowsPerPage(parseInt(e.target.value, 10)); setPage(0) }}
                 rowsPerPageOptions={[20, 50, 100]}
@@ -585,8 +594,8 @@ function PlatformTab({ platform }) {
     return (
       <Box>
         {channels.length > 0 && (
-          <Button size="small" startIcon={<ArrowBackIcon />} onClick={() => setShowAdd(false)}
-            sx={{ mb: 2 }}>
+          <Button size="small" startIcon={<IconArrowLeft size={16} stroke={1.8} />} onClick={() => setShowAdd(false)}
+            sx={{ mb: 2, borderRadius: "20px" }}>
             Back to channels
           </Button>
         )}
@@ -602,7 +611,7 @@ function PlatformTab({ platform }) {
         <Typography variant="body2" sx={{ color: "text.secondary", fontWeight: 600 }}>
           {channels.length} channel{channels.length !== 1 ? "s" : ""} connected
         </Typography>
-        <Button variant="contained" startIcon={<AddIcon />} onClick={() => setShowAdd(true)}>
+        <Button variant="contained" startIcon={<IconPlus size={18} stroke={1.8} />} onClick={() => setShowAdd(true)} sx={{ borderRadius: "20px" }}>
           Add Channel
         </Button>
       </Stack>
@@ -610,8 +619,8 @@ function PlatformTab({ platform }) {
       <Box sx={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: 2 }}>
         {channels.map((ch) => (
           <Card key={ch.id} variant="outlined" sx={{
-            borderRadius: 2, cursor: "pointer",
-            "&:hover": { borderColor: "primary.main", boxShadow: 1 },
+            borderRadius: "16px", cursor: "pointer",
+            "&:hover": { borderColor: "primary.main", boxShadow: "0 4px 20px rgba(139, 92, 246, 0.2)" },
             transition: "all 0.15s",
           }}>
             <CardContent
@@ -619,7 +628,7 @@ function PlatformTab({ platform }) {
               onClick={() => setSelectedChannel(ch)}
             >
               <Avatar src={ch.thumbnail_url} sx={{ width: 52, height: 52 }}>
-                {isYT ? <YouTubeIcon /> : <LiveTvIcon />}
+                {isYT ? <IconBrandYoutube size={26} stroke={1.8} /> : <IconBroadcast size={26} stroke={1.8} />}
               </Avatar>
               <Box sx={{ flex: 1, minWidth: 0 }}>
                 <Tooltip title={ch.channel_name || ch.channel_url} enterDelay={500}>
@@ -641,13 +650,13 @@ function PlatformTab({ platform }) {
                 </Stack>
               </Box>
               <Stack alignItems="center" spacing={0.5}>
-                <Button size="small" variant="text" sx={{ minWidth: 0 }}>
+                <Button size="small" variant="text" sx={{ minWidth: 0, borderRadius: "20px" }}>
                   View videos
                 </Button>
                 <Tooltip title="Disconnect">
                   <IconButton size="small" onClick={(e) => { e.stopPropagation(); handleDisconnect(ch) }}
                     sx={{ color: "text.secondary" }}>
-                    <LinkOffIcon fontSize="small" />
+                    <IconUnlink size={18} stroke={1.8} />
                   </IconButton>
                 </Tooltip>
               </Stack>
@@ -671,11 +680,11 @@ export default function Channels() {
         borderBottom: 1, borderColor: "divider",
         display: "flex", alignItems: "center", justifyContent: "space-between",
         background: (t) => t.palette.mode === "dark"
-          ? "linear-gradient(135deg, rgba(230,126,34,0.10) 0%, rgba(30,28,26,1) 100%)"
-          : "linear-gradient(135deg, rgba(230,126,34,0.07) 0%, rgba(255,255,255,1) 100%)",
+          ? "linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(18, 18, 22, 1) 100%)"
+          : "linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(255, 255, 255, 1) 100%)",
       }}>
         <Stack direction="row" spacing={1.5} alignItems="center">
-          <LiveTvIcon sx={{ color: "warning.main", fontSize: 26 }} />
+          <IconBroadcast size={26} stroke={1.8} style={{ color: "#a78bfa" }} />
           <Box>
             <Typography variant="h5" sx={{ fontWeight: 700, letterSpacing: -0.3 }}>
               My Channels
@@ -690,8 +699,8 @@ export default function Channels() {
       {/* ── Tabs ── */}
       <Box sx={{ px: 3, flexShrink: 0, borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={tab} onChange={(_, v) => setTab(v)} sx={{ minHeight: 42 }}>
-          <Tab icon={<YouTubeIcon sx={{ fontSize: 18 }} />} iconPosition="start" label="YouTube" sx={{ textTransform: "none", minHeight: 42, fontSize: "0.9rem" }} />
-          <Tab icon={<LiveTvIcon sx={{ fontSize: 18 }} />} iconPosition="start" label="TikTok" sx={{ textTransform: "none", minHeight: 42, fontSize: "0.9rem" }} />
+          <Tab icon={<IconBrandYoutube size={18} stroke={1.8} />} iconPosition="start" label="YouTube" sx={{ textTransform: "none", minHeight: 42, fontSize: "0.9rem" }} />
+          <Tab icon={<IconBroadcast size={18} stroke={1.8} />} iconPosition="start" label="TikTok" sx={{ textTransform: "none", minHeight: 42, fontSize: "0.9rem" }} />
         </Tabs>
       </Box>
 

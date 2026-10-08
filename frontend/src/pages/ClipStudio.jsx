@@ -6,30 +6,31 @@ import {
   Dialog, DialogContent,
   LinearProgress, ToggleButton, ToggleButtonGroup,
 } from "@mui/material"
-import ContentCutIcon from "@mui/icons-material/ContentCut"
-import AutoFixHighIcon from "@mui/icons-material/AutoFixHighOutlined"
-import MovieFilterOutlinedIcon from "@mui/icons-material/MovieFilterOutlined"
-import SlideshowOutlinedIcon from "@mui/icons-material/SlideshowOutlined"
-import WhatshotIcon from "@mui/icons-material/Whatshot"
-import AccessTimeIcon from "@mui/icons-material/AccessTime"
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline"
-import UploadIcon from "@mui/icons-material/Upload"
-import EditIcon from "@mui/icons-material/Edit"
-import SaveIcon from "@mui/icons-material/Save"
-import DeleteIcon from "@mui/icons-material/Delete"
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera"
-import DownloadIcon from "@mui/icons-material/Download"
-import AspectRatioIcon from "@mui/icons-material/AspectRatio"
-import WarningAmberIcon from "@mui/icons-material/WarningAmber"
-import MovieCreationIcon from "@mui/icons-material/MovieCreation"
-import SearchIcon from "@mui/icons-material/Search"
-import RefreshIcon from "@mui/icons-material/Refresh"
-import SortIcon from "@mui/icons-material/Sort"
-import CloseIcon from "@mui/icons-material/Close"
-import CheckCircleIcon from "@mui/icons-material/CheckCircle"
-import VideocamIcon from "@mui/icons-material/Videocam"
-import FolderOpenIcon from "@mui/icons-material/FolderOpen"
-import AddIcon from "@mui/icons-material/Add"
+import {
+  IconScissors,
+  IconSparkles,
+  IconMovie,
+  IconPresentation,
+  IconFlame,
+  IconClock,
+  IconPlayerPlay,
+  IconUpload,
+  IconEdit,
+  IconDeviceFloppy,
+  IconTrash,
+  IconCamera,
+  IconDownload,
+  IconAspectRatio,
+  IconAlertTriangle,
+  IconVideo,
+  IconSearch,
+  IconRefresh,
+  IconArrowsSort,
+  IconX,
+  IconCircleCheck,
+  IconFolder,
+  IconPlus,
+} from "@tabler/icons-react"
 import http from "../api/http"
 import useAppStore from "../store/appStore"
 import ActiveJobsBanner from "../components/create/ActiveJobsBanner"
@@ -120,9 +121,9 @@ function ScoreBreakdownPanel({ clip }) {
   ]
 
   return (
-    <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
+    <Paper variant="outlined" sx={{ p: 2, borderRadius: "16px" }}>
       <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1.5 }}>
-        <WhatshotIcon sx={{ fontSize: 16, color: "primary.main" }} />
+        <IconFlame size={16} stroke={1.8} color="var(--color-primary, #8b5cf6)" />
         <Typography variant="overline" sx={{ color: "text.secondary", fontWeight: 700, fontSize: "0.65rem" }}>
           Virality scoreboard
         </Typography>
@@ -159,7 +160,7 @@ function SourceVideoCard({ video, clipCount, isSelected, onClick, onPreview }) {
         p: 1.5, cursor: "pointer",
         border: 2,
         borderColor: isSelected ? "primary.main" : "transparent",
-        borderRadius: 2.5,
+        borderRadius: "16px",
         bgcolor: isSelected ? "action.selected" : "transparent",
         transition: "all 0.2s ease",
         "&:hover": {
@@ -170,10 +171,7 @@ function SourceVideoCard({ video, clipCount, isSelected, onClick, onPreview }) {
     >
       {/* Thumbnail */}
       <Box sx={{
-        width: "100%", aspectRatio: "16/9", borderRadius: 2, overflow: "hidden",
-        // Black, because the image is CONTAINed below rather than cropped: a
-        // portrait source was centre-cropped to a letterbox strip in the one
-        // place you pick between sources.
+        width: "100%", aspectRatio: "16/9", borderRadius: "12px", overflow: "hidden",
         bgcolor: "#000", mb: 1, position: "relative",
       }}>
         {(video.video_path || video.thumbnail_url) ? (
@@ -185,7 +183,7 @@ function SourceVideoCard({ video, clipCount, isSelected, onClick, onPreview }) {
             onError={e => { e.target.style.display = "none" }} />
         ) : (
           <Box sx={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <VideocamIcon sx={{ color: "text.disabled", fontSize: 28 }} />
+            <IconVideo size={28} stroke={1.8} color="#94a3b8" />
           </Box>
         )}
         {/* Duration badge */}
@@ -197,12 +195,12 @@ function SourceVideoCard({ video, clipCount, isSelected, onClick, onPreview }) {
               position: "absolute", bottom: 4, right: 4,
               height: 20, fontSize: "0.65rem", fontWeight: 700,
               bgcolor: "rgba(0,0,0,0.75)", color: "#fff",
+              borderRadius: "10px",
               "& .MuiChip-label": { px: 0.75 },
             }}
           />
         )}
-        {/* Preview button — stopPropagation so it doesn't also select the card.
-            Only for locally-downloaded (streamable) sources. */}
+        {/* Preview button */}
         {onPreview && video.video_path && (
           <Tooltip title="Preview video">
             <IconButton
@@ -214,7 +212,7 @@ function SourceVideoCard({ video, clipCount, isSelected, onClick, onPreview }) {
                 "&:hover": { bgcolor: "rgba(0,0,0,0.8)" }, p: 0.5,
               }}
             >
-              <PlayCircleOutlineIcon sx={{ fontSize: 20 }} />
+              <IconPlayerPlay size={20} stroke={1.8} />
             </IconButton>
           </Tooltip>
         )}
@@ -224,7 +222,7 @@ function SourceVideoCard({ video, clipCount, isSelected, onClick, onPreview }) {
         {video.title || "Untitled"}
       </Typography>
       <Stack direction="row" spacing={0.5} alignItems="center" sx={{ mt: 0.5 }}>
-        <ContentCutIcon sx={{ fontSize: 13, color: clipCount > 0 ? "primary.main" : "text.disabled" }} />
+        <IconScissors size={13} stroke={1.8} color={clipCount > 0 ? "var(--color-primary, #8b5cf6)" : "#94a3b8"} />
         <Typography variant="caption" sx={{ color: clipCount > 0 ? "primary.main" : "text.secondary", fontWeight: clipCount > 0 ? 700 : 400 }}>
           {clipCount} clip{clipCount !== 1 ? "s" : ""}
         </Typography>
@@ -246,7 +244,7 @@ function ClipCardImpl({ clip, isSelected, onSelect }) {
         cursor: "pointer",
         border: 2,
         borderColor: isSelected ? "primary.main" : "transparent",
-        borderRadius: 2.5,
+        borderRadius: "16px",
         overflow: "hidden",
         transition: "all 0.2s ease",
         transform: isSelected ? "translateY(-2px)" : "none",
@@ -258,31 +256,26 @@ function ClipCardImpl({ clip, isSelected, onSelect }) {
         },
       }}
     >
-      {/* Thumbnail */}
-      {/* The frame follows the clip's probed aspect — extraction only reframes
-          when "vertical" is on, so a 16:9 cut is a real 16:9 file and a
-          hardcoded 9:16 centre-cropped it to a sliver. ?v= is the cache-bust
-          signal: without a new value a regenerated thumbnail never appears
-          (same URL, so the browser keeps the bytes it has). */}
       <Box sx={{ width: "100%", aspectRatio: clipAspectCss(clip.aspect_ratio), position: "relative", bgcolor: "#000" }}>
         {clip.thumbnail_path ? (
           <Box component="img" src={`/api/videos/${clip.id}/thumbnail?v=${encodeURIComponent(clip.thumb_v || clip.created_at || "1")}`} alt=""
             sx={{ width: "100%", height: "100%", objectFit: "cover" }} />
         ) : (
           <Box sx={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <ContentCutIcon sx={{ color: "rgba(255,255,255,0.3)", fontSize: 28 }} />
+            <IconScissors size={28} stroke={1.8} color="rgba(255,255,255,0.3)" />
           </Box>
         )}
         {/* Virality badge */}
         {score != null && (
           <Chip
-            icon={<WhatshotIcon sx={{ fontSize: "14px !important" }} />}
+            icon={<IconFlame size={14} stroke={1.8} />}
             label={score.toFixed(1)}
             size="small"
             color={viralityColor(score)}
             sx={{
               position: "absolute", top: 4, left: 4,
               height: 22, fontWeight: 700, fontSize: "0.7rem",
+              borderRadius: "12px",
               "& .MuiChip-icon": { ml: 0.3 },
             }}
           />
@@ -295,13 +288,16 @@ function ClipCardImpl({ clip, isSelected, onSelect }) {
             position: "absolute", bottom: 4, right: 4,
             height: 18, fontSize: "0.6rem", fontWeight: 700,
             bgcolor: "rgba(0,0,0,0.75)", color: "#fff",
+            borderRadius: "10px",
             "& .MuiChip-label": { px: 0.5 },
           }}
         />
         {/* Caption warning */}
         {clip.caption_status === "failed" && (
           <Tooltip title="Captions failed to apply">
-            <WarningAmberIcon sx={{ position: "absolute", top: 4, right: 4, fontSize: 18, color: "warning.main" }} />
+            <Box sx={{ position: "absolute", top: 4, right: 4, display: "flex" }}>
+              <IconAlertTriangle size={18} stroke={1.8} color="#f59e0b" />
+            </Box>
           </Tooltip>
         )}
         {/* Play overlay */}
@@ -312,7 +308,7 @@ function ClipCardImpl({ clip, isSelected, onSelect }) {
           bgcolor: "rgba(0,0,0,0.3)",
           "&:hover": { opacity: 1 },
         }}>
-          <PlayCircleOutlineIcon sx={{ fontSize: 36, color: "#fff" }} />
+          <IconPlayerPlay size={36} stroke={1.8} color="#fff" />
         </Box>
       </Box>
 
@@ -703,11 +699,11 @@ export default function ClipStudio() {
         borderBottom: 1, borderColor: "divider",
         display: "flex", alignItems: "center", justifyContent: "space-between",
         background: (t) => t.palette.mode === "dark"
-          ? "linear-gradient(135deg, rgba(201,100,66,0.08) 0%, rgba(30,28,26,1) 100%)"
-          : "linear-gradient(135deg, rgba(201,100,66,0.06) 0%, rgba(255,255,255,1) 100%)",
+          ? "linear-gradient(135deg, rgba(139,92,246,0.12) 0%, rgba(18,17,26,1) 100%)"
+          : "linear-gradient(135deg, rgba(139,92,246,0.06) 0%, rgba(255,255,255,1) 100%)",
       }}>
         <Stack direction="row" spacing={1.5} alignItems="center">
-          <ContentCutIcon sx={{ color: "primary.main", fontSize: 26 }} />
+          <IconScissors size={26} stroke={1.8} color="var(--color-primary, #8b5cf6)" />
           <Box>
             <Typography variant="h5" sx={{ fontWeight: 700, letterSpacing: -0.3 }}>
               Clip Studio
@@ -725,20 +721,21 @@ export default function ClipStudio() {
             size="small"
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            slotProps={{ input: { startAdornment: <SearchIcon sx={{ mr: 0.5, fontSize: 18, color: "text.secondary" }} /> } }}
-            sx={{ width: 200 }}
+            slotProps={{ input: { startAdornment: <IconSearch size={18} stroke={1.8} style={{ marginRight: 6, color: "var(--color-text-secondary, #94a3b8)" }} /> } }}
+            sx={{ width: 200, "& .MuiOutlinedInput-root": { borderRadius: "14px" } }}
           />
 
           {/* Sort */}
-          <Button size="small" variant="outlined" startIcon={<SortIcon />}
-            onClick={e => setSortAnchor(e.currentTarget)} sx={{ textTransform: "none" }}>
+          <Button size="small" variant="outlined" startIcon={<IconArrowsSort size={16} stroke={1.8} />}
+            onClick={e => setSortAnchor(e.currentTarget)} sx={{ textTransform: "none", borderRadius: "20px" }}>
             {sortBy === "virality" ? "Top Viral" : sortBy === "newest" ? "Newest" : "Longest"}
           </Button>
-          <Menu anchorEl={sortAnchor} open={Boolean(sortAnchor)} onClose={() => setSortAnchor(null)}>
+          <Menu anchorEl={sortAnchor} open={Boolean(sortAnchor)} onClose={() => setSortAnchor(null)}
+            slotProps={{ paper: { sx: { borderRadius: "14px" } } }}>
             {[
-              { key: "virality", label: "Top Viral", icon: <WhatshotIcon fontSize="small" /> },
-              { key: "newest", label: "Newest First", icon: <AccessTimeIcon fontSize="small" /> },
-              { key: "duration", label: "Longest First", icon: <AspectRatioIcon fontSize="small" /> },
+              { key: "virality", label: "Top Viral", icon: <IconFlame size={16} stroke={1.8} /> },
+              { key: "newest", label: "Newest First", icon: <IconClock size={16} stroke={1.8} /> },
+              { key: "duration", label: "Longest First", icon: <IconAspectRatio size={16} stroke={1.8} /> },
             ].map(s => (
               <MenuItem key={s.key} selected={sortBy === s.key}
                 onClick={() => { setSortBy(s.key); setSortAnchor(null) }}>
@@ -750,30 +747,21 @@ export default function ClipStudio() {
 
           {/* Open Folder */}
           <Tooltip title="Open clips folder">
-            <Button size="small" variant="outlined" sx={{ minWidth: 0, px: 1 }}
+            <Button size="small" variant="outlined" sx={{ minWidth: 0, px: 1, borderRadius: "20px" }}
               onClick={() => http.post("/api/settings/open-folder", { folder: "generated" }).catch(() => showSnackbar("Could not open folder", "error"))}>
-              <FolderOpenIcon fontSize="small" />
+              <IconFolder size={18} stroke={1.8} />
             </Button>
           </Tooltip>
 
           {/* Refresh */}
           <Tooltip title="Refresh sources & clips">
             <Button size="small" variant="outlined" onClick={() => { setLoading(true); fetchData() }}
-              startIcon={<RefreshIcon fontSize="small" />}
-              sx={{ textTransform: "none" }}>
+              startIcon={<IconRefresh size={16} stroke={1.8} />}
+              sx={{ textTransform: "none", borderRadius: "20px" }}>
               Refresh
             </Button>
           </Tooltip>
 
-          {/* Cut, then Auto-cut. Same treatment — they are two ways of doing
-              one thing and neither is a lesser button — so the ICON carries
-              the difference: scissors for the cuts you chose, a wand for the
-              ones the AI chooses. They used to share the scissors, which is
-              what made them read as duplicates.
-
-              `describeChild` on the tooltips: without it MUI promotes the
-              title to the button's accessible NAME, so Auto-cut announced
-              itself as a paragraph about Ask AI rather than as "Auto-cut". */}
           {onBench && (
             <Tooltip describeChild title={benchTooShort
               ? "This video is shorter than one second — there is nothing to cut"
@@ -786,9 +774,9 @@ export default function ClipStudio() {
                   disabled={!cutCount || extracting || clipJobRunning || benchTooShort}
                   startIcon={(extracting || clipJobRunning)
                     ? <CircularProgress size={14} color="inherit" />
-                    : <ContentCutIcon fontSize="small" />}
+                    : <IconScissors size={16} stroke={1.8} />}
                   onClick={doCut}
-                  sx={{ textTransform: "none", whiteSpace: "nowrap", fontWeight: 700 }}
+                  sx={{ textTransform: "none", whiteSpace: "nowrap", fontWeight: 700, borderRadius: "20px" }}
                 >
                   {clipJobRunning
                     ? "Cutting…"
@@ -807,12 +795,12 @@ export default function ClipStudio() {
                   disabled={extracting || clipJobRunning}
                   startIcon={(extracting || clipJobRunning)
                     ? <CircularProgress size={14} color="inherit" />
-                    : <AutoFixHighIcon fontSize="small" />}
+                    : <IconSparkles size={16} stroke={1.8} />}
                   onClick={() => {
                     const src = sources.find(v => v.id === selectedSourceId)
                     if (src) { setExtractTarget(src); setExtractDialogOpen(true) }
                   }}
-                  sx={{ textTransform: "none", whiteSpace: "nowrap" }}>
+                  sx={{ textTransform: "none", whiteSpace: "nowrap", borderRadius: "20px" }}>
                   {clipJobRunning ? "Cutting…" : "Auto-cut"}
                 </Button>
               </span>
@@ -842,8 +830,8 @@ export default function ClipStudio() {
             placeholder="Filter..."
             value={sourceFilter}
             onChange={e => setSourceFilter(e.target.value)}
-            slotProps={{ input: { startAdornment: <SearchIcon sx={{ fontSize: 14, color: "text.disabled", mr: 0.5 }} /> } }}
-            sx={{ "& .MuiInputBase-root": { fontSize: "0.75rem", height: 28, px: 0.5 } }}
+            slotProps={{ input: { startAdornment: <IconSearch size={14} stroke={1.8} style={{ opacity: 0.6, marginRight: 4 }} /> } }}
+            sx={{ "& .MuiInputBase-root": { fontSize: "0.75rem", height: 28, px: 0.5, borderRadius: "10px" } }}
           />
 
           {/* "All" filter */}
@@ -855,7 +843,7 @@ export default function ClipStudio() {
               if (clips.length > 0) setSelectedClip(clips[0])
             }}
             sx={{
-              p: 1, cursor: "pointer", borderRadius: 2,
+              p: 1, cursor: "pointer", borderRadius: "14px",
               border: 2, borderColor: selectedSourceId === "all" ? "primary.main" : "transparent",
               bgcolor: selectedSourceId === "all" ? "action.selected" : "transparent",
               "&:hover": { bgcolor: "action.hover" },
@@ -863,7 +851,7 @@ export default function ClipStudio() {
             }}
           >
             <Stack direction="row" spacing={1} alignItems="center">
-              <ContentCutIcon sx={{ fontSize: 16, color: "primary.main" }} />
+              <IconScissors size={16} stroke={1.8} color="var(--color-primary, #8b5cf6)" />
               <Typography variant="body2" sx={{ fontWeight: 600, fontSize: "0.8rem" }}>
                 All Clips ({clips.length})
               </Typography>
@@ -882,7 +870,6 @@ export default function ClipStudio() {
               onClick={() => {
                 const newId = selectedSourceId === v.id ? null : v.id
                 setSelectedSourceId(newId)
-                // Auto-select first clip from this source (or first overall if deselecting)
                 if (newId) {
                   const sourceClips = clips.filter(c => c.source_downloaded_video_id === newId)
                   if (sourceClips.length > 0) setSelectedClip(sourceClips[0])
@@ -906,21 +893,19 @@ export default function ClipStudio() {
         {/* ── Center: Cutting bench | Clip inspector ─────────── */}
         <Box sx={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
 
-          {/* Mode switch — only meaningful when both surfaces have something
-              to show, so it stays hidden until they do. */}
           {benchSource && selectedClip && (
             <Stack direction="row" alignItems="center" spacing={1}
               sx={{ px: 2, pt: 1.5, pb: 0.5, flexShrink: 0 }}>
               <ToggleButtonGroup
                 size="small" exclusive value={centerMode}
                 onChange={(_, v) => v && setCenterMode(v)}
-                sx={{ "& .MuiToggleButton-root": { textTransform: "none", py: 0.25, px: 1.25, fontSize: "0.75rem", fontWeight: 700 } }}
+                sx={{ borderRadius: "14px", "& .MuiToggleButton-root": { textTransform: "none", py: 0.25, px: 1.25, fontSize: "0.75rem", fontWeight: 700 } }}
               >
-                <ToggleButton value="bench">
-                  <MovieFilterOutlinedIcon sx={{ fontSize: 15, mr: 0.5 }} />Bench
+                <ToggleButton value="bench" sx={{ borderRadius: "14px" }}>
+                  <IconMovie size={15} stroke={1.8} style={{ marginRight: 6 }} />Bench
                 </ToggleButton>
-                <ToggleButton value="clip">
-                  <SlideshowOutlinedIcon sx={{ fontSize: 15, mr: 0.5 }} />Clip
+                <ToggleButton value="clip" sx={{ borderRadius: "14px" }}>
+                  <IconPresentation size={15} stroke={1.8} style={{ marginRight: 6 }} />Clip
                 </ToggleButton>
               </ToggleButtonGroup>
               <Typography variant="caption" sx={{ color: "text.disabled" }}>
@@ -968,9 +953,9 @@ export default function ClipStudio() {
 
                   {/* Source context */}
                   {selectedClip.clip_start_seconds != null && (
-                    <Paper variant="outlined" sx={{ mt: 1.5, p: 1.5, borderRadius: 2 }}>
+                    <Paper variant="outlined" sx={{ mt: 1.5, p: 1.5, borderRadius: "14px" }}>
                       <Stack direction="row" spacing={1} alignItems="center">
-                        <AccessTimeIcon sx={{ fontSize: 16, color: "text.secondary" }} />
+                        <IconClock size={16} stroke={1.8} color="var(--color-text-secondary, #94a3b8)" />
                         <Typography variant="caption" sx={{ color: "text.secondary" }}>
                           {formatTime(selectedClip.clip_start_seconds)} — {formatTime(selectedClip.clip_end_seconds)} in source
                         </Typography>
@@ -982,10 +967,11 @@ export default function ClipStudio() {
                   <Stack direction="row" spacing={1} sx={{ mt: 1.5 }} flexWrap="wrap" useFlexGap>
                     {selectedClip.clip_virality_score != null && (
                       <Chip
-                        icon={<WhatshotIcon />}
+                        icon={<IconFlame size={14} stroke={1.8} />}
                         label={`${selectedClip.clip_virality_score.toFixed(1)} — ${viralityLabel(selectedClip.clip_virality_score)}`}
                         size="small" variant="filled"
                         color={viralityColor(selectedClip.clip_virality_score)}
+                        sx={{ borderRadius: "12px" }}
                       />
                     )}
                     {selectedClip.clip_hook_score != null && (
@@ -993,24 +979,26 @@ export default function ClipStudio() {
                         label={`Hook ${selectedClip.clip_hook_score.toFixed(1)}/10`}
                         size="small" variant="outlined"
                         color={selectedClip.clip_hook_score >= 8 ? "success" : selectedClip.clip_hook_score >= 5 ? "warning" : "error"}
+                        sx={{ borderRadius: "12px" }}
                       />
                     )}
                     {hookTypeLabel(selectedClip.clip_hook_type) && (
                       <Chip
                         label={hookTypeLabel(selectedClip.clip_hook_type)}
                         size="small" variant="outlined" color="primary"
+                        sx={{ borderRadius: "12px" }}
                       />
                     )}
-                    <Chip label={`${formatTime(selectedClip.duration_seconds)}`} icon={<AccessTimeIcon />} size="small" variant="outlined" />
-                    <Chip label={selectedClip.aspect_ratio || "9:16"} size="small" variant="outlined" />
+                    <Chip label={`${formatTime(selectedClip.duration_seconds)}`} icon={<IconClock size={14} stroke={1.8} />} size="small" variant="outlined" sx={{ borderRadius: "12px" }} />
+                    <Chip label={selectedClip.aspect_ratio || "9:16"} size="small" variant="outlined" sx={{ borderRadius: "12px" }} />
                     {selectedClip.caption_status === "applied" && (
-                      <Chip icon={<CheckCircleIcon />} label="Captions" size="small" color="success" variant="outlined" />
+                      <Chip icon={<IconCircleCheck size={14} stroke={1.8} />} label="Captions" size="small" color="success" variant="outlined" sx={{ borderRadius: "12px" }} />
                     )}
                     {selectedClip.caption_status === "failed" && (
-                      <Chip icon={<WarningAmberIcon />} label="Captions failed" size="small" color="warning" variant="filled" />
+                      <Chip icon={<IconAlertTriangle size={14} stroke={1.8} />} label="Captions failed" size="small" color="warning" variant="filled" sx={{ borderRadius: "12px" }} />
                     )}
                     {selectedClip.metadata_status === "fallback" && (
-                      <Chip icon={<WarningAmberIcon />} label="AI meta failed" size="small" color="warning" variant="outlined" />
+                      <Chip icon={<IconAlertTriangle size={14} stroke={1.8} />} label="AI meta failed" size="small" color="warning" variant="outlined" sx={{ borderRadius: "12px" }} />
                     )}
                   </Stack>
                 </Box>
@@ -1021,34 +1009,34 @@ export default function ClipStudio() {
                   <Stack direction="row" spacing={1} sx={{ mb: 2 }} flexWrap="wrap" useFlexGap>
                     {!editing ? (
                       <>
-                        <Button size="small" variant="outlined" startIcon={<EditIcon />} onClick={startEditing}>
+                        <Button size="small" variant="outlined" startIcon={<IconEdit size={16} stroke={1.8} />} onClick={startEditing} sx={{ borderRadius: "20px" }}>
                           Edit
                         </Button>
                         <Button size="small" variant="outlined"
-                          startIcon={regenThumb ? <CircularProgress size={14} /> : <PhotoCameraIcon />}
-                          disabled={regenThumb} onClick={handleRegenThumbnail}>
+                          startIcon={regenThumb ? <CircularProgress size={14} /> : <IconCamera size={16} stroke={1.8} />}
+                          disabled={regenThumb} onClick={handleRegenThumbnail} sx={{ borderRadius: "20px" }}>
                           {regenThumb ? "Generating..." : "Regen Thumbnail"}
                         </Button>
-                        <Button size="small" variant="contained" color="error" startIcon={<UploadIcon />}
-                          onClick={() => handleUpload("youtube")}>
+                        <Button size="small" variant="contained" color="error" startIcon={<IconUpload size={16} stroke={1.8} />}
+                          onClick={() => handleUpload("youtube")} sx={{ borderRadius: "20px" }}>
                           YouTube
                         </Button>
-                        <Button size="small" variant="contained" color="info" startIcon={<UploadIcon />}
-                          onClick={() => handleUpload("tiktok")}>
+                        <Button size="small" variant="contained" color="info" startIcon={<IconUpload size={16} stroke={1.8} />}
+                          onClick={() => handleUpload("tiktok")} sx={{ borderRadius: "20px" }}>
                           TikTok
                         </Button>
-                        <Button size="small" variant="outlined" color="inherit" startIcon={<DeleteIcon />}
-                          onClick={handleDelete}>
+                        <Button size="small" variant="outlined" color="inherit" startIcon={<IconTrash size={16} stroke={1.8} />}
+                          onClick={handleDelete} sx={{ borderRadius: "20px" }}>
                           Delete
                         </Button>
                       </>
                     ) : (
                       <>
-                        <Button size="small" variant="contained" startIcon={saving ? <CircularProgress size={14} /> : <SaveIcon />}
-                          disabled={saving} onClick={handleSave}>
+                        <Button size="small" variant="contained" startIcon={saving ? <CircularProgress size={14} /> : <IconDeviceFloppy size={16} stroke={1.8} />}
+                          disabled={saving} onClick={handleSave} sx={{ borderRadius: "20px" }}>
                           Save
                         </Button>
-                        <Button size="small" variant="outlined" onClick={() => setEditing(false)} disabled={saving}>
+                        <Button size="small" variant="outlined" onClick={() => setEditing(false)} disabled={saving} sx={{ borderRadius: "20px" }}>
                           Cancel
                         </Button>
                       </>
@@ -1058,19 +1046,24 @@ export default function ClipStudio() {
                   {editing ? (
                     <Stack spacing={2}>
                       <TextField label="Clip Title" size="small" fullWidth
-                        value={editDraft.title} onChange={e => setEditDraft(p => ({ ...p, title: e.target.value }))} />
+                        value={editDraft.title} onChange={e => setEditDraft(p => ({ ...p, title: e.target.value }))}
+                        sx={{ "& .MuiOutlinedInput-root": { borderRadius: "14px" } }} />
                       <Divider />
                       <Typography variant="overline" sx={{ color: "text.secondary" }}>YouTube Shorts</Typography>
                       <TextField label="Title" size="small" fullWidth
-                        value={editDraft.youtube_title} onChange={e => setEditDraft(p => ({ ...p, youtube_title: e.target.value }))} />
+                        value={editDraft.youtube_title} onChange={e => setEditDraft(p => ({ ...p, youtube_title: e.target.value }))}
+                        sx={{ "& .MuiOutlinedInput-root": { borderRadius: "14px" } }} />
                       <TextField label="Description" size="small" fullWidth multiline minRows={2} maxRows={4}
-                        value={editDraft.youtube_description} onChange={e => setEditDraft(p => ({ ...p, youtube_description: e.target.value }))} />
+                        value={editDraft.youtube_description} onChange={e => setEditDraft(p => ({ ...p, youtube_description: e.target.value }))}
+                        sx={{ "& .MuiOutlinedInput-root": { borderRadius: "14px" } }} />
                       <TextField label="Tags (comma-separated)" size="small" fullWidth
-                        value={editDraft.youtube_tags} onChange={e => setEditDraft(p => ({ ...p, youtube_tags: e.target.value }))} />
+                        value={editDraft.youtube_tags} onChange={e => setEditDraft(p => ({ ...p, youtube_tags: e.target.value }))}
+                        sx={{ "& .MuiOutlinedInput-root": { borderRadius: "14px" } }} />
                       <Divider />
                       <Typography variant="overline" sx={{ color: "text.secondary" }}>TikTok</Typography>
                       <TextField label="Caption" size="small" fullWidth
-                        value={editDraft.tiktok_title} onChange={e => setEditDraft(p => ({ ...p, tiktok_title: e.target.value }))} />
+                        value={editDraft.tiktok_title} onChange={e => setEditDraft(p => ({ ...p, tiktok_title: e.target.value }))}
+                        sx={{ "& .MuiOutlinedInput-root": { borderRadius: "14px" } }} />
                     </Stack>
                   ) : (
                     <Stack spacing={2}>
@@ -1086,14 +1079,12 @@ export default function ClipStudio() {
                         )}
                       </Box>
 
-                      {/* 5-factor virality scoreboard — Hook / Flow / Value /
-                          Trend / Share bars. Hides itself for legacy clips that
-                          carry neither a hook score nor a breakdown. */}
+                      {/* 5-factor virality scoreboard */}
                       <ScoreBreakdownPanel clip={selectedClip} />
 
                       {/* YouTube */}
                       {selectedClip.youtube_title && (
-                        <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
+                        <Paper variant="outlined" sx={{ p: 2, borderRadius: "16px" }}>
                           <Typography variant="overline" sx={{ color: "error.main", fontWeight: 700, fontSize: "0.65rem" }}>
                             YouTube Shorts
                           </Typography>
@@ -1108,7 +1099,7 @@ export default function ClipStudio() {
                           {selectedClip.youtube_tags?.length > 0 && (
                             <Stack direction="row" spacing={0.5} sx={{ mt: 1 }} flexWrap="wrap" useFlexGap>
                               {selectedClip.youtube_tags.map((tag, i) => (
-                                <Chip key={i} label={tag} size="small" variant="outlined" sx={{ height: 20, fontSize: "0.6rem" }} />
+                                <Chip key={i} label={tag} size="small" variant="outlined" sx={{ height: 20, fontSize: "0.6rem", borderRadius: "10px" }} />
                               ))}
                             </Stack>
                           )}
@@ -1117,7 +1108,7 @@ export default function ClipStudio() {
 
                       {/* TikTok */}
                       {selectedClip.tiktok_title && (
-                        <Paper variant="outlined" sx={{ p: 2, borderRadius: 2 }}>
+                        <Paper variant="outlined" sx={{ p: 2, borderRadius: "16px" }}>
                           <Typography variant="overline" sx={{ color: "info.main", fontWeight: 700, fontSize: "0.65rem" }}>
                             TikTok
                           </Typography>
@@ -1136,7 +1127,7 @@ export default function ClipStudio() {
                           <Paper variant="outlined" sx={{
                             p: 1.5, maxHeight: 200, overflowY: "auto",
                             fontSize: "0.8rem", color: "text.secondary", lineHeight: 1.6,
-                            whiteSpace: "pre-wrap", borderRadius: 2,
+                            whiteSpace: "pre-wrap", borderRadius: "14px",
                           }}>
                             {selectedClip.script}
                           </Paper>
@@ -1153,7 +1144,7 @@ export default function ClipStudio() {
               flex: 1, display: "flex", flexDirection: "column",
               alignItems: "center", justifyContent: "center", gap: 2,
             }}>
-              <ContentCutIcon sx={{ fontSize: 64, color: "text.disabled", opacity: 0.3 }} />
+              <IconScissors size={64} stroke={1.5} color="var(--color-text-secondary, #94a3b8)" style={{ opacity: 0.3 }} />
               <Typography variant="h6" sx={{ color: "text.disabled" }}>
                 {clips.length === 0 ? "No clips yet" : "Select a clip to preview"}
               </Typography>
@@ -1163,8 +1154,9 @@ export default function ClipStudio() {
                   : "Click on a clip in the filmstrip below to preview and manage it."}
               </Typography>
               {clips.length === 0 && sources.length > 0 && (
-                <Button variant="contained" startIcon={<ContentCutIcon />}
-                  onClick={() => { setExtractTarget(sources[0]); setExtractDialogOpen(true) }}>
+                <Button variant="contained" startIcon={<IconScissors size={16} stroke={1.8} />}
+                  onClick={() => { setExtractTarget(sources[0]); setExtractDialogOpen(true) }}
+                  sx={{ borderRadius: "20px" }}>
                   Extract from {sources[0].title?.slice(0, 30) || "first video"}
                 </Button>
               )}

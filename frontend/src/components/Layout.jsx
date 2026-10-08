@@ -11,39 +11,39 @@ import {
 } from "@mui/material"
 import useAppStore from "../store/appStore"
 import { pluginNavItems } from "../plugins"
-import MenuIcon from "@mui/icons-material/MenuOutlined"
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
-import ChevronRightIcon from "@mui/icons-material/ChevronRight"
-import ChatIcon from "@mui/icons-material/ChatBubbleOutline"
-import VideoLibraryIcon from "@mui/icons-material/OndemandVideoOutlined"
-import PhotoLibraryIcon from "@mui/icons-material/PhotoLibraryOutlined"
-import SensorsIcon from "@mui/icons-material/SensorsOutlined"
-import PhoneIphoneIcon from "@mui/icons-material/PhoneIphoneOutlined"
-import ContentCutIcon from "@mui/icons-material/ContentCutOutlined"
-import MovieFilterIcon from "@mui/icons-material/MovieFilterOutlined"
-import BuildIcon from "@mui/icons-material/BuildOutlined"
-import SettingsIcon from "@mui/icons-material/SettingsOutlined"
-import TravelExploreIcon from "@mui/icons-material/TravelExploreOutlined"
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline"
+import {
+  IconTrendingUp,
+  IconBroadcast,
+  IconScissors,
+  IconFolder,
+  IconSparkles,
+  IconTool,
+  IconDeviceMobile,
+  IconSettings,
+  IconMenu2,
+  IconChevronLeft,
+  IconChevronRight,
+  IconActivity,
+} from "@tabler/icons-react"
 import ChatPanel from "./chat/ChatPanel"
 
 const DRAWER_WIDTH = 240
 const COLLAPSED_WIDTH = 64
 
 const navItems = [
-  { to: "/trends",    icon: <TravelExploreIcon />,    label: "Trends" },
-  { to: "/channels",  icon: <SensorsIcon />,          label: "My Channels" },
-  { to: "/clips",     icon: <ContentCutIcon />,       label: "Clip Studio" },
-  { to: "/videos",    icon: <VideoLibraryIcon />,     label: "Library" },
-  { to: "/motion",    icon: <MovieFilterIcon />,      label: "Motion Graphics" },
-  { to: "/tools",     icon: <BuildIcon />,            label: "Tools" },
-  { to: "/messaging", icon: <PhoneIphoneIcon />,      label: "Messaging" },
+  { to: "/trends",    icon: <IconTrendingUp size={20} stroke={1.8} />,    label: "Trends" },
+  { to: "/channels",  icon: <IconBroadcast size={20} stroke={1.8} />,     label: "My Channels" },
+  { to: "/clips",     icon: <IconScissors size={20} stroke={1.8} />,      label: "Clip Studio" },
+  { to: "/videos",    icon: <IconFolder size={20} stroke={1.8} />,        label: "Library" },
+  { to: "/motion",    icon: <IconSparkles size={20} stroke={1.8} />,      label: "Motion Graphics" },
+  { to: "/tools",     icon: <IconTool size={20} stroke={1.8} />,          label: "Tools" },
+  { to: "/messaging", icon: <IconDeviceMobile size={20} stroke={1.8} />,  label: "Messaging" },
   ...pluginNavItems.filter(i => (i.position || "top") === "top"),
 ]
 
 const bottomItems = [
   ...pluginNavItems.filter(i => i.position === "bottom"),
-  { to: "/settings",  icon: <SettingsIcon />,     label: "Settings" },
+  { to: "/settings",  icon: <IconSettings size={20} stroke={1.8} />,      label: "Settings" },
 ]
 
 export default function Layout() {
@@ -119,9 +119,9 @@ export default function Layout() {
           position: "relative",
           color: active ? "primary.main" : "text.secondary",
           "&.Mui-selected": {
-            bgcolor: "rgba(201,100,66,0.1)",
-            boxShadow: (theme) => `inset 0 0 0 1px rgba(201,100,66,0.12), ${theme.customShadows?.sm}`,
-            "&:hover": { bgcolor: "rgba(201,100,66,0.13)" },
+            bgcolor: "rgba(139, 92, 246, 0.12)",
+            boxShadow: (theme) => `inset 0 0 0 1px rgba(139, 92, 246, 0.25), 0 2px 8px rgba(139, 92, 246, 0.15)`,
+            "&:hover": { bgcolor: "rgba(139, 92, 246, 0.18)" },
           },
           "&:hover": {
             bgcolor: "action.hover",
@@ -170,7 +170,7 @@ export default function Layout() {
             component="img"
             src="/icon-192.png"
             alt="ViralMint"
-            sx={{ width: 32, height: 32, borderRadius: 1, flexShrink: 0 }}
+            sx={{ width: 32, height: 32, borderRadius: "10px", flexShrink: 0 }}
           />
           {(!collapsed || isNarrow) && (
             <Typography
@@ -179,7 +179,7 @@ export default function Layout() {
                 fontWeight: 700,
                 letterSpacing: -0.5,
                 fontSize: "1.15rem",
-                background: "linear-gradient(135deg, #0D9F6E, #34D399)",
+                background: "linear-gradient(135deg, #8b5cf6, #c084fc)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 whiteSpace: "nowrap",
@@ -196,10 +196,11 @@ export default function Layout() {
             bgcolor: "action.hover",
             border: 1,
             borderColor: "divider",
+            borderRadius: "10px",
             "&:hover": { bgcolor: "primary.main", color: "#fff" },
             transition: "all 0.15s",
           }}>
-            <ChevronLeftIcon sx={{ fontSize: 18 }} />
+            <IconChevronLeft size={18} stroke={1.8} />
           </IconButton>
         )}
       </Box>
@@ -210,20 +211,18 @@ export default function Layout() {
         {navItems.map(renderNavItem)}
       </List>
 
-      {/* Work in flight, from any route. The job log used to be a Library tab,
-          so the only way to answer "is my clip still rendering?" was to
-          navigate away from whatever you were doing. */}
+      {/* Work in flight */}
       {runningJobCount > 0 && (
         <Box sx={{ px: collapsed && !isNarrow ? 0.75 : 1.5, pb: 1 }}>
           <Tooltip title="Show activity" placement="right" arrow>
             <ListItemButton onClick={openActivity} aria-label="Show activity"
               sx={{
-                borderRadius: 2, py: 0.75,
+                borderRadius: "14px", py: 0.75,
                 justifyContent: collapsed && !isNarrow ? "center" : "flex-start",
                 border: 1, borderColor: "divider", bgcolor: "action.hover",
               }}>
               <Badge color="warning" variant="dot" sx={{ mr: collapsed && !isNarrow ? 0 : 1.25 }}>
-                <BuildIcon sx={{ fontSize: 18 }} />
+                <IconActivity size={18} stroke={1.8} />
               </Badge>
               {!(collapsed && !isNarrow) && (
                 <Typography sx={{ fontSize: "0.78rem", fontWeight: 600 }}>
@@ -245,14 +244,14 @@ export default function Layout() {
             <ListItemButton
               onClick={() => setCollapsed(false)}
               sx={{
-                borderRadius: 2, py: 0.75, justifyContent: "center",
+                borderRadius: "14px", py: 0.75, justifyContent: "center",
                 border: 1, borderColor: "divider",
                 color: "primary.main",
                 "&:hover": { bgcolor: "primary.main", color: "#fff" },
                 transition: "all 0.15s",
               }}
             >
-              <ChevronRightIcon sx={{ fontSize: 20 }} />
+              <IconChevronRight size={20} stroke={1.8} />
             </ListItemButton>
           </Tooltip>
         )}
@@ -314,13 +313,13 @@ export default function Layout() {
             bgcolor: "background.paper",
           }}>
             <IconButton size="small" onClick={() => setMobileOpen(true)}>
-              <MenuIcon />
+              <IconMenu2 size={20} stroke={1.8} />
             </IconButton>
-            <Box component="img" src="/icon-192.png" alt="" sx={{ width: 24, height: 24, borderRadius: 0.5 }} />
+            <Box component="img" src="/icon-192.png" alt="" sx={{ width: 24, height: 24, borderRadius: "6px" }} />
             <Typography
               sx={{
                 fontWeight: 700, fontSize: "0.95rem",
-                background: "linear-gradient(135deg, #0D9F6E, #34D399)",
+                background: "linear-gradient(135deg, #8b5cf6, #c084fc)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}

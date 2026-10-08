@@ -4,11 +4,13 @@ import {
   Box, Typography, Card, CardMedia, CardContent, Chip, Button,
   Stack, IconButton, Checkbox,
 } from "@mui/material"
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
-import ChevronRightIcon from "@mui/icons-material/ChevronRight"
-import DownloadIcon from "@mui/icons-material/DownloadOutlined"
-import LaunchIcon from "@mui/icons-material/Launch"
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined"
+import {
+  IconChevronLeft,
+  IconChevronRight,
+  IconDownload,
+  IconExternalLink,
+  IconEye,
+} from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 
@@ -101,14 +103,14 @@ export default function TrendsResultsCard({ results, platform, jobId }) {
       <Box sx={{ position: "relative" }}>
         {scrollIdx > 0 && (
           <IconButton size="small" onClick={() => setScrollIdx(i => Math.max(0, i - 2))}
-            sx={{ position: "absolute", left: -6, top: "40%", zIndex: 2, bgcolor: "background.paper", border: 1, borderColor: "divider", "&:hover": { bgcolor: "action.hover" } }}>
-            <ChevronLeftIcon fontSize="small" />
+            sx={{ position: "absolute", left: -6, top: "40%", zIndex: 2, bgcolor: "background.paper", border: 1, borderColor: "divider", borderRadius: "10px", "&:hover": { bgcolor: "action.hover" } }}>
+            <IconChevronLeft size={16} stroke={1.8} />
           </IconButton>
         )}
         {scrollIdx < maxScroll && (
           <IconButton size="small" onClick={() => setScrollIdx(i => Math.min(maxScroll, i + 2))}
-            sx={{ position: "absolute", right: -6, top: "40%", zIndex: 2, bgcolor: "background.paper", border: 1, borderColor: "divider", "&:hover": { bgcolor: "action.hover" } }}>
-            <ChevronRightIcon fontSize="small" />
+            sx={{ position: "absolute", right: -6, top: "40%", zIndex: 2, bgcolor: "background.paper", border: 1, borderColor: "divider", borderRadius: "10px", "&:hover": { bgcolor: "action.hover" } }}>
+            <IconChevronRight size={16} stroke={1.8} />
           </IconButton>
         )}
 
@@ -122,18 +124,19 @@ export default function TrendsResultsCard({ results, platform, jobId }) {
               return (
                 <Card key={r.id} elevation={0} sx={{
                   minWidth: CARD_WIDTH, maxWidth: CARD_WIDTH, flexShrink: 0,
-                  border: 1, borderColor: isSelected ? "primary.main" : "rgba(0,0,0,0.08)",
-                  bgcolor: isSelected ? "rgba(201,100,66,0.04)" : "background.paper",
-                  cursor: "pointer", transition: "border-color 0.2s",
-                  "&:hover": { borderColor: "text.disabled" },
-                  position: "relative", borderRadius: 2,
+                  border: 1, borderColor: isSelected ? "primary.main" : "divider",
+                  bgcolor: isSelected ? "rgba(139, 92, 246, 0.08)" : "background.paper",
+                  cursor: "pointer", transition: "all 0.2s",
+                  "&:hover": { borderColor: "primary.main", transform: "translateY(-2px)" },
+                  position: "relative", borderRadius: "16px",
+                  overflow: "hidden",
                 }}>
                   <Checkbox
                     checked={isSelected}
                     onChange={(e) => toggleSelect(r.id, e)}
                     onClick={(e) => e.stopPropagation()}
                     size="small"
-                    sx={{ position: "absolute", top: 2, left: 2, zIndex: 2, bgcolor: "background.paper", borderRadius: 0.5, p: 0.25 }}
+                    sx={{ position: "absolute", top: 4, left: 4, zIndex: 2, bgcolor: "background.paper", borderRadius: "8px", p: 0.25 }}
                   />
                   {r.thumbnail_url ? (
                     <Box sx={{ width: "100%", aspectRatio: "16 / 9", overflow: "hidden", bgcolor: "#000" }}>
@@ -145,8 +148,8 @@ export default function TrendsResultsCard({ results, platform, jobId }) {
                       <Typography variant="caption" sx={{ color: "text.disabled" }}>No thumbnail</Typography>
                     </Box>
                   )}
-                  <CardContent sx={{ p: 1, "&:last-child": { pb: 1 } }}>
-                    <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 0.25 }}>
+                  <CardContent sx={{ p: 1.25, "&:last-child": { pb: 1.25 } }}>
+                    <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 0.5 }}>
                       <Chip label={r.platform} size="small" variant="outlined"
                         sx={{ fontSize: "0.55rem", height: 18, textTransform: "uppercase" }} />
                       <Stack direction="row" alignItems="center" spacing={0.25}>
@@ -157,21 +160,21 @@ export default function TrendsResultsCard({ results, platform, jobId }) {
                             onClick={(e) => { e.stopPropagation(); window.open(r.video_url, "_blank", "noopener") }}
                             sx={{ p: 0.25, color: "text.secondary", "&:hover": { color: "primary.main" } }}
                           >
-                            <LaunchIcon sx={{ fontSize: "0.85rem" }} />
+                            <IconExternalLink size={14} stroke={1.8} />
                           </IconButton>
                         )}
                       </Stack>
                     </Stack>
                     <Typography variant="caption" sx={{
-                      fontWeight: 500, display: "-webkit-box", color: "text.primary",
+                      fontWeight: 600, display: "-webkit-box", color: "text.primary",
                       WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
                       overflow: "hidden", lineHeight: 1.3, fontSize: "0.75rem",
                     }}>
                       {r.title}
                     </Typography>
-                    <Typography variant="caption" sx={{ color: "text.secondary", fontSize: "0.65rem" }}>
-                      <VisibilityIcon sx={{ fontSize: 11, verticalAlign: "middle", mr: 0.3 }} />{formatViews(r.views)}
-                      {r.upload_date && ` · Uploaded: ${new Date(r.upload_date).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" })}`}
+                    <Typography variant="caption" sx={{ color: "text.secondary", fontSize: "0.65rem", display: "flex", alignItems: "center", gap: 0.5, mt: 0.5 }}>
+                      <IconEye size={12} stroke={1.8} />{formatViews(r.views)}
+                      {r.upload_date && ` · ${new Date(r.upload_date).toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" })}`}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -184,19 +187,20 @@ export default function TrendsResultsCard({ results, platform, jobId }) {
       {/* Actions */}
       <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 1.5 }}>
         {selectedIds.size > 0 && (
-          <Button size="small" variant="contained" startIcon={<DownloadIcon />}
+          <Button size="small" variant="contained" startIcon={<IconDownload size={16} stroke={1.8} />}
+            sx={{ borderRadius: "20px", textTransform: "none", fontWeight: 600 }}
             onClick={handleDownload} disabled={downloading}>
             {downloading ? "Starting..." : `Download & Analyze (${selectedIds.size})`}
           </Button>
         )}
         {!expanded && sorted.length > 8 && (
-          <Button size="small" variant="text" sx={{ color: "text.secondary" }} onClick={() => setExpanded(true)}>
+          <Button size="small" variant="text" sx={{ color: "text.secondary", borderRadius: "12px", textTransform: "none" }} onClick={() => setExpanded(true)}>
             Show all {sorted.length}
           </Button>
         )}
         <Box sx={{ flex: 1 }} />
-        <Button size="small" variant="text" startIcon={<LaunchIcon />}
-          onClick={() => navigate("/videos")} sx={{ color: "text.secondary" }}>
+        <Button size="small" variant="text" startIcon={<IconExternalLink size={14} stroke={1.8} />}
+          onClick={() => navigate("/videos")} sx={{ color: "text.secondary", borderRadius: "12px", textTransform: "none" }}>
           Library
         </Button>
       </Stack>

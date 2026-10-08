@@ -1,5 +1,5 @@
 import { Box, Typography, Stack, Chip, IconButton, alpha, useTheme } from "@mui/material"
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"
+import { IconArrowLeft } from "@tabler/icons-react"
 import { useNavigate } from "react-router-dom"
 
 /**
@@ -96,7 +96,7 @@ export default function PageHero({
               transition: (t) => `all ${t.customMotion?.duration?.fast || "0.12s"} ${t.customMotion?.easing?.standard || "ease"}`,
             }}
           >
-            <ArrowBackIcon fontSize="small" />
+            <IconArrowLeft size={18} stroke={1.8} />
           </IconButton>
         )}
         {icon && (

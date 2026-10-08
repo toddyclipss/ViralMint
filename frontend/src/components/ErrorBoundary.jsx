@@ -1,6 +1,6 @@
 import { Component } from "react"
 import { Box, Typography, Button, Paper } from "@mui/material"
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline"
+import { IconAlertCircle } from "@tabler/icons-react"
 
 export default class ErrorBoundary extends Component {
   constructor(props) {
@@ -32,8 +32,10 @@ export default class ErrorBoundary extends Component {
           display: "flex", alignItems: "center", justifyContent: "center",
           height: "100vh", p: 3, bgcolor: "background.default",
         }}>
-          <Paper variant="outlined" sx={{ p: 4, maxWidth: 480, textAlign: "center", borderRadius: 3 }}>
-            <ErrorOutlineIcon sx={{ fontSize: 56, color: "error.main", mb: 2 }} />
+          <Paper variant="outlined" sx={{ p: 4, maxWidth: 480, textAlign: "center", borderRadius: "20px", borderColor: "rgba(139, 92, 246, 0.2)" }}>
+            <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+              <IconAlertCircle size={48} stroke={1.8} color="#ef4444" />
+            </Box>
             <Typography variant="h5" sx={{ fontWeight: 700, mb: 1 }}>
               Something went wrong
             </Typography>
@@ -42,7 +44,7 @@ export default class ErrorBoundary extends Component {
             </Typography>
             {this.state.error && (
               <Paper variant="outlined" sx={{
-                p: 1.5, mb: 3, bgcolor: "action.hover", borderRadius: 2,
+                p: 1.5, mb: 3, bgcolor: "action.hover", borderRadius: "12px",
                 maxHeight: 100, overflow: "auto", textAlign: "left",
               }}>
                 <Typography variant="caption" sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "error.main" }}>
@@ -51,10 +53,10 @@ export default class ErrorBoundary extends Component {
               </Paper>
             )}
             <Box sx={{ display: "flex", gap: 1.5, justifyContent: "center" }}>
-              <Button variant="outlined" onClick={this.handleReset}>
+              <Button variant="outlined" onClick={this.handleReset} sx={{ borderRadius: "20px" }}>
                 Try Again
               </Button>
-              <Button variant="contained" onClick={this.handleReload}>
+              <Button variant="contained" onClick={this.handleReload} sx={{ borderRadius: "20px" }}>
                 Reload Page
               </Button>
             </Box>

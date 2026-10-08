@@ -3,13 +3,15 @@ import {
   Box, Typography, Stack, Chip, Button, Divider, Avatar, Checkbox,
   Collapse, alpha, useTheme,
 } from "@mui/material"
-import DownloadIcon from "@mui/icons-material/DownloadOutlined"
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined"
-import CalendarTodayIcon from "@mui/icons-material/CalendarTodayOutlined"
-import PeopleIcon from "@mui/icons-material/PeopleOutline"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import ExpandLessIcon from "@mui/icons-material/ExpandLess"
-import InsightsIcon from "@mui/icons-material/InsightsOutlined"
+import {
+  IconDownload,
+  IconEye,
+  IconCalendar,
+  IconUsers,
+  IconChevronDown,
+  IconChevronUp,
+  IconSparkles,
+} from "@tabler/icons-react"
 import ReactMarkdown from "react-markdown"
 import { ws } from "../../api/websocket"
 import http from "../../api/http"
@@ -36,7 +38,7 @@ function OutlierBadge({ score }) {
   else if (score >= 10) { color = "error"; label = `${score}x` }
   else if (score >= 5) { color = "warning"; label = `${score}x` }
   else { color = "info"; label = `${score}x` }
-  return <Chip label={label} size="small" color={color} variant="outlined" sx={{ fontWeight: 700, fontSize: "0.6rem", height: 20 }} />
+  return <Chip label={label} size="small" color={color} variant="outlined" sx={{ fontWeight: 700, fontSize: "0.6rem", height: 20, borderRadius: "8px" }} />
 }
 
 export default function ChannelSummaryCard({ summary }) {
@@ -100,7 +102,7 @@ export default function ChannelSummaryCard({ summary }) {
 
   return (
     <Box sx={{
-      border: 1, borderColor: "divider", borderRadius: 3, overflow: "hidden", bgcolor: "background.paper",
+      border: 1, borderColor: "divider", borderRadius: "16px", overflow: "hidden", bgcolor: "background.paper",
       boxShadow: (theme) => theme.customShadows?.sm,
       transition: "all 0.2s ease",
     }}>
@@ -115,15 +117,16 @@ export default function ChannelSummaryCard({ summary }) {
             <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
               {subscriber_count > 0 && (
                 <Chip
-                  icon={<PeopleIcon sx={{ fontSize: 14 }} />}
+                  icon={<IconUsers size={14} stroke={1.8} />}
                   label={`${formatCount(subscriber_count)} followers`}
                   size="small"
                   variant="outlined"
+                  sx={{ borderRadius: "10px" }}
                 />
               )}
-              <Chip label={`${videos.length} videos listed`} size="small" variant="outlined" />
+              <Chip label={`${videos.length} videos listed`} size="small" variant="outlined" sx={{ borderRadius: "10px" }} />
               {summary.median_views > 0 && (
-                <Chip label={`Median: ${formatCount(summary.median_views)} views`} size="small" variant="outlined" color="info" />
+                <Chip label={`Median: ${formatCount(summary.median_views)} views`} size="small" variant="outlined" color="info" sx={{ borderRadius: "10px" }} />
               )}
             </Stack>
           </Box>
@@ -144,7 +147,7 @@ export default function ChannelSummaryCard({ summary }) {
             background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.04)}, ${alpha(theme.palette.primary.main, 0.01)})`,
           }}>
             <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
-              <InsightsIcon sx={{ fontSize: 18, color: "primary.main" }} />
+              <IconSparkles size={18} stroke={1.8} color="#8b5cf6" />
               <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "primary.main", fontSize: "0.85rem" }}>
                 AI Strategic Analysis
               </Typography>
@@ -209,7 +212,7 @@ export default function ChannelSummaryCard({ summary }) {
         <Typography variant="body2" sx={{ fontWeight: 600, fontSize: "0.85rem" }}>
           Videos ({videos.length})
         </Typography>
-        {videosExpanded ? <ExpandLessIcon sx={{ fontSize: 20 }} /> : <ExpandMoreIcon sx={{ fontSize: 20 }} />}
+        {videosExpanded ? <IconChevronUp size={20} stroke={1.8} /> : <IconChevronDown size={20} stroke={1.8} />}
       </Box>
 
       <Collapse in={videosExpanded}>
@@ -258,8 +261,8 @@ export default function ChannelSummaryCard({ summary }) {
                 </Typography>
                 <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap">
                   {v.view_count != null && (
-                    <Typography variant="caption" color="text.secondary">
-                      <VisibilityIcon sx={{ fontSize: 11, mr: 0.3, verticalAlign: "middle" }} />
+                    <Typography variant="caption" color="text.secondary" sx={{ display: "inline-flex", alignItems: "center", gap: 0.5 }}>
+                      <IconEye size={12} stroke={1.8} />
                       {formatCount(v.view_count)}
                     </Typography>
                   )}
@@ -270,8 +273,8 @@ export default function ChannelSummaryCard({ summary }) {
                     </Typography>
                   )}
                   {v.upload_date && (
-                    <Typography variant="caption" color="text.secondary">
-                      <CalendarTodayIcon sx={{ fontSize: 11, mr: 0.3, verticalAlign: "middle" }} />
+                    <Typography variant="caption" color="text.secondary" sx={{ display: "inline-flex", alignItems: "center", gap: 0.5 }}>
+                      <IconCalendar size={12} stroke={1.8} />
                       {v.upload_date}
                     </Typography>
                   )}
@@ -290,18 +293,19 @@ export default function ChannelSummaryCard({ summary }) {
           <Button
             size="small"
             variant="contained"
-            startIcon={<DownloadIcon />}
+            startIcon={<IconDownload size={16} stroke={1.8} />}
             onClick={handleDownloadSelected}
             disabled={downloading}
+            sx={{ borderRadius: "20px" }}
           >
             {downloading ? "Starting..." : `Download ${selected.size} Selected & Analyze`}
           </Button>
         ) : (
           <>
-            <Button size="small" variant="outlined" startIcon={<DownloadIcon />} onClick={() => handleDownloadTop(3)}>
+            <Button size="small" variant="outlined" startIcon={<IconDownload size={16} stroke={1.8} />} onClick={() => handleDownloadTop(3)} sx={{ borderRadius: "20px" }}>
               Download Top 3
             </Button>
-            <Button size="small" variant="contained" startIcon={<DownloadIcon />} onClick={() => handleDownloadTop(5)}>
+            <Button size="small" variant="contained" startIcon={<IconDownload size={16} stroke={1.8} />} onClick={() => handleDownloadTop(5)} sx={{ borderRadius: "20px" }}>
               Download Top 5 & Analyze
             </Button>
           </>

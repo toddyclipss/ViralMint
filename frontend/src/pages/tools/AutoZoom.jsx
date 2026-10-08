@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Box, Typography, Stack, Slider, Alert } from "@mui/material"
-import ZoomInMapOutlinedIcon from "@mui/icons-material/ZoomInMapOutlined"
+import { IconZoomIn } from "@tabler/icons-react"
 import ToolRunner from "../../components/tools/ToolRunner"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
 
@@ -24,7 +24,7 @@ export default function ToolAutoZoom() {
     <ToolRunner
       title="Auto-Zoom"
       description="Add subtle zoom punch-ins on spoken words for extra energy"
-      icon={<ZoomInMapOutlinedIcon fontSize="large" />}
+      icon={<IconZoomIn size={28} stroke={1.8} />}
       endpoint="/api/tools/auto-zoom"
       processLabel="Add zoom pulses"
       fieldBuilder={() => ({ zoom_factor: zoom, words_per_group: wordsPerGroup })}

@@ -4,7 +4,7 @@ import { useState } from "react"
 import {
   Box, Typography, FormControl, InputLabel, Select, MenuItem, Stack,
 } from "@mui/material"
-import CompressOutlinedIcon from "@mui/icons-material/CompressOutlined"
+import { IconArrowsMinimize } from "@tabler/icons-react"
 import ToolRunner from "../../components/tools/ToolRunner"
 import { useToolInput } from "../../components/tools/ToolInputContext"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
@@ -82,7 +82,7 @@ export default function ToolCompress() {
     <ToolRunner
       title="Compress Video"
       description="Shrink a video for email, chat apps, or an upload limit — without re-cutting it."
-      icon={<CompressOutlinedIcon fontSize="large" />}
+      icon={<IconArrowsMinimize size={28} stroke={1.8} />}
       endpoint="/api/tools/compress"
       processLabel="Compress"
       downloadLabel="Download compressed"

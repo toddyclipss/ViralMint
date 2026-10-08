@@ -16,9 +16,7 @@
 // video fetch).
 import { useEffect, useRef, useState } from "react"
 import { Box, Typography, IconButton, Tooltip } from "@mui/material"
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome"
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
-import BoltIcon from "@mui/icons-material/Bolt"
+import { IconSparkles, IconChevronLeft, IconBolt } from "@tabler/icons-react"
 import http from "../api/http"
 import { scrollOnHover } from "../utils/scrollbar"
 
@@ -227,7 +225,7 @@ function SampleCard({ sample, onUse }) {
           }}
         >
           <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0.5, color: "#fff", textAlign: "center", px: 0.5 }}>
-            <BoltIcon sx={{ fontSize: 20, color: "#FFE14D" }} />
+            <IconBolt size={20} stroke={1.8} color="#FFE14D" />
             <Typography sx={{ fontSize: "0.6rem", fontWeight: 800, lineHeight: 1.1 }}>
               Make one<br />like this
             </Typography>
@@ -288,7 +286,7 @@ export default function SampleShowcase({ samples = [], onUse, title = "Start fro
       >
         <Tooltip title="Show sample videos" placement="right">
           <IconButton size="small" aria-label="Show samples" sx={{ p: 0.5 }}>
-            <AutoAwesomeIcon sx={{ fontSize: 18, color: "#C44CE3" }} />
+            <IconSparkles size={18} stroke={1.8} color="#a78bfa" />
           </IconButton>
         </Tooltip>
         <Typography
@@ -318,11 +316,11 @@ export default function SampleShowcase({ samples = [], onUse, title = "Start fro
     >
       {/* Header */}
       <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, mb: 0.75, flexShrink: 0 }}>
-        <AutoAwesomeIcon sx={{ fontSize: 15, color: "#C44CE3" }} />
+        <IconSparkles size={15} stroke={1.8} color="#a78bfa" />
         <Typography noWrap sx={{ fontSize: "0.72rem", fontWeight: 800, lineHeight: 1.1, flex: 1, minWidth: 0 }}>{title}</Typography>
         <Tooltip title="Collapse" placement="right">
           <IconButton size="small" onClick={toggle} aria-label="Collapse samples" sx={{ p: 0.25 }}>
-            <ChevronLeftIcon fontSize="small" />
+            <IconChevronLeft size={16} stroke={1.8} />
           </IconButton>
         </Tooltip>
       </Box>

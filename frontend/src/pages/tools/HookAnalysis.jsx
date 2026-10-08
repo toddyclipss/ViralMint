@@ -4,10 +4,7 @@ import {
   CircularProgress, alpha, useTheme,
 } from "@mui/material"
 import { GlassPanel } from "../../utils/glassFx"
-import LightbulbOutlinedIcon from "@mui/icons-material/LightbulbOutlined"
-import VolumeUpOutlinedIcon from "@mui/icons-material/VolumeUpOutlined"
-import StopIcon from "@mui/icons-material/Stop"
-import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined"
+import { IconBulb, IconVolume, IconPlayerStop, IconCopy } from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 import ToolRunner from "../../components/tools/ToolRunner"
@@ -91,7 +88,7 @@ export default function ToolHookAnalysis() {
     <ToolRunner
       title="Hook Detector"
       description="Score the first 10 seconds of any video and get stronger opening alternatives"
-      icon={<LightbulbOutlinedIcon fontSize="large" />}
+      icon={<IconBulb size={28} stroke={1.8} />}
       endpoint="/api/tools/hook-analysis"
       processLabel="Analyze hook"
       onJobComplete={fetchResult}
@@ -189,8 +186,8 @@ export default function ToolHookAnalysis() {
                       {previewLoading === i
                         ? <CircularProgress size={14} />
                         : previewVoice === i
-                          ? <StopIcon sx={{ fontSize: 18 }} />
-                          : <VolumeUpOutlinedIcon sx={{ fontSize: 18 }} />}
+                          ? <IconPlayerStop size={18} stroke={1.8} />
+                          : <IconVolume size={18} stroke={1.8} />}
                     </IconButton>
                   </Tooltip>
                   <Tooltip title="Copy to clipboard" arrow>
@@ -199,7 +196,7 @@ export default function ToolHookAnalysis() {
                       onClick={() => copyAlternative(alt)}
                       sx={{ color: "text.secondary" }}
                     >
-                      <ContentCopyOutlinedIcon sx={{ fontSize: 16 }} />
+                      <IconCopy size={16} stroke={1.8} />
                     </IconButton>
                   </Tooltip>
                 </GlassPanel>

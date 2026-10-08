@@ -1269,7 +1269,7 @@ def _run_with_gui():
     TEXT_DIM = "#6b6560"   # warm secondary
     # The body of _run_with_gui references GREEN/RED/BLUE as role names —
     # bound to the warm palette so the color values live in one place.
-    GREEN    = "#c96442"   # terracotta — primary action (Start)
+    GREEN    = "#8b5cf6"   # electric violet — primary action (Start)
     RED      = "#dc2626"   # danger — Stop
     BLUE     = "#0097a7"   # teal — secondary action (Open WebUI)
 

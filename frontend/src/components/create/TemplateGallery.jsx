@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react"
 import { Box, Typography, Stack, Paper, Chip, Button, Collapse, IconButton, CircularProgress, TextField, Tooltip } from "@mui/material"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import ExpandLessIcon from "@mui/icons-material/ExpandLess"
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome"
-import TrendingUpIcon from "@mui/icons-material/TrendingUp"
-import RefreshIcon from "@mui/icons-material/Refresh"
-import CloseIcon from "@mui/icons-material/Close"
+import {
+  IconChevronDown,
+  IconChevronUp,
+  IconSparkles,
+  IconTrendingUp,
+  IconRefresh,
+  IconX,
+} from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 
@@ -163,7 +165,7 @@ export default function TemplateGallery({ mode, onApply, variant }) {
       variant={drawer ? "elevation" : "outlined"}
       elevation={0}
       sx={{
-        borderRadius: drawer ? 0 : 2.5,
+        borderRadius: drawer ? 0 : "16px",
         mb: drawer ? 0 : 2.5,
         overflow: "hidden",
         borderColor: "divider",
@@ -184,7 +186,7 @@ export default function TemplateGallery({ mode, onApply, variant }) {
         }}
       >
         <Stack direction="row" alignItems="center" spacing={1}>
-          <AutoAwesomeIcon sx={{ fontSize: 18, color: "primary.main" }} />
+          <IconSparkles size={18} stroke={1.8} color="#8b5cf6" />
           <Typography variant="subtitle2" sx={{ fontWeight: 700, fontSize: "0.85rem" }}>
             Templates
           </Typography>
@@ -193,17 +195,17 @@ export default function TemplateGallery({ mode, onApply, variant }) {
           </Typography>
           {trendingTemplates.length > 0 && (
             <Chip
-              icon={<TrendingUpIcon sx={{ fontSize: 14 }} />}
+              icon={<IconTrendingUp size={14} stroke={1.8} />}
               label={`${trendingTemplates.length} trending`}
               size="small"
               color="warning"
               variant="outlined"
-              sx={{ fontSize: "0.65rem", height: 20, "& .MuiChip-label": { px: 0.5 } }}
+              sx={{ fontSize: "0.65rem", height: 20, borderRadius: "10px", "& .MuiChip-label": { px: 0.5 } }}
             />
           )}
         </Stack>
-        <IconButton size="small" sx={{ p: 0.25 }}>
-          {expanded ? <ExpandLessIcon fontSize="small" /> : <ExpandMoreIcon fontSize="small" />}
+        <IconButton size="small" sx={{ p: 0.25, borderRadius: "8px" }}>
+          {expanded ? <IconChevronUp size={16} stroke={1.8} /> : <IconChevronDown size={16} stroke={1.8} />}
         </IconButton>
       </Box>
       )}
@@ -254,7 +256,7 @@ export default function TemplateGallery({ mode, onApply, variant }) {
           px: 2, pb: 1.5, pt: 0,
           display: "flex", alignItems: "center", gap: 1,
         }}>
-          <TrendingUpIcon sx={{ fontSize: 16, color: "text.secondary" }} />
+          <IconTrendingUp size={16} stroke={1.8} color="#94a3b8" />
           <TextField
             size="small"
             placeholder="Enter niche to generate trending templates..."
@@ -263,7 +265,7 @@ export default function TemplateGallery({ mode, onApply, variant }) {
             onKeyDown={(e) => e.key === "Enter" && handleGenerateTrending()}
             sx={{
               flex: 1,
-              "& .MuiInputBase-root": { height: 32, fontSize: "0.8rem" },
+              "& .MuiInputBase-root": { height: 32, fontSize: "0.8rem", borderRadius: "10px" },
             }}
           />
           <Tooltip title="Generate trending templates from YouTube search data + your trend results">
@@ -273,8 +275,8 @@ export default function TemplateGallery({ mode, onApply, variant }) {
                 variant="outlined"
                 onClick={handleGenerateTrending}
                 disabled={generating || !refreshNiche.trim()}
-                startIcon={generating ? <CircularProgress size={14} /> : <RefreshIcon sx={{ fontSize: 16 }} />}
-                sx={{ fontSize: "0.75rem", textTransform: "none", whiteSpace: "nowrap", height: 32 }}
+                startIcon={generating ? <CircularProgress size={14} /> : <IconRefresh size={16} stroke={1.8} />}
+                sx={{ fontSize: "0.75rem", textTransform: "none", whiteSpace: "nowrap", height: 32, borderRadius: "20px" }}
               >
                 {generating ? "Generating..." : "Generate Template"}
               </Button>
@@ -295,7 +297,7 @@ function TemplateCard({ template: t, isSelected, onSelect, onDelete, isTrending 
       onClick={() => onSelect(t)}
       sx={{
         minWidth: 180, maxWidth: 200, p: 1.5,
-        borderRadius: 2, cursor: "pointer",
+        borderRadius: "14px", cursor: "pointer",
         borderColor: isSelected ? "primary.main" : isTrending ? "warning.main" : "divider",
         borderWidth: isSelected ? 2 : 1,
         bgcolor: isSelected ? "action.selected" : "background.paper",
@@ -315,12 +317,12 @@ function TemplateCard({ template: t, isSelected, onSelect, onDelete, isTrending 
       {isTrending && (
         <Stack direction="row" alignItems="center" justifyContent="space-between">
           <Chip
-            icon={<TrendingUpIcon sx={{ fontSize: 10 }} />}
+            icon={<IconTrendingUp size={10} stroke={1.8} />}
             label={t.niche || "trending"}
             size="small"
             color="warning"
             sx={{
-              fontSize: "0.55rem", height: 16, maxWidth: 140,
+              fontSize: "0.55rem", height: 16, maxWidth: 140, borderRadius: "8px",
               "& .MuiChip-label": { px: 0.4, overflow: "hidden", textOverflow: "ellipsis" },
               "& .MuiChip-icon": { ml: 0.3 },
             }}
@@ -329,9 +331,9 @@ function TemplateCard({ template: t, isSelected, onSelect, onDelete, isTrending 
             <IconButton
               size="small"
               onClick={(e) => onDelete(e, t)}
-              sx={{ p: 0.25, ml: 0.5, opacity: 0.5, "&:hover": { opacity: 1 } }}
+              sx={{ p: 0.25, ml: 0.5, opacity: 0.5, "&:hover": { opacity: 1 }, borderRadius: "6px" }}
             >
-              <CloseIcon sx={{ fontSize: 12 }} />
+              <IconX size={12} stroke={1.8} />
             </IconButton>
           )}
         </Stack>
@@ -349,7 +351,7 @@ function TemplateCard({ template: t, isSelected, onSelect, onDelete, isTrending 
       <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap sx={{ gap: 0.4 }}>
         {(t.tags || []).map(tag => (
           <Chip key={tag} label={tag} size="small" variant="outlined"
-            sx={{ fontSize: "0.6rem", height: 18, "& .MuiChip-label": { px: 0.75 } }} />
+            sx={{ fontSize: "0.6rem", height: 18, borderRadius: "8px", "& .MuiChip-label": { px: 0.75 } }} />
         ))}
       </Stack>
     </Paper>

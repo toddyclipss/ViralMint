@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import {
   Box, Typography, ToggleButtonGroup, ToggleButton, Stack, Slider,
 } from "@mui/material"
-import TransformIcon from "@mui/icons-material/Transform"
+import { IconRotate } from "@tabler/icons-react"
 import { useSearchParams } from "react-router-dom"
 import ToolRunner from "../../components/tools/ToolRunner"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
@@ -53,7 +53,7 @@ export default function ToolTransform() {
     <ToolRunner
       title="Transform"
       description="Quick edits — flip, rotate, loop, change volume, or strip the audio"
-      icon={<TransformIcon fontSize="large" />}
+      icon={<IconRotate size={28} stroke={1.8} />}
       endpoint="/api/tools/transform"
       fieldBuilder={() => ({ operation, amount })}
     >

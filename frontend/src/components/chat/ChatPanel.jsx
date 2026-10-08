@@ -4,10 +4,12 @@ import {
   List, ListItemButton, ListItemText, IconButton,
   Tooltip, Dialog, DialogTitle, DialogContent, DialogActions,
 } from "@mui/material"
-import AddIcon from "@mui/icons-material/Add"
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
-import HistoryIcon from "@mui/icons-material/HistoryOutlined"
+import {
+  IconPlus,
+  IconArrowLeft,
+  IconTrash,
+  IconHistory,
+} from "@tabler/icons-react"
 import { ws } from "../../api/websocket"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
@@ -216,11 +218,12 @@ export default function ChatPanel() {
           >
             <Button
               size="small"
-              startIcon={<ArrowBackIcon sx={{ fontSize: 16 }} />}
+              startIcon={<IconArrowLeft size={16} stroke={1.8} />}
               onClick={() => setView("chat")}
               sx={{
                 fontSize: "0.8rem",
                 fontWeight: 600,
+                borderRadius: "16px",
                 textTransform: "none",
                 color: "text.primary",
               }}
@@ -242,12 +245,16 @@ export default function ChatPanel() {
                   selected={sess.id === activeSessionId}
                   onClick={() => switchSession(sess.id)}
                   sx={{
-                    borderRadius: 2,
+                    borderRadius: "14px",
                     mb: 0.5,
                     py: 0.75,
                     px: 1.25,
                     pr: 4.5,
                     position: "relative",
+                    "&.Mui-selected": {
+                      bgcolor: "rgba(139, 92, 246, 0.12)",
+                      boxShadow: "inset 0 0 0 1px rgba(139, 92, 246, 0.25)",
+                    },
                     "&:hover .del-btn": { opacity: 1 },
                   }}
                 >
@@ -275,14 +282,15 @@ export default function ChatPanel() {
                     }}
                     sx={{
                       position: "absolute",
-                      right: 4,
+                      right: 6,
                       opacity: 0,
+                      borderRadius: "8px",
                       transition: "opacity 0.15s",
                       color: "text.secondary",
                       "&:hover": { color: "error.main" },
                     }}
                   >
-                    <DeleteOutlineIcon sx={{ fontSize: 16 }} />
+                    <IconTrash size={15} stroke={1.8} />
                   </IconButton>
                 </ListItemButton>
               ))}
@@ -316,14 +324,14 @@ export default function ChatPanel() {
             <Button
               size="small"
               variant="text"
-              startIcon={<AddIcon sx={{ fontSize: 16 }} />}
+              startIcon={<IconPlus size={16} stroke={2} />}
               onClick={handleNewChat}
               sx={{
                 fontSize: "0.8rem",
                 fontWeight: 600,
                 py: 0.4,
-                px: 1.2,
-                borderRadius: 2,
+                px: 1.4,
+                borderRadius: "20px",
                 color: "text.primary",
                 bgcolor: "action.hover",
                 textTransform: "none",
@@ -337,9 +345,9 @@ export default function ChatPanel() {
               <IconButton
                 size="small"
                 onClick={() => setView("history")}
-                sx={{ color: "text.secondary" }}
+                sx={{ color: "text.secondary", borderRadius: "10px" }}
               >
-                <HistoryIcon sx={{ fontSize: 19 }} />
+                <IconHistory size={18} stroke={1.8} />
               </IconButton>
             </Tooltip>
           </Box>

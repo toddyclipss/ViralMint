@@ -1,6 +1,6 @@
 /* ViralMint LIGHT-mode override for the embedded HyperFrames Studio.
    Appended AFTER studio-theme.css when the app is in light mode, so these
-   surface/text rules win. The terracotta accent from the base theme stays;
+   surface/text rules win. The purple accent from the base theme stays;
    here we flip the dark Tailwind surfaces/text to ViralMint's linen-paper
    light tokens (theme.js: #f5f0ea / #fbf8f4 / #f7f2ec, text #2d2b28 / #6b6560). */
 
@@ -24,10 +24,13 @@ html, body, #root { background: #f5f0ea !important; }
 .border-neutral-800, .border-neutral-800\/50, .border-neutral-700, .border-neutral-700\/50,
 .border-zinc-800, .border-white\/10, .border-white\/5 { border-color: rgba(0, 0, 0, 0.08) !important; }
 
-/* Accent text needs the deeper terracotta for contrast on light. */
-.text-studio-accent     { color: #c96442 !important; }
-.text-studio-accent\/50 { color: #c9644280 !important; }
-.text-studio-accent\/80 { color: #c96442cc !important; }
+/* Accent text needs deeper purple (#7c3aed) for contrast on light. */
+.text-studio-accent,
+.text-panel-accent,
+.text-\[\#3CE6AC\]      { color: #7c3aed !important; }
+.text-studio-accent\/50,
+.text-panel-accent\/70  { color: #7c3aed80 !important; }
+.text-studio-accent\/80 { color: #7c3aedcc !important; }
 
 /* The timeline canvas sets its dark background via an INLINE style
    (background: rgb(10,10,11)); an external !important rule still wins over a
@@ -42,11 +45,11 @@ html, body, #root { background: #f5f0ea !important; }
 .cm-editor, .cm-editor .cm-gutters { background-color: #fbf8f4 !important; }
 .cm-editor .cm-content { color: #2d2b28 !important; }
 .cm-editor .cm-gutters { color: #9a948c !important; border-right: 1px solid rgba(0, 0, 0, 0.08) !important; }
-.cm-editor .cm-activeLine { background-color: rgba(201, 100, 66, 0.06) !important; }
-.cm-editor .cm-activeLineGutter { background-color: rgba(201, 100, 66, 0.10) !important; }
-.cm-editor .cm-cursor, .cm-editor .cm-dropCursor { border-left-color: #c96442 !important; }
-.cm-editor .cm-selectionBackground, .cm-editor.cm-focused .cm-selectionBackground { background-color: #c9644233 !important; }
+.cm-editor .cm-activeLine { background-color: rgba(139, 92, 246, 0.06) !important; }
+.cm-editor .cm-activeLineGutter { background-color: rgba(139, 92, 246, 0.10) !important; }
+.cm-editor .cm-cursor, .cm-editor .cm-dropCursor { border-left-color: #7c3aed !important; }
+.cm-editor .cm-selectionBackground, .cm-editor.cm-focused .cm-selectionBackground { background-color: #8b5cf633 !important; }
 
 /* Light scrollbars + selection. */
 *::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.16) !important; }
-::selection { background: #c9644240; }
+::selection { background: #8b5cf640; }

@@ -6,7 +6,7 @@
 // (reuses AudioConfig), Transitions, and the estimated cost. Ported look from
 // the hosted studio, adapted to the OSS backend contract (BYOK, no cloud media).
 import { Box, Typography, Stack, Paper, ToggleButton, ToggleButtonGroup, Chip } from "@mui/material"
-import ImageIcon from "@mui/icons-material/Image"
+import { IconPhoto } from "@tabler/icons-react"
 import { glassPanelSx } from "../../utils/glassFx"
 import { STYLES, StyleSwatch } from "./SmartVideoStyles"
 import AudioConfig from "./AudioConfig"
@@ -26,7 +26,7 @@ export const TRANSITIONS = [
 
 function Panel({ title, children, sx }) {
   return (
-    <Paper elevation={0} sx={(t) => ({ ...glassPanelSx(t), p: 1.75, borderRadius: 2.5, ...sx })}>
+    <Paper elevation={0} sx={(t) => ({ ...glassPanelSx(t), p: 1.75, borderRadius: "16px", ...sx })}>
       {title && (
         <Typography variant="overline" sx={{ color: "text.secondary", fontWeight: 700, fontSize: "0.62rem", display: "block", mb: 1 }}>
           {title}
@@ -69,7 +69,7 @@ export default function StudioConfigRail({
           <ToggleButtonGroup
             value={aspectRatio} exclusive fullWidth size="small"
             onChange={(_, v) => v && setAspectRatio(v)}
-            sx={{ mb: 1, "& .MuiToggleButton-root": { textTransform: "none", fontSize: "0.78rem", py: 0.4 } }}
+            sx={{ mb: 1, "& .MuiToggleButton-root": { textTransform: "none", fontSize: "0.78rem", py: 0.4, borderRadius: "12px" } }}
           >
             <ToggleButton value="9:16">9:16 · Vertical</ToggleButton>
             <ToggleButton value="16:9">16:9 · Wide</ToggleButton>
@@ -77,10 +77,10 @@ export default function StudioConfigRail({
           <ToggleButtonGroup
             value={operation} exclusive fullWidth size="small"
             onChange={(_, v) => v && setOperation(v)}
-            sx={{ "& .MuiToggleButton-root": { textTransform: "none", fontSize: "0.78rem", py: 0.4 } }}
+            sx={{ "& .MuiToggleButton-root": { textTransform: "none", fontSize: "0.78rem", py: 0.4, borderRadius: "12px" } }}
           >
             <ToggleButton value="t2v">Script → Video</ToggleButton>
-            <ToggleButton value="i2v"><ImageIcon sx={{ fontSize: 15, mr: 0.5 }} />Image</ToggleButton>
+            <ToggleButton value="i2v"><IconPhoto size={15} stroke={1.8} style={{ marginRight: 4 }} />Image</ToggleButton>
           </ToggleButtonGroup>
           {operation === "i2v" && (
             <Box sx={{ mt: 1.25 }}>
@@ -89,12 +89,7 @@ export default function StudioConfigRail({
           )}
         </Panel>
 
-        {/* The user's own stills, filling scenes of an otherwise-stock video.
-            Only offered in Script → Video: the Image mode above is the
-            all-or-nothing version of the same idea (one picture becomes the
-            whole video), and showing both invites picking two answers to one
-            question. The backend resolves the clash the same way — per-scene
-            images win — but the UI should never create it. */}
+        {/* The user's own stills, filling scenes of an otherwise-stock video. */}
         {operation !== "i2v" && (
           <Panel title="Your Images">
             <UserImagesPanel
@@ -121,7 +116,7 @@ export default function StudioConfigRail({
                 variant={transitionStyle === t.id ? "filled" : "outlined"}
                 color={transitionStyle === t.id ? "primary" : "default"}
                 onClick={() => setTransitionStyle(t.id)}
-                sx={{ fontSize: "0.72rem", height: 26 }}
+                sx={{ fontSize: "0.72rem", height: 26, borderRadius: "10px" }}
               />
             ))}
           </Stack>

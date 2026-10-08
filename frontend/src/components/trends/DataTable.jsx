@@ -3,9 +3,7 @@ import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   TableSortLabel, Checkbox, Chip, Paper, IconButton, Tooltip, Button,
 } from "@mui/material"
-import LaunchIcon from "@mui/icons-material/Launch"
-import DownloadIcon from "@mui/icons-material/Download"
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
+import { IconExternalLink, IconDownload, IconTrash } from "@tabler/icons-react"
 
 function formatViews(n) {
   if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`
@@ -54,7 +52,7 @@ export default function DataTable({ results, onSelect, onDownload, onDelete, sel
   ]
 
   return (
-    <TableContainer component={Paper} elevation={0} sx={{ border: 1, borderColor: "divider" }}>
+    <TableContainer component={Paper} elevation={0} sx={{ border: 1, borderColor: "divider", borderRadius: "16px", overflow: "hidden" }}>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -120,10 +118,10 @@ export default function DataTable({ results, onSelect, onDownload, onDelete, sel
                   <Button
                     size="small"
                     variant="contained"
-                    startIcon={<DownloadIcon />}
+                    startIcon={<IconDownload size={14} stroke={1.8} />}
                     onClick={(e) => handleDownload(e, r.id)}
                     disabled={loadingId === r.id}
-                    sx={{ mr: 0.5 }}
+                    sx={{ mr: 0.5, borderRadius: "20px", textTransform: "none", fontSize: "0.75rem" }}
                   >
                     {loadingId === r.id ? "..." : "Download"}
                   </Button>
@@ -131,15 +129,15 @@ export default function DataTable({ results, onSelect, onDownload, onDelete, sel
                 {r.video_url && (
                   <Tooltip title="Open original" arrow>
                     <IconButton size="small" onClick={(e) => { e.stopPropagation(); window.open(r.video_url, "_blank", "noopener") }}
-                      sx={{ color: "text.secondary", "&:hover": { color: "primary.main" } }}>
-                      <LaunchIcon sx={{ fontSize: "1.1rem" }} />
+                      sx={{ color: "text.secondary", borderRadius: "8px", "&:hover": { color: "primary.main" } }}>
+                      <IconExternalLink size={16} stroke={1.8} />
                     </IconButton>
                   </Tooltip>
                 )}
                 <Tooltip title="Delete" arrow>
                   <IconButton size="small" onClick={(e) => { e.stopPropagation(); onDelete(r.id) }}
-                    sx={{ color: "text.secondary", "&:hover": { color: "error.main" } }}>
-                    <DeleteOutlineIcon sx={{ fontSize: "1.1rem" }} />
+                    sx={{ color: "text.secondary", borderRadius: "8px", "&:hover": { color: "error.main" } }}>
+                    <IconTrash size={16} stroke={1.8} />
                   </IconButton>
                 </Tooltip>
               </TableCell>

@@ -2,11 +2,13 @@
 // Copyright (c) 2025-2026 ViralMint Contributors
 import { memo, useEffect, useRef, useState } from "react"
 import { Box, Button, IconButton, Stack, Tooltip, Typography } from "@mui/material"
-import AddIcon from "@mui/icons-material/Add"
-import CloseIcon from "@mui/icons-material/Close"
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesomeOutlined"
-import ContentPasteIcon from "@mui/icons-material/ContentPasteGoOutlined"
-import DeleteSweepIcon from "@mui/icons-material/DeleteSweepOutlined"
+import {
+  IconPlus,
+  IconX,
+  IconSparkles,
+  IconClipboard,
+  IconTrash,
+} from "@tabler/icons-react"
 import { formatTime } from "../clipFormat"
 import { parseTimestamp } from "./parseRanges"
 import { MAX_RANGES, MIN_LEN_SEC } from "./useBenchRanges"
@@ -172,16 +174,15 @@ const Row = memo(function Row({
           onClick={(e) => { e.stopPropagation(); onRemove(range.id) }}
           sx={{ p: 0.15, ml: 0.25, color: "text.disabled", "&:hover": { color: "error.main" } }}
         >
-          <CloseIcon sx={{ fontSize: 13 }} />
+          <IconX size={13} stroke={1.8} />
         </IconButton>
       </Stack>
 
-      {/* The AI's own words for a block it proposed. Kept after adoption so
-          "my cut" and "its cut" stay distinguishable in the list too. */}
+      {/* The AI's own words for a block it proposed */}
       {meta && (meta.title || meta.reason) && (
         <Tooltip title={meta.reason || meta.title} placement="left">
           <Stack direction="row" spacing={0.4} alignItems="center" sx={{ mt: 0.15, pl: "21px", minWidth: 0 }}>
-            <AutoAwesomeIcon sx={{ fontSize: 10, color: "warning.main", flexShrink: 0 }} />
+            <IconSparkles size={11} stroke={1.8} color="#f59e0b" style={{ flexShrink: 0 }} />
             <Typography sx={{
               fontSize: "0.6rem", color: "text.secondary", minWidth: 0,
               overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
@@ -199,20 +200,13 @@ const Row = memo(function Row({
 export default function RangeRail({
   ranges, activeId, atCap,
   onSelect, onRemove, onEdit, onAdd, onPaste, onClear,
-  // The "Ask AI" control, rendered into this header. It lives in SourceBench
-  // because the search is a background Job whose state belongs there; the
-  // rail only says where it sits. It sits HERE, next to +, paste and clear,
-  // because asking the AI is a fourth way to put a block in this list — not
-  // a mode the bench switches into.
   aiSlot,
 }) {
   return (
     <Box sx={{
-      // 300, up from 252: the AI label line was the first thing to ellipsise
-      // and it is the only thing saying WHY a proposed block is there.
       width: 300, flexShrink: 0,
       display: "flex", flexDirection: "column", minHeight: 0,
-      pt: 2.2,   // clears the IN/OUT panes' label line so the tops align
+      pt: 2.2,
     }}>
       <Stack direction="row" alignItems="center" spacing={0.25} sx={{ flexShrink: 0, mb: 0.4, pl: 0.25 }}>
         <Typography sx={{
@@ -233,7 +227,7 @@ export default function RangeRail({
           <span>
             <IconButton size="small" disabled={atCap} onClick={onAdd}
               aria-label="Add a range at the playhead" sx={{ p: 0.2 }}>
-              <AddIcon sx={{ fontSize: 16 }} />
+              <IconPlus size={16} stroke={1.8} />
             </IconButton>
           </span>
         </Tooltip>
@@ -241,7 +235,7 @@ export default function RangeRail({
           <span>
             <IconButton size="small" disabled={atCap} onClick={onPaste}
               aria-label="Paste timestamps" sx={{ p: 0.2 }}>
-              <ContentPasteIcon sx={{ fontSize: 15 }} />
+              <IconClipboard size={15} stroke={1.8} />
             </IconButton>
           </span>
         </Tooltip>
@@ -249,7 +243,7 @@ export default function RangeRail({
           <span>
             <IconButton size="small" disabled={!ranges.length} onClick={onClear}
               aria-label="Clear all ranges" sx={{ p: 0.2 }}>
-              <DeleteSweepIcon sx={{ fontSize: 15 }} />
+              <IconTrash size={15} stroke={1.8} />
             </IconButton>
           </span>
         </Tooltip>
@@ -257,11 +251,8 @@ export default function RangeRail({
 
       <Box sx={{
         flex: 1, minHeight: 0, overflowY: "auto", overflowX: "hidden",
-        borderRadius: 1.5, border: "1px solid", borderColor: "divider",
+        borderRadius: "14px", border: "1px solid", borderColor: "divider",
         p: 0.5,
-        // The list is the one thing here that can outgrow its box; scroll it
-        // rather than letting it push the footer under the clip filmstrip,
-        // which is what the old full-width band did.
         "&::-webkit-scrollbar": { width: 8 },
         "&::-webkit-scrollbar-thumb": { bgcolor: "action.selected", borderRadius: 4 },
       }}>
@@ -271,8 +262,8 @@ export default function RangeRail({
               No ranges yet. Drag across the filmstrip, press <strong>N</strong>,
               paste timestamps, or <strong>Ask AI</strong> to propose some.
             </Typography>
-            <Button size="small" startIcon={<AddIcon sx={{ fontSize: 15 }} />} onClick={onAdd}
-              sx={{ textTransform: "none", fontSize: "0.7rem", alignSelf: "flex-start" }}>
+            <Button size="small" startIcon={<IconPlus size={15} stroke={1.8} />} onClick={onAdd}
+              sx={{ textTransform: "none", fontSize: "0.7rem", alignSelf: "flex-start", borderRadius: "20px" }}>
               Add at playhead
             </Button>
           </Stack>

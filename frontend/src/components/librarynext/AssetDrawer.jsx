@@ -24,11 +24,13 @@ import {
   Box, Typography, Stack, Drawer, IconButton, Button, Tabs, Tab,
   Divider, Tooltip, CircularProgress, alpha, useTheme,
 } from "@mui/material"
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded"
-import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded"
-import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded"
-import NorthEastRoundedIcon from "@mui/icons-material/NorthEastRounded"
-import SubdirectoryArrowRightRoundedIcon from "@mui/icons-material/SubdirectoryArrowRightRounded"
+import {
+  IconX,
+  IconDownload,
+  IconTrash,
+  IconArrowUpRight,
+  IconCornerDownRight,
+} from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 import GeneratedDetail from "../videos/GeneratedDetail"
@@ -178,7 +180,7 @@ export default function AssetDrawer({
                 </Typography>
               </Box>
               <IconButton size="small" onClick={onClose} aria-label="Close">
-                <CloseRoundedIcon fontSize="small" />
+                <IconX size={18} stroke={1.8} />
               </IconButton>
             </Stack>
           </Box>
@@ -328,7 +330,7 @@ export default function AssetDrawer({
                     <SectionLabel>Made from</SectionLabel>
                     {ancestors.map((a) => (
                       <LineageRow key={a.key} item={a}
-                        icon={<NorthEastRoundedIcon sx={{ fontSize: 14 }} />} onOpen={onOpen} />
+                        icon={<IconArrowUpRight size={14} stroke={1.8} />} onOpen={onOpen} />
                     ))}
                   </>
                 )}
@@ -337,7 +339,7 @@ export default function AssetDrawer({
                     <SectionLabel>Used to make</SectionLabel>
                     {derivatives.map((c) => (
                       <LineageRow key={c.key} item={c}
-                        icon={<SubdirectoryArrowRightRoundedIcon sx={{ fontSize: 14 }} />} onOpen={onOpen} />
+                        icon={<IconCornerDownRight size={14} stroke={1.8} />} onOpen={onOpen} />
                     ))}
                   </>
                 )}
@@ -345,21 +347,20 @@ export default function AssetDrawer({
             )}
           </Box>
 
-          {/* Actions — the embedded bodies carry their own (export, edit,
-              delete), so a second set here would duplicate them. */}
+          {/* Actions */}
           {!embeds && (
             <Stack direction="row" spacing={1} sx={{
               p: 1.5, flexShrink: 0, borderTop: 1, borderColor: "divider",
               bgcolor: "background.subtle",
             }}>
-              <Button variant="contained" size="small" startIcon={<DownloadRoundedIcon />}
-                sx={{ flex: 1 }} href={item.stream_url} download>
+              <Button variant="contained" size="small" startIcon={<IconDownload size={16} stroke={1.8} />}
+                sx={{ flex: 1, borderRadius: "20px" }} href={item.stream_url} download>
                 Save a copy
               </Button>
               <Tooltip title="Delete">
-                <Button variant="outlined" size="small" color="error" sx={{ minWidth: 0, px: 1.25 }}
+                <Button variant="outlined" size="small" color="error" sx={{ minWidth: 0, px: 1.25, borderRadius: "20px" }}
                   aria-label="Delete" onClick={handleDelete}>
-                  <DeleteOutlineRoundedIcon fontSize="small" />
+                  <IconTrash size={16} stroke={1.8} />
                 </Button>
               </Tooltip>
             </Stack>

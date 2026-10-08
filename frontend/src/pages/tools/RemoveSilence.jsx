@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material"
-import FastRewindOutlinedIcon from "@mui/icons-material/FastRewindOutlined"
+import { IconScissors } from "@tabler/icons-react"
 import ToolRunner from "../../components/tools/ToolRunner"
 import useDocumentTitle from "../../hooks/useDocumentTitle"
 import { MEDIA_ACCEPT } from "../../components/tools/mediaAccept"
@@ -10,7 +10,7 @@ export default function ToolRemoveSilence() {
     <ToolRunner
       title="Silence Remover"
       description="Auto-cut pauses, fillers, and dead air"
-      icon={<FastRewindOutlinedIcon fontSize="large" />}
+      icon={<IconScissors size={28} stroke={1.8} />}
       endpoint="/api/tools/remove-silence"
       acceptExts={MEDIA_ACCEPT}
     >

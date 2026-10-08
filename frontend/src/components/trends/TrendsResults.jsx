@@ -1,12 +1,14 @@
 import { useState } from "react"
 import { Box, Typography, Button, ButtonGroup, IconButton, Stack, Drawer, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material"
-import GridViewIcon from "@mui/icons-material/GridView"
-import TableRowsIcon from "@mui/icons-material/TableRows"
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
-import CloseIcon from "@mui/icons-material/Close"
-import VisibilityIcon from "@mui/icons-material/VisibilityOutlined"
-import NewspaperIcon from "@mui/icons-material/Newspaper"
-import LaunchIcon from "@mui/icons-material/Launch"
+import {
+  IconLayoutGrid,
+  IconTable,
+  IconTrash,
+  IconX,
+  IconEye,
+  IconNews,
+  IconExternalLink,
+} from "@tabler/icons-react"
 import { Chip, Divider } from "@mui/material"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
@@ -95,9 +97,9 @@ export default function TrendsResults({ results, onSelect, onRefresh }) {
     <Box>
       {/* Toolbar */}
       <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" sx={{ mb: 2 }}>
-        <ButtonGroup size="small" variant="outlined">
-          <Button onClick={() => setView("cards")} variant={view === "cards" ? "contained" : "outlined"} startIcon={<GridViewIcon />}>Cards</Button>
-          <Button onClick={() => setView("table")} variant={view === "table" ? "contained" : "outlined"} startIcon={<TableRowsIcon />}>Table</Button>
+        <ButtonGroup size="small" variant="outlined" sx={{ borderRadius: "20px", overflow: "hidden" }}>
+          <Button onClick={() => setView("cards")} variant={view === "cards" ? "contained" : "outlined"} startIcon={<IconLayoutGrid size={16} stroke={1.8} />}>Cards</Button>
+          <Button onClick={() => setView("table")} variant={view === "table" ? "contained" : "outlined"} startIcon={<IconTable size={16} stroke={1.8} />}>Table</Button>
         </ButtonGroup>
 
         <Box sx={{ flex: 1 }} />
@@ -107,7 +109,7 @@ export default function TrendsResults({ results, onSelect, onRefresh }) {
         </Typography>
 
         {results?.length > 0 && (
-          <Button size="small" variant="outlined" color="inherit" onClick={selectAll}>
+          <Button size="small" variant="outlined" color="inherit" onClick={selectAll} sx={{ borderRadius: "20px", textTransform: "none" }}>
             {selectedIds.size === results.length ? "Deselect All" : "Select All"}
           </Button>
         )}
@@ -117,9 +119,10 @@ export default function TrendsResults({ results, onSelect, onRefresh }) {
             size="small"
             variant="outlined"
             color="error"
-            startIcon={<DeleteOutlineIcon />}
+            startIcon={<IconTrash size={16} stroke={1.8} />}
             onClick={() => setConfirmOpen(true)}
             disabled={deleting}
+            sx={{ borderRadius: "20px", textTransform: "none" }}
           >
             {deleting ? "Deleting..." : `Delete (${selectedIds.size})`}
           </Button>
@@ -134,8 +137,8 @@ export default function TrendsResults({ results, onSelect, onRefresh }) {
         <DialogTitle>Delete {selectedIds.size} result{selectedIds.size > 1 ? "s" : ""}?</DialogTitle>
         <DialogContent><Typography>This will permanently remove the selected trends.</Typography></DialogContent>
         <DialogActions>
-          <Button onClick={() => setConfirmOpen(false)}>Cancel</Button>
-          <Button color="error" variant="contained" disabled={deleting} onClick={() => { setConfirmOpen(false); handleBatchDelete() }}>
+          <Button onClick={() => setConfirmOpen(false)} sx={{ borderRadius: "20px" }}>Cancel</Button>
+          <Button color="error" variant="contained" disabled={deleting} onClick={() => { setConfirmOpen(false); handleBatchDelete() }} sx={{ borderRadius: "20px" }}>
             {deleting ? "Deleting..." : "Delete"}
           </Button>
         </DialogActions>
@@ -155,7 +158,7 @@ export default function TrendsResults({ results, onSelect, onRefresh }) {
               <Typography variant="h6" sx={{ wordBreak: "break-word" }}>{selectedResult.title}</Typography>
               {selectedResult.platform === "news" ? (
                 <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 0.5 }}>
-                  <Chip icon={<NewspaperIcon />} label="NEWS" size="small" variant="outlined" color="warning" />
+                  <Chip icon={<IconNews size={14} stroke={1.8} />} label="NEWS" size="small" variant="outlined" color="warning" />
                   <Typography variant="body2" sx={{ color: "text.secondary" }}>
                     {selectedResult.author} · Score: {selectedResult.virality_score}
                     {selectedResult.upload_date && ` · ${new Date(selectedResult.upload_date).toLocaleDateString()}`}
@@ -163,12 +166,12 @@ export default function TrendsResults({ results, onSelect, onRefresh }) {
                 </Stack>
               ) : (
                 <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                  {selectedResult.author} · {selectedResult.platform} · <VisibilityIcon sx={{ fontSize: 14, verticalAlign: "middle", mr: 0.3 }} />{selectedResult.views?.toLocaleString()} · Score: {selectedResult.virality_score}
+                  {selectedResult.author} · {selectedResult.platform} · <IconEye size={14} stroke={1.8} style={{ verticalAlign: "middle", marginRight: 4 }} />{selectedResult.views?.toLocaleString()} · Score: {selectedResult.virality_score}
                 </Typography>
               )}
             </Box>
             <IconButton size="small" aria-label="Close details" onClick={() => setSelectedResult(null)}>
-              <CloseIcon />
+              <IconX size={18} stroke={1.8} />
             </IconButton>
           </Stack>
 
@@ -213,9 +216,9 @@ export default function TrendsResults({ results, onSelect, onRefresh }) {
                       </>
                     )}
                     {selectedResult.video_url && (
-                      <Button size="small" variant="outlined" startIcon={<LaunchIcon />}
+                      <Button size="small" variant="outlined" startIcon={<IconExternalLink size={14} stroke={1.8} />}
                         onClick={() => window.open(selectedResult.video_url, "_blank", "noopener")}
-                        sx={{ alignSelf: "flex-start", textTransform: "none" }}>
+                        sx={{ alignSelf: "flex-start", textTransform: "none", borderRadius: "20px" }}>
                         Read full article
                       </Button>
                     )}

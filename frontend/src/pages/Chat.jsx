@@ -4,21 +4,23 @@ import {
   List, ListItemButton, ListItemText, IconButton,
   Divider, Dialog, DialogTitle, DialogContent, DialogActions,
 } from "@mui/material"
-import AddIcon from "@mui/icons-material/Add"
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline"
-import HistoryIcon from "@mui/icons-material/HistoryOutlined"
-import ChevronRightIcon from "@mui/icons-material/ChevronRight"
-import RadarIcon from "@mui/icons-material/RadarOutlined"
-import DownloadIcon from "@mui/icons-material/DownloadOutlined"
-import MovieCreationIcon from "@mui/icons-material/MovieCreationOutlined"
-import UploadIcon from "@mui/icons-material/UploadOutlined"
-import SearchIcon from "@mui/icons-material/TravelExploreOutlined"
-import AnalyticsIcon from "@mui/icons-material/InsightsOutlined"
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesomeOutlined"
-import SensorsIcon from "@mui/icons-material/SensorsOutlined"
-import NewspaperIcon from "@mui/icons-material/NewspaperOutlined"
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline"
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline"
+import {
+  IconPlus,
+  IconTrash,
+  IconHistory,
+  IconChevronRight,
+  IconRadar,
+  IconDownload,
+  IconMovie,
+  IconUpload,
+  IconTrendingUp,
+  IconChartBar,
+  IconSparkles,
+  IconBroadcast,
+  IconNews,
+  IconCircleCheck,
+  IconAlertCircle,
+} from "@tabler/icons-react"
 import { ws } from "../api/websocket"
 import http from "../api/http"
 import useAppStore from "../store/appStore"
@@ -75,11 +77,11 @@ function RichMessage({ msg }) {
 }
 
 const JOB_ICONS = {
-  trend: <RadarIcon sx={{ fontSize: 14 }} />,
-  trends: <RadarIcon sx={{ fontSize: 14 }} />,
-  download: <DownloadIcon sx={{ fontSize: 14 }} />,
-  generate: <MovieCreationIcon sx={{ fontSize: 14 }} />,
-  upload: <UploadIcon sx={{ fontSize: 14 }} />,
+  trend: <IconRadar size={14} stroke={1.8} />,
+  trends: <IconRadar size={14} stroke={1.8} />,
+  download: <IconDownload size={14} stroke={1.8} />,
+  generate: <IconMovie size={14} stroke={1.8} />,
+  upload: <IconUpload size={14} stroke={1.8} />,
 }
 
 const JOB_LABELS = {
@@ -115,8 +117,8 @@ function ActiveJobsPanel() {
               title={isFailed || isSuccess ? "Click to dismiss" : ""}
             >
               <Stack direction="row" spacing={0.5} alignItems="center" sx={{ mb: isRunning ? 0.5 : 0 }}>
-                {isSuccess ? <CheckCircleOutlineIcon sx={{ fontSize: 14, color: "success.main" }} /> :
-                  isFailed ? <ErrorOutlineIcon sx={{ fontSize: 14, color: "error.main" }} /> :
+                {isSuccess ? <IconCircleCheck size={14} stroke={1.8} color="#10b981" /> :
+                  isFailed ? <IconAlertCircle size={14} stroke={1.8} color="#ef4444" /> :
                   JOB_ICONS[job.jobType] || JOB_ICONS.trend}
                 <Typography variant="caption" sx={{ fontWeight: 500, fontSize: "0.72rem", color: "text.primary", flex: 1 }} noWrap>
                   {isSuccess ? `${label} done` : isFailed ? `${label} failed` : `${label}...`}
@@ -151,31 +153,31 @@ const SIDEBAR_WIDTH = 260
 
 const STARTER_SUGGESTIONS = [
   {
-    icon: <SearchIcon sx={{ fontSize: 28, color: "primary.main" }} />,
+    icon: <IconTrendingUp size={28} stroke={1.8} color="#8b5cf6" />,
     title: "Discover trending videos",
     description: "Find viral content across YouTube, TikTok, and Douyin",
     message: "Find trending videos on YouTube",
   },
   {
-    icon: <SensorsIcon sx={{ fontSize: 28, color: "primary.main" }} />,
+    icon: <IconBroadcast size={28} stroke={1.8} color="#8b5cf6" />,
     title: "Analyze a channel",
     description: "Paste a YouTube or TikTok channel URL for a full breakdown",
     message: "Analyze a YouTube channel for me",
   },
   {
-    icon: <AnalyticsIcon sx={{ fontSize: 28, color: "primary.main" }} />,
+    icon: <IconChartBar size={28} stroke={1.8} color="#8b5cf6" />,
     title: "Download & analyze",
     description: "Transcribe competitors and extract viral insights",
     message: "Download and analyze a video",
   },
   {
-    icon: <AutoAwesomeIcon sx={{ fontSize: 28, color: "primary.main" }} />,
+    icon: <IconSparkles size={28} stroke={1.8} color="#8b5cf6" />,
     title: "Generate AI video",
     description: "Create original videos with AI voice and visuals",
     message: "Generate an original video",
   },
   {
-    icon: <NewspaperIcon sx={{ fontSize: 28, color: "primary.main" }} />,
+    icon: <IconNews size={28} stroke={1.8} color="#8b5cf6" />,
     title: "Discover trending news",
     description: "Find hot articles and generate commentary videos",
     message: "Find trending news",
@@ -317,23 +319,29 @@ export default function Chat() {
           px: 2, py: 1, flexShrink: 0,
           borderBottom: 1, borderColor: "divider",
           background: (t) => t.palette.mode === "dark"
-            ? "linear-gradient(135deg, rgba(201,100,66,0.08) 0%, rgba(30,28,26,1) 100%)"
-            : "linear-gradient(135deg, rgba(201,100,66,0.05) 0%, rgba(255,255,255,1) 100%)",
+            ? "linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(15,13,21,1) 100%)"
+            : "linear-gradient(135deg, rgba(139,92,246,0.05) 0%, rgba(255,255,255,1) 100%)",
         }}>
           <Button
             size="small"
             variant="contained"
-            startIcon={<AddIcon />}
+            startIcon={<IconPlus size={16} stroke={2} />}
             onClick={handleNewChat}
+            sx={{
+              borderRadius: "20px",
+              px: 1.75,
+              textTransform: "none",
+              fontWeight: 600,
+            }}
           >
             New chat
           </Button>
           <IconButton
             onClick={() => setSidebarOpen(o => !o)}
             size="small"
-            sx={{ color: "text.secondary" }}
+            sx={{ color: "text.secondary", borderRadius: "10px" }}
           >
-            <HistoryIcon fontSize="small" />
+            <IconHistory size={18} stroke={1.8} />
           </IconButton>
         </Box>
 
@@ -347,12 +355,12 @@ export default function Chat() {
               {/* Gradient glow background */}
               <Box sx={{
                 position: "absolute", top: "15%", left: "50%", transform: "translateX(-50%)",
-                width: 400, height: 400, borderRadius: "50%", filter: "blur(100px)", opacity: 0.08,
-                background: "linear-gradient(135deg, #c96442, #e88a5a, #c96442)",
+                width: 400, height: 400, borderRadius: "50%", filter: "blur(100px)", opacity: 0.12,
+                background: "linear-gradient(135deg, #8b5cf6, #c084fc, #7c3aed)",
                 animation: "pulse 8s ease-in-out infinite",
                 "@keyframes pulse": {
-                  "0%, 100%": { opacity: 0.06, transform: "translateX(-50%) scale(1)" },
-                  "50%": { opacity: 0.12, transform: "translateX(-50%) scale(1.1)" },
+                  "0%, 100%": { opacity: 0.08, transform: "translateX(-50%) scale(1)" },
+                  "50%": { opacity: 0.16, transform: "translateX(-50%) scale(1.1)" },
                 },
                 pointerEvents: "none",
               }} />
@@ -361,7 +369,7 @@ export default function Chat() {
                 variant="h4"
                 sx={{
                   mb: 1, fontWeight: 700, fontSize: "2rem", letterSpacing: -0.5,
-                  background: "linear-gradient(135deg, #c96442, #e88a5a)",
+                  background: "linear-gradient(135deg, #8b5cf6, #c084fc)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
@@ -471,7 +479,7 @@ export default function Chat() {
               History
             </Typography>
             <IconButton size="small" onClick={() => setSidebarOpen(false)} sx={{ color: "text.secondary" }}>
-              <ChevronRightIcon fontSize="small" />
+              <IconChevronRight size={18} stroke={1.8} />
             </IconButton>
           </Stack>
 
@@ -491,13 +499,17 @@ export default function Chat() {
                   selected={sess.id === activeSessionId}
                   onClick={() => switchSession(sess.id)}
                   sx={{
-                    borderRadius: 1.5,
+                    borderRadius: "12px",
                     mb: 0.25,
                     py: 0.5,
                     px: 1,
                     minHeight: 36,
                     pr: 4,
                     position: "relative",
+                    "&.Mui-selected": {
+                      bgcolor: "rgba(139, 92, 246, 0.12)",
+                      boxShadow: "inset 0 0 0 1px rgba(139, 92, 246, 0.25)",
+                    },
                     "&:hover .session-menu-btn": { opacity: 1 },
                   }}
                 >
@@ -532,7 +544,7 @@ export default function Chat() {
                       "&:hover": { color: "error.main" },
                     }}
                   >
-                    <DeleteOutlineIcon sx={{ fontSize: 15 }} />
+                    <IconTrash size={15} stroke={1.8} />
                   </IconButton>
                 </ListItemButton>
               ))}
@@ -552,8 +564,8 @@ export default function Chat() {
         <DialogTitle>{confirmDialog.title}</DialogTitle>
         <DialogContent><Typography>{confirmDialog.message}</Typography></DialogContent>
         <DialogActions>
-          <Button onClick={closeConfirm}>Cancel</Button>
-          <Button color="error" variant="contained" onClick={() => { confirmDialog.onConfirm?.(); closeConfirm() }}>Delete</Button>
+          <Button onClick={closeConfirm} sx={{ borderRadius: "20px" }}>Cancel</Button>
+          <Button color="error" variant="contained" onClick={() => { confirmDialog.onConfirm?.(); closeConfirm() }} sx={{ borderRadius: "20px" }}>Delete</Button>
         </DialogActions>
       </Dialog>
     </Box>

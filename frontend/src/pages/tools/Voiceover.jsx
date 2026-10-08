@@ -5,11 +5,13 @@ import {
   Autocomplete,
 } from "@mui/material"
 import { GlassPanel } from "../../utils/glassFx"
-import RecordVoiceOverOutlinedIcon from "@mui/icons-material/RecordVoiceOverOutlined"
-import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined"
-import CloseIcon from "@mui/icons-material/Close"
-import PlayArrowIcon from "@mui/icons-material/PlayArrow"
-import StopIcon from "@mui/icons-material/Stop"
+import {
+  IconMicrophone,
+  IconUpload,
+  IconX,
+  IconPlayerPlay,
+  IconPlayerStop,
+} from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 import ToolRunner from "../../components/tools/ToolRunner"
@@ -206,7 +208,7 @@ export default function ToolVoiceover() {
     <ToolRunner
       title="Voice-over Generator"
       description="Turn a script into natural TTS audio"
-      icon={<RecordVoiceOverOutlinedIcon fontSize="large" />}
+      icon={<IconMicrophone size={28} stroke={1.8} />}
       endpoint="/api/tools/voiceover"
       hideFileInput
       extraFiles={{ video }}
@@ -338,8 +340,8 @@ export default function ToolVoiceover() {
                         {isLoading
                           ? <CircularProgress size={14} />
                           : isPlaying
-                            ? <StopIcon sx={{ fontSize: 18 }} />
-                            : <PlayArrowIcon sx={{ fontSize: 18 }} />}
+                            ? <IconPlayerStop size={18} stroke={1.8} />
+                            : <IconPlayerPlay size={18} stroke={1.8} />}
                       </IconButton>
                     </Tooltip>
                   </Box>
@@ -394,14 +396,14 @@ export default function ToolVoiceover() {
                     {(video.size / 1024 / 1024).toFixed(1)} MB — output will be .mp4
                   </Typography>
                 </Box>
-                <IconButton size="small" onClick={() => setVideo(null)}><CloseIcon fontSize="small" /></IconButton>
+                <IconButton size="small" onClick={() => setVideo(null)}><IconX size={16} stroke={1.8} /></IconButton>
               </GlassPanel>
             ) : (
               <Button
                 variant="outlined"
-                startIcon={<UploadFileOutlinedIcon />}
+                startIcon={<IconUpload size={18} stroke={1.8} />}
                 onClick={() => videoInputRef.current?.click()}
-                sx={{ textTransform: "none" }}
+                sx={{ textTransform: "none", borderRadius: "20px" }}
               >
                 Choose video (optional)
               </Button>

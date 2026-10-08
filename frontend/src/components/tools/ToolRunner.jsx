@@ -3,15 +3,17 @@ import {
   Box, Typography, Stack, Button, LinearProgress, Alert, IconButton,
   Paper, Slide, ButtonBase, Tooltip,
 } from "@mui/material"
-import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined"
-import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined"
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined"
-import CloseIcon from "@mui/icons-material/Close"
-import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined"
-import AutoAwesomeOutlinedIcon from "@mui/icons-material/AutoAwesomeOutlined"
-import ChevronRightIcon from "@mui/icons-material/ChevronRight"
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
-import WarningAmberIcon from "@mui/icons-material/WarningAmber"
+import {
+  IconUpload,
+  IconFile,
+  IconDownload,
+  IconX,
+  IconCircleCheck,
+  IconSparkles,
+  IconChevronRight,
+  IconChevronLeft,
+  IconAlertTriangle,
+} from "@tabler/icons-react"
 import http from "../../api/http"
 import useAppStore from "../../store/appStore"
 import { toolJobTypeFor } from "./toolJobType"
@@ -408,9 +410,9 @@ export default function ToolRunner({
               {jobSuccess && !resultOpen && (
                 <Button
                   variant="outlined"
-                  startIcon={<AutoAwesomeOutlinedIcon />}
+                  startIcon={<IconSparkles size={18} stroke={1.8} />}
                   onClick={reopenResult}
-                  sx={{ flexShrink: 0 }}
+                  sx={{ flexShrink: 0, borderRadius: "20px" }}
                 >
                   View result
                 </Button>
@@ -424,7 +426,7 @@ export default function ToolRunner({
                     variant="contained"
                     onClick={submit}
                     disabled={submitDisabled}
-                    sx={{ flexShrink: 0, px: 3 }}
+                    sx={{ flexShrink: 0, px: 3, borderRadius: "20px" }}
                   >
                     {processLabel}
                   </Button>
@@ -485,7 +487,9 @@ export default function ToolRunner({
               {file ? (
                 <Stack spacing={1.5} alignItems="center">
                   <Stack direction="row" spacing={1.5} alignItems="center" justifyContent="center">
-                    <InsertDriveFileOutlinedIcon sx={{ color: "primary.main", fontSize: 32 }} />
+                    <Box sx={{ color: "primary.main", display: "flex", alignItems: "center" }}>
+                      <IconFile size={32} stroke={1.8} />
+                    </Box>
                     <Box sx={{ textAlign: "left" }}>
                       <Typography variant="body2" sx={{ fontWeight: 600 }}>
                         {file.name}
@@ -496,7 +500,7 @@ export default function ToolRunner({
                       </Typography>
                     </Box>
                     <IconButton size="small" onClick={(e) => { e.stopPropagation(); setFile(null) }}>
-                      <CloseIcon fontSize="small" />
+                      <IconX size={16} stroke={1.8} />
                     </IconButton>
                   </Stack>
                   {/* The mounted element is also where duration + intrinsic
@@ -521,7 +525,9 @@ export default function ToolRunner({
                 </Stack>
               ) : (
                 <Stack spacing={1} alignItems="center">
-                  <CloudUploadOutlinedIcon sx={{ fontSize: 40, color: "text.secondary" }} />
+                  <Box sx={{ color: "text.secondary", display: "flex", alignItems: "center" }}>
+                    <IconUpload size={40} stroke={1.8} />
+                  </Box>
                   <Typography variant="body2" sx={{ fontWeight: 600 }}>
                     Drop a video here or click to browse
                   </Typography>
@@ -557,7 +563,7 @@ export default function ToolRunner({
             <>
               <Alert
                 severity="warning"
-                icon={<WarningAmberIcon />}
+                icon={<IconAlertTriangle size={20} stroke={1.8} />}
                 sx={{ "& .MuiAlert-message": { fontWeight: 500 } }}
               >
                 Don't leave or refresh this page — the job is in progress.
@@ -581,7 +587,7 @@ export default function ToolRunner({
 
           {/* Failed */}
           {jobFailed && (
-            <Alert severity="error" action={<Button size="small" onClick={reset}>Try again</Button>}>
+            <Alert severity="error" action={<Button size="small" onClick={reset} sx={{ borderRadius: "20px" }}>Try again</Button>}>
               {job?.step || terminal?.step || "Job failed"}
             </Alert>
           )}
@@ -621,18 +627,20 @@ export default function ToolRunner({
             spacing={1}
             sx={{ px: 2, py: 1.5, borderBottom: 1, borderColor: "divider", flexShrink: 0 }}
           >
-            <CheckCircleOutlinedIcon sx={{ color: "success.main" }} />
+            <Box sx={{ color: "success.main", display: "flex", alignItems: "center" }}>
+              <IconCircleCheck size={20} stroke={1.8} />
+            </Box>
             <Typography variant="subtitle1" sx={{ flex: 1, fontWeight: 700, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
               {title} — ready
             </Typography>
             <Tooltip title="Minimize to edge">
               <IconButton size="small" onClick={() => setRailCollapsed(true)} aria-label="Minimize result">
-                <ChevronRightIcon fontSize="small" />
+                <IconChevronRight size={18} stroke={1.8} />
               </IconButton>
             </Tooltip>
             <Tooltip title="Close">
               <IconButton size="small" onClick={() => setResultOpen(false)} aria-label="Close result">
-                <CloseIcon fontSize="small" />
+                <IconX size={18} stroke={1.8} />
               </IconButton>
             </Tooltip>
           </Stack>
@@ -648,14 +656,15 @@ export default function ToolRunner({
 
           {/* Footer actions */}
           <Stack direction="row" spacing={1} sx={{ p: 2, borderTop: 1, borderColor: "divider", flexShrink: 0 }}>
-            <Button fullWidth variant="outlined" onClick={reset}>Run again</Button>
+            <Button fullWidth variant="outlined" onClick={reset} sx={{ borderRadius: "20px" }}>Run again</Button>
             <Button
               fullWidth
               variant="contained"
-              startIcon={<DownloadOutlinedIcon />}
+              startIcon={<IconDownload size={18} stroke={1.8} />}
               href={jobId ? (downloadHref ? downloadHref(jobId) : `/api/tools/download/${jobId}`) : undefined}
               target="_blank"
               rel="noopener"
+              sx={{ borderRadius: "20px" }}
             >
               {downloadLabel}
             </Button>
@@ -683,7 +692,7 @@ export default function ToolRunner({
               py: 1.75,
               px: 0.65,
               color: "#fff",
-              background: `linear-gradient(135deg, ${t.palette.primary.main}, #e88a5a)`,
+              background: `linear-gradient(135deg, ${t.palette.primary.main}, #7c3aed)`,
               borderTopLeftRadius: 12,
               borderBottomLeftRadius: 12,
               boxShadow: "-5px 0 18px rgba(0,0,0,0.24)",
@@ -691,8 +700,8 @@ export default function ToolRunner({
               "&:hover": { filter: "brightness(1.06)" },
             })}
           >
-            <ChevronLeftIcon fontSize="small" />
-            <CheckCircleOutlinedIcon sx={{ fontSize: 16 }} />
+            <IconChevronLeft size={16} stroke={1.8} />
+            <IconCircleCheck size={16} stroke={1.8} />
             <Typography
               sx={{
                 writingMode: "vertical-rl",
